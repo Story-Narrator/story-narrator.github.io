@@ -32,7 +32,7 @@
 
      <script type="text/javascript">
         document.getElementById('LoginWithAmazon').onclick = function() {
-            options = { scope: 'profile', popup: false, interactive: 'always' };
+            options = { scope: 'profile', popup: false, interactive: 'always', response_type: 'code', pkce: true };
             amazon.Login.authorize(options, 'https://story-narrator.github.io/login.html');
 
             // amazon.Login.authorize(options,
