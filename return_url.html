@@ -7,6 +7,16 @@
     <title>Return URL | Story Narrator</title>
     <link rel="icon" type="image/x-icon" href="./images/favicon.png">
 </head>
+<script type="text/javascript">
+
+    window.doLogin = function() {
+      var tokenResponse = amazon.Login.retrieveToken();
+      if (tokenResponse) {
+        alert("Cached Access Token: " + tokenResponse.access_token);
+      };
+    };
+</script>
+    
 <body>
     <h1>Return URL</h1>
     <p>Returned URL</p>
