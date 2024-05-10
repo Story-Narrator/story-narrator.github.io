@@ -21,6 +21,13 @@
         d.getElementById('amazon-root').appendChild(a);
     })(document);
 
+    var urlParams = new URLSearchParams(window.location.search);
+    var code = urlParams.get('code');
+    alert(code);
+
+    var tokenResponse = amazon.Login.retrieveToken(code);
+    alert("Cached Access Token: " + JSON.stringify(tokenResponse, null, 4));
+
     window.doLogin = function() {
         var urlParams = new URLSearchParams(window.location.search);
         var code = urlParams.get('code');
