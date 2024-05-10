@@ -38,6 +38,7 @@
             options.response_uri = 'https://story-narrator.github.io/login.html';
             options.interactive = 'always';
             options.response_type = 'code';
+            options.state = 'hi';
             amazon.Login.authorize(options, 'https://story-narrator.github.io/login.html');
 
             // amazon.Login.authorize(options,
