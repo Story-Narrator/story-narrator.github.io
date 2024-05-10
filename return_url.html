@@ -23,11 +23,11 @@
 
     window.doLogin = function() {
         var urlParams = new URLSearchParams(window.location.search);
-        var code = urlParams.get('code')
+        var code = urlParams.get('code');
         alert(code);
 
         var tokenResponse = amazon.Login.retrieveToken(code);
-            alert("Cached Access Token: " + JSON.stringify(tokenResponse, null, 4));
+        alert("Cached Access Token: " + JSON.stringify(tokenResponse, null, 4));
     };
 </script>
 </html>
