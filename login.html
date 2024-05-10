@@ -9,19 +9,6 @@
 </head>
 <body>
     <div id="amazon-root"></div>
-    <script type="text/javascript">
-
-        window.onAmazonLoginReady = function() {
-            amazon.Login.setClientId('amzn1.application-oa2-client.ac9f141427bc46f9914ddaaeb6e08c4c');
-        };
-
-        (function(d) {
-            var a = d.createElement('script'); a.type = 'text/javascript';
-            a.async = true; a.id = 'amazon-login-sdk';
-            a.src = 'https://assets.loginwithamazon.com/sdk/na/login1.js';
-            d.getElementById('amazon-root').appendChild(a);
-        })(document);
-    </script>
     
     <h1>Login</h1>
     <p>Placeholder information.</p>
@@ -29,15 +16,24 @@
     <a href id="LoginWithAmazon">
         <img style="border: 0;" alt="Login with Amazon" src="https://images-na.ssl-images-amazon.com/images/G/01/lwa/btnLWA_gold_156x32.png" width="156" height="32" />
      </a>
-
-     <script type="text/javascript">
-        document.getElementById('LoginWithAmazon').onclick = function() {
-            options = { } ;
-            options.scope = 'profile';
-            options.popup = false;
-            options.pkce = true; // SDK generates a `code_verifier` and `code_challenge`
-            amazon.Login.authorize(options, 'https://story-narrator.github.io/');
-        };
-    </script>
 </body>
+<script type="text/javascript">
+    (function(d) {
+        var a = d.createElement('script'); a.type = 'text/javascript';
+        a.async = true; a.id = 'amazon-login-sdk';
+        a.src = 'https://assets.loginwithamazon.com/sdk/na/login1.js';
+        d.getElementById('amazon-root').appendChild(a);
+    })(document);
+
+    window.onAmazonLoginReady = function() {
+        amazon.Login.setClientId('amzn1.application-oa2-client.ac9f141427bc46f9914ddaaeb6e08c4c');
+    };
+
+    document.getElementById('LoginWithAmazon').onclick = function() {
+        options = { };
+        options.scope = 'profile';
+        options.popup = false;
+        amazon.Login.authorize(options, 'https://story-narrator.github.io/return_url');
+    };
+</script>
 </html>
