@@ -30,18 +30,19 @@
         amazon.Login.setClientId('amzn1.application-oa2-client.ac9f141427bc46f9914ddaaeb6e08c4c');
     };
 
-    // var urlParams = new URLSearchParams(window.location.search);
-    // var code = urlParams.get('code');
+    var urlParams = new URLSearchParams(window.location.search);
+    var code = urlParams.get('code');
     // alert(code);
 
     // var tokenResponse = amazon.Login.retrieveToken(code);
     // alert("Cached Access Token: " + JSON.stringify(tokenResponse, null, 4));
 
     document.getElementById('LoginWithAmazon').onclick = function() {
-        var tokenResponse = amazon.Login.retrieveToken();
-        if (tokenResponse) {
-            alert("Cached Access Token: " + tokenResponse.access_token);
-        }
+        var tokenResponse = amazon.Login.retrieveToken(code);
+        // if (tokenResponse) {
+        //     alert("Cached Access Token: " + tokenResponse.access_token);
+        // }
+        alert("Cached Access Token: " + JSON.stringify(tokenResponse, null, 4));
     };
     
 </script>
