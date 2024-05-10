@@ -22,10 +22,13 @@
     })(document);
 
     window.doLogin = function() {
-      var tokenResponse = amazon.Login.retrieveToken();
-      if (tokenResponse) {
-        alert("Cached Access Token: " + tokenResponse.access_token);
-      };
+        var urlParams = new URLSearchParams(window.location.search);
+        var code = urlParams.get('code')
+
+        var tokenResponse = amazon.Login.retrieveToken(code);
+        if (tokenResponse) {
+            alert("Cached Access Token: " + tokenResponse.access_token);
+        };
     };
 </script>
 </html>
