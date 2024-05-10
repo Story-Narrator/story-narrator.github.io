@@ -38,11 +38,15 @@
     // alert("Cached Access Token: " + JSON.stringify(tokenResponse, null, 4));
 
     document.getElementById('LoginWithAmazon').onclick = function() {
-        var tokenResponse = amazon.Login.retrieveToken(code);
-        // if (tokenResponse) {
-        //     alert("Cached Access Token: " + tokenResponse.access_token);
-        // }
-        alert("Cached Access Token: " + JSON.stringify(tokenResponse, null, 4));
+        amazon.Login.retrieveToken(
+            code,
+            function(response) {
+                alert('Access Token: ' + response.access_token);
+                if (window.console && window.console.log) {
+                    window.console.log(response);
+                };
+            }
+        );
     };
     
 </script>
