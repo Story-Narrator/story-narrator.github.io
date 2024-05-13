@@ -28,7 +28,7 @@
     //var expireTime = time + 1000*36000;
     //now.setTime(expireTime);
     alert(code + '=' + scope + ';expires=' + now.toUTCString() + ';path=/');
-    alert('Cookies: ' + document.cookie);
+    alert('Cookies: ' + document.cookie); // take the expiry date of the pkce cookie
     document.cookie = code + '=' + scope + ';expires=' + now.toUTCString() + ';path=/';
     alert('New cookies: ' + document.cookie);
 
