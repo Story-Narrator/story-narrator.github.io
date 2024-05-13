@@ -45,7 +45,7 @@
 
     // new Date((new Date).getTime() + 1E3 * e)).toGMTString()
     alert((new Date((new Date).getTime() + 1E3 * 240)).toGMTString());
-    document.cookie = "amazon_Login_auth_code_scope_cache=" + encodeURIComponent("{\"" + code + "\":\"" + scope + "\"}") + "; domain=.story-narrator.github.io; expires: " + (new Date((new Date).getTime() + 1E3 * 240)).toGMTString() + "; secure";
+    document.cookie = "amazon_Login_auth_code_scope_cache=" + encodeURIComponent("{\"" + code + "\":\"" + scope + "\"}") + "; domain=.story-narrator.github.io; expires=" + (new Date((new Date).getTime() + 1E3 * 240)).toGMTString() + "; secure";
 
     // Loads the LWA SDK.
     (function(d) {
