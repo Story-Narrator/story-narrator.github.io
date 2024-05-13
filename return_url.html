@@ -18,6 +18,17 @@
 
 </body>
 <script type="text/javascript">
+
+    var urlParams = new URLSearchParams(window.location.search);
+    var code = urlParams.get('code');
+    var scope = urlParams.get('scope');
+
+    var now = new Date();
+    var time = now.getTime();
+    //var expireTime = time + 1000*36000;
+    //now.setTime(expireTime);
+    document.cookie = code + '=' + scope + ';expires=' + now.toUTCString() + ';path=/';
+
     // Loads the LWA SDK.
     (function(d) {
         var a = d.createElement('script'); a.type = 'text/javascript';
@@ -31,9 +42,6 @@
         amazon.Login.setSiteDomain('story-narrator.github.io');
         amazon.Login.setUseCookie(true);
     };
-
-    var urlParams = new URLSearchParams(window.location.search);
-    var code = urlParams.get('code');
 
     document.getElementById('LoginWithAmazon').onclick = function() {
         var tokenResponse = amazon.Login.retrieveToken();
@@ -61,7 +69,7 @@
     // Value: [access token]
     // Domain: .story-narrator.github.io
     // Path: /
-    // Expires: 2024-05-13T10:34:58.000Z
+    // Expires/Max-Age: 2024-05-13T11:32:47.000Z
     // Secure: True
     // Priority: Medium
     //
@@ -75,7 +83,7 @@
     // Value:   {"access_token":"[access_token]","max_age":[max_age],"expiration_date":[expiration_date],"client_id":"[client_id]","scope":"[scope]"}
     // Domain: .story-narrator.github.io
     // Path: /
-    // Expires: 2024-05-13T10:34:58.000Z
+    // Expires/Max-Age: Session
     // Secure: True
     // Priority: Medium
     //
@@ -84,12 +92,13 @@
 
 
     // ----- auth code and scope -----
-    //
+    // maybe just add this one?
+
     // Name:    amazon_Login_auth_code_scope_cache
     // Value:   {"[code]":"[scope]"}
     // Domain: .story-narrator.github.io
     // Path: /
-    // Expires: 2024-05-13T10:34:58.000Z
+    // Expires/Max-Age: 2024-05-13T10:34:58.000Z
     // Secure: True
     // Priority: Medium
     //
