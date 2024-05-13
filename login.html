@@ -33,7 +33,7 @@
     };
 
     document.getElementById('LoginWithAmazon').onclick = function() {
-        options = { interactive: 'auto', popup: true, response_type: 'code', scope: 'profile', pkce: true };
+        options = { interactive: 'auto', popup: false, response_type: 'code', scope: 'profile', pkce: true };
         var auth_request = amazon.Login.authorize(options, 'https://story-narrator.github.io/return_url');
         
         var str = JSON.stringify(auth_request, null, 4);
@@ -41,7 +41,10 @@
     };
 
 
-    // interactive behaviour is overridden by the 'popup' option.
+    // setting the popup option to 'false':
+    //      Overrites 'interactive' behaviour.
+    //      Does not add items to cookies.
+
 
 </script>
 </html>
