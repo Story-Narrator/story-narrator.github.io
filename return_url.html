@@ -19,18 +19,31 @@
 </body>
 <script type="text/javascript">
 
+    function getCookie(cname) {
+        let name = cname + "=";
+        let decodedCookie = decodeURIComponent(document.cookie);
+        let ca = decodedCookie.split(';');
+        for(let i = 0; i <ca.length; i++) {
+            let c = ca[i];
+            while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+            }
+            if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+            }
+        }
+        return "";
+    }
+
+    var amazon_Login_pkce_params = getCookie(amazon_Login_pkce_params);
+    alert(amazon_Login_pkce_params);
+    
+
     var urlParams = new URLSearchParams(window.location.search);
     var code = urlParams.get('code');
     var scope = urlParams.get('scope');
 
-    var now = new Date();
-    var time = now.getTime();
-    //var expireTime = time + 1000*36000;
-    //now.setTime(expireTime);
-    //alert(code + '=' + scope + ';expires=' + now.toUTCString() + ';path=/');
-    //alert('Cookies: ' + document.cookie); // take the expiry date of the pkce cookie
-    //document.cookie = code + '=' + scope + ';expires=' + now.toUTCString() + ';path=/';
-    document.cookie = "amazon_Login_auth_code_scope_cache=" + encodeURIComponent("{\"" + code + "\":\"" + scope + "\"}");
+    document.cookie = "amazon_Login_auth_code_scope_cache=" + encodeURIComponent("{\"" + code + "\":\"" + scope + "\"}") + "; domain=.story-narrator.github.io";
 
     // Loads the LWA SDK.
     (function(d) {
