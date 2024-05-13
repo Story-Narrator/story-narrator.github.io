@@ -27,7 +27,10 @@
     var time = now.getTime();
     //var expireTime = time + 1000*36000;
     //now.setTime(expireTime);
+    alert(code + '=' + scope + ';expires=' + now.toUTCString() + ';path=/');
+    alert('Cookies: ' + document.cookie);
     document.cookie = code + '=' + scope + ';expires=' + now.toUTCString() + ';path=/';
+    alert('New cookies: ' + document.cookie);
 
     // Loads the LWA SDK.
     (function(d) {
