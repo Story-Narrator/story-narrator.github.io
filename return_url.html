@@ -28,21 +28,30 @@
 
     window.onAmazonLoginReady = function() {
         amazon.Login.setClientId('amzn1.application-oa2-client.ac9f141427bc46f9914ddaaeb6e08c4c');
+        amazon.Login.setSiteDomain('story-narrator.github.io');
+        amazon.Login.setUseCookie(true);
     };
 
     var urlParams = new URLSearchParams(window.location.search);
     var code = urlParams.get('code');
 
     document.getElementById('LoginWithAmazon').onclick = function() {
-        amazon.Login.retrieveToken(
-            code,
-            function(response) {
-                alert('Access Token: ' + response.access_token);
-                if (window.console && window.console.log) {
-                    window.console.log(response);
-                };
-            }
-        );
+        var tokenResponse = amazon.Login.retrieveToken();
+        if (tokenResponse) {
+            alert(tokenResponse);
+            alert("Cached Access Token: " + tokenResponse.access_token);
+        }
+        else {
+            amazon.Login.retrieveToken(
+                code,
+                function(response) {
+                    alert('Access Token: ' + response.access_token);
+                    if (window.console && window.console.log) {
+                        window.console.log(response);
+                    };
+                }
+            );
+        };
     };
     
 </script>
