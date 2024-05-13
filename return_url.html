@@ -30,7 +30,7 @@
     //alert(code + '=' + scope + ';expires=' + now.toUTCString() + ';path=/');
     //alert('Cookies: ' + document.cookie); // take the expiry date of the pkce cookie
     //document.cookie = code + '=' + scope + ';expires=' + now.toUTCString() + ';path=/';
-    document.cookie = encodeURIComponent("amazon_Login_auth_code_scope_cache={\"" + code + "\":\"" + scope + "\"}");
+    document.cookie = "amazon_Login_auth_code_scope_cache=" + encodeURIComponent("{\"" + code + "\":\"" + scope + "\"}");
 
     // Loads the LWA SDK.
     (function(d) {
