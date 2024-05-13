@@ -36,14 +36,14 @@
         options = { interactive: 'auto', popup: false, response_type: 'code', scope: 'profile', pkce: true };
         var auth_request = amazon.Login.authorize(options, 'https://story-narrator.github.io/return_url');
         
-        var str = JSON.stringify(auth_request, null, 4);
-        alert(str);
+        // var str = JSON.stringify(auth_request, null, 4);
+        // alert(str);
     };
 
 
     // setting the popup option to 'false':
     //      Overrites 'interactive' behaviour.
-    //      Does not add items to cookies.
+    //      Does not add items to cookies. A manual 'amazon_Login_auth_code_scope_cache' cookie must be created on the redirect URL. 
 
 
 </script>
