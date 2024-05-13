@@ -34,7 +34,7 @@
     var code = urlParams.get('code');
 
     document.getElementById('LoginWithAmazon').onclick = function() {
-        alert(decodeURI(decodeURI(document.cookie)));
+        alert(decodeURIComponent(document.cookie));
         var tokenResponse = amazon.Login.retrieveToken();
         if (tokenResponse) {
             alert("Cached Access Token: " + tokenResponse.access_token);
@@ -50,7 +50,7 @@
                 }
             );
         };
-        alert(decodeURI(decodeURI(document.cookie)));
+        alert(decodeURIComponent(document.cookie));
     };
     
 </script>
