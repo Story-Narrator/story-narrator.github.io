@@ -66,7 +66,6 @@
     document.getElementById('LoginWithAmazon').onclick = function() {
         var tokenResponse = amazon.Login.retrieveToken();
         if (tokenResponse) {
-            alert(tokenResponse);
             alert("Cached Access Token: " + tokenResponse.access_token);
         }
         else {
