@@ -43,7 +43,8 @@
     var code = urlParams.get('code');
     var scope = urlParams.get('scope');
 
-    document.cookie = "amazon_Login_auth_code_scope_cache=" + encodeURIComponent("{\"" + code + "\":\"" + scope + "\"}") + "; domain=.story-narrator.github.io; expires: "+ datetime.now.adddays(-1) +"; secure";
+    // new Date((new Date).getTime() + 1E3 * e)).toGMTString()
+    document.cookie = "amazon_Login_auth_code_scope_cache=" + encodeURIComponent("{\"" + code + "\":\"" + scope + "\"}") + "; domain=.story-narrator.github.io; expires: "+ (new Date((new Date).getTime() + 1E3 * 240)).toGMTString() + "; secure";
 
     // Loads the LWA SDK.
     (function(d) {
