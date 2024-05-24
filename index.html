@@ -64,7 +64,7 @@
     // An 'amazon_Login_auth_code_scope_cache' cookie must be manually created on the redirect URL. 
     document.getElementById('LoginWithAmazon').onclick = function() {
         options = { interactive: 'auto', popup: false, response_type: 'code', scope: 'profile', pkce: true };
-        var auth_request = amazon.Login.authorize(options, 'https://story-narrator.github.io/library');
+        var auth_request = amazon.Login.authorize(options, 'https://story-narrator.github.io/system');
     };
 </script>
 </html>
