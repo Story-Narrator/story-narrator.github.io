@@ -92,15 +92,13 @@
             access_token,
             function(response) {
                 if (response.success) {
-                    alert('Hello, ' + response.profile.Name);
-                    alert('Your e-mail address is ' + response.profile.PrimaryEmail);
-                    alert('Your unique ID is ' + response.profile.CustomerId);
-
                     user = response.profile.Name;
                     document.getElementById("user_lbl").innerHTML = "Logged in as: " + user;
                 }
                 else {
-                    alert('Oh no! An error happened: ' + response.error);
+                    if (window.console && window.console.log) {
+                        window.console.log("An error occured when retrieving user profile: " + response.error);
+                    };
                 }
             }
         );
