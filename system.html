@@ -97,7 +97,7 @@
                     alert('Your unique ID is ' + response.profile.CustomerId);
 
                     user = response.profile.Name;
-                    document.getElementById("content").innerHTML = "Logged in as: " + user;
+                    document.getElementById("user_lbl").innerHTML = "Logged in as: " + user;
                 }
                 else {
                     alert('Oh no! An error happened: ' + response.error);
