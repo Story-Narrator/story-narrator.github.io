@@ -9,11 +9,27 @@ html {
 }
 
 body {
-    margin: auto;
+    margin: 0;
     width: 100%;
     height: 100%;
+}
+
+body#home {
+    margin: auto;
     max-width: 1280px;
-    background-color: red;
+}
+
+body#nav {
+    position: relative;
+    max-width: 90px;
+    background-color: #5759A5;
+    overflow: hidden;
+}
+
+body#lib {
+    position: relative;
+    overflow-y: auto;
+    background-color: #EAEAEA;
 }
 
 h1 {
@@ -28,6 +44,14 @@ h2 {
     font-family: "Monotype Corsiva";
     font-size: 24pt;
     color: #DFE4F4;
+    margin: 0;
+    font-weight: 500;
+}
+
+h3 {
+    font-family: "Tw Cen MT";
+    font-size: 65pt;
+    color: #4B4B99;
     margin: 0;
     font-weight: 500;
 }
@@ -48,6 +72,7 @@ h2 {
 }
 
 #parent {
+    position: relative;
     width: 100%;
     height: 100%;
     display: grid;
@@ -64,7 +89,7 @@ h2 {
 #logo_parent {
     width: 90px;
     height: 90px;
-    background-image: linear-gradient(to right, #454394, #1A2250);
+    background-image: linear-gradient(to right, #5759A5, #1A2250);
 }
 
 #triangle {
@@ -160,4 +185,203 @@ h2 {
     background-color: blue;
     display: grid;
     grid-template-columns: 90px 1fr;
+}
+
+#banner_icons {
+    position: absolute;
+    margin: 0;
+    top: 0px;
+    right: 10px;
+    width: 210px;
+    height: 100%;
+}
+
+.h_icon {
+    float: right;
+    margin-top: 25px;
+    max-width: 50px;
+    max-height: 50px;
+}
+
+#h_icon_centre {
+    margin-left: 30px;
+    margin-right: 30px;
+}
+
+#user_lbl {
+    display: inline-block;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    margin: 0;
+    font-family: "Seravek Light";
+    font-size: 8pt;
+    color: white;
+}
+
+.frame {
+    height: 100%;
+    width: 100%;
+    border: 0;
+    border-top: 2px solid white;
+}
+
+#nav_bg {
+    position: absolute;
+    top: -160px;
+    right: -160px;
+    height: 300px;
+    width: 300px;
+    background-image: radial-gradient(#1A2250 0%, #5759A5 50%);
+}
+
+#nav_layout {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    max-height: 900px;
+    display: grid;
+    grid-template-rows: 1fr 120px 1fr 120px 1fr 120px 1fr 120px 1fr;
+}
+
+.nav_tbl {
+    display: table;
+    height: 100%;
+    width: 100%;
+}
+
+.nav_icon_container {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.nav_icon {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    max-height: 70px;
+    max-width: 70px
+}
+
+.nav_icon_label {
+    font-family: "Tw Cen MT";
+    color: #FFFFFF;
+    text-align: center;
+    margin: 0;
+    margin-top: 2px;
+    font-size: 12pt;
+}
+
+#lib_main {
+    padding: 10px;
+}
+
+#lib_heading {
+    margin-top: 50px;
+    margin-bottom: 10px;
+}
+
+#lib_parent {
+    padding: 10px;
+    background-color: #F7F7F7;
+    border: 2px solid #E0E0E0;
+}
+
+#lib_content {
+    width: 100%;
+    height: 600px;
+    overflow-x: auto;
+}
+
+.ticket_tbl {
+    width: 100%;
+    text-align: left;
+    border-collapse: collapse;
+}
+
+table td, table th {
+    border: 1px solid #A3A3A3;
+}
+
+td, th {
+    padding-left: 5px;
+    padding-right: 5px;
+    color: #373737;
+    margin: 0;
+}
+
+th {
+    font-family: "PT Mono";
+    font-size: 15pt;
+    font-weight: 500;
+}
+
+td {
+    font-family: "Seravek Light";
+    font-size: 13pt;
+}
+
+table tr:first-child th {
+    border-top: none;
+}
+
+table tr:last-child td {
+    border-bottom: none;
+}
+
+table tr td:first-child, table tr th:first-child {
+    border-left: none;
+}
+
+table tr td:last-child, table tr th:last-child {
+    border-right: none;
+}
+
+.cover {
+    display: block;
+    margin: auto;
+    height: 80px;
+    width: 58px;
+}
+
+.update_button {
+    padding: 5px;
+    background-color: #C3CDD1;
+    color: #555555;
+    border-radius: 3px;
+    margin-top: 3px;
+    margin-bottom: 3px;
+    display: block;
+    width: 95px;
+    height: 20px;
+    text-decoration: none;
+}
+
+.delete_button {
+    padding: 5px;
+    background-color: #C3CDD1;
+    color: #555555;
+    border-radius: 3px;
+    margin-top: 3px;
+    margin-bottom: 3px;
+    display: block;
+    width: 95px;
+    height: 20px;
+    text-decoration: none;
+}
+
+.action_icon {
+    display: block;
+    float: left;
+    max-height: 20px;
+    max-width: 20px;
+    margin: 0px;
+    margin-left: 5px;
+    margin-right: 10px;
+}
+
+.action_label {
+    display: block;
+    float: left;
+    margin: 0px;
 }

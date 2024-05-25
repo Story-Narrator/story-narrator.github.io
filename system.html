@@ -24,18 +24,31 @@
                 <div id="subheading">
                     <h2>Control the narrative.</h1>
                 </div>
-                <a id="LoginWithAmazon">
-                    <img id="login_btn" src="https://images-na.ssl-images-amazon.com/images/G/01/lwa/btnLWA_gold_156x32.png" alt="Login with Amazon">
-                 </a>
+                <div id="user_lbl">
+                    Logged in as: [unauthorised]
+                </div>
+                <div id="banner_icons">
+                        <a href="../Login/Login.php">
+                            <img class="h_icon" src="./assets/Logout_Icon.png" alt="Logout Icon">
+                        </a>
+                        <img id="h_icon_centre" class="h_icon" src="./assets/Help_Icon.png" alt="Help Icon">
+                        <img class="h_icon" src="./assets/Settings_Icon.png" alt="Settings Icon">
+                </div>
             </div>
         </div>
         <div id="system_main">
-            <iframe src="./nav"></iframe>
-            <iframe src="./library"></iframe>
+            <div>
+                <iframe class="frame" src="./nav.html"></iframe>
+            </div>
+            <div>
+                <iframe class="frame" src="./library.html"></iframe>
+            </div>
         </div>
     </div>
 </body>
 <script type="text/javascript">
+    var user = "[unauthorised]";
+
     var urlParams = new URLSearchParams(window.location.search);
     var code = urlParams.get('code');
     var scope = urlParams.get('scope');
@@ -54,21 +67,43 @@
         amazon.Login.setSiteDomain('story-narrator.github.io');
         amazon.Login.setUseCookie(true);
 
+        var access_token;
         var tokenResponse = amazon.Login.retrieveToken();
+
         if (tokenResponse) {
-            alert("Cached Access Token: " + tokenResponse.access_token);
+            access_token = tokenResponse.access_token;
+            if (window.console && window.console.log) {
+                window.console.log("Cached Access Token: " + tokenResponse.access_token);
+            };
         }
         else {
             amazon.Login.retrieveToken(
                 code,
                 function(response) {
-                    alert('Access Token: ' + response.access_token);
+                    access_token = response.access_token;
                     if (window.console && window.console.log) {
-                        window.console.log(response);
+                        window.console.log("Access Token: " + response.access_token);
                     };
                 }
             );
         };
+
+        amazon.Login.retrieveProfile(
+            access_token,
+            function(response) {
+                if (response.success) {
+                    alert('Hello, ' + response.profile.Name);
+                    alert('Your e-mail address is ' + response.profile.PrimaryEmail);
+                    alert('Your unique ID is ' + response.profile.CustomerId);
+
+                    user = response.profile.Name;
+                    document.getElementById("content").innerHTML = "Logged in as: " + user;
+                }
+                else {
+                    alert('Oh no! An error happened: ' + response.error);
+                }
+            }
+        );
     };
     
 </script>

@@ -4,57 +4,42 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Story Narrator: Home</title>
+    <title>Story Narrator: Nav</title>
     <link rel="stylesheet" href="./styles.css">
     <link rel="icon" type="image/x-icon" href="./assets/favicon.png">
 </head>
-<body>
-    <div id="amazon-root"></div>
-    <div id="parent">
-        <div id="header">
-            <div id="logo_parent">
-                <div id="triangle"></div>
-                <img id="logo" src="./assets/Logo.png" alt="Logo">
-            </div>
-            <div id="banner">
-                <div id="heading">
-                    <h1>S<span class="lower">TORY</span> N<span class="lower">ARRATOR</span></h1>
-                </div>
-                <img id="banner_divider" src="./assets/Banner_Divider.png" alt="Banner Divider">
-                <div id="subheading">
-                    <h2>Control the narrative.</h1>
-                </div>
-                <a id="LoginWithAmazon">
-                    <img id="login_btn" src="https://images-na.ssl-images-amazon.com/images/G/01/lwa/btnLWA_gold_156x32.png" alt="Login with Amazon">
-                 </a>
+<body id="nav">
+    <div id="nav_bg"></div>
+    <div id="nav_layout">
+        <div></div>
+        <div class="nav_tbl">
+            <div class="nav_icon_container">
+                <img class="nav_icon" src="./assets/Library_Icon.png" alt="Library Icon">
+                <p class="nav_icon_label">My<br>Library</p>
             </div>
         </div>
-        <div id="system_main">
-            <iframe></iframe>
-            <iframe></iframe>
+        <div></div>
+        <div class="nav_tbl">
+            <div class="nav_icon_container">
+                <img class="nav_icon" src="./assets/Emotions_Icon.png" alt="Emotions Icon">
+                <p class="nav_icon_label">Emotion<br>Profiles</p>
+            </div>
         </div>
+        <div></div>
+        <div class="nav_tbl">
+            <div class="nav_icon_container">
+                <img class="nav_icon" src="./assets/Account_Icon.png" alt="Account Icon">
+                <p class="nav_icon_label">My<br>Account</p>
+            </div>
+        </div>
+        <div></div>
+        <div class="nav_tbl">
+            <div class="nav_icon_container">
+                <img class="nav_icon" src="./assets/Feedback_Icon.png" alt="Feedback Icon">
+                <p class="nav_icon_label">Leave<br>Feedback</p>
+            </div>
+        </div>
+        <div></div>
     </div>
 </body>
-<script type="text/javascript">
-    // Loads the LWA SDK.
-    (function(d) {
-        var a = d.createElement('script'); a.type = 'text/javascript';
-        a.async = true; a.id = 'amazon-login-sdk';
-        a.src = 'https://assets.loginwithamazon.com/sdk/na/login1.js';
-        d.getElementById('amazon-root').appendChild(a);
-    })(document);
-
-    window.onAmazonLoginReady = function() {
-        amazon.Login.setClientId('amzn1.application-oa2-client.ac9f141427bc46f9914ddaaeb6e08c4c');
-        amazon.Login.setSiteDomain('story-narrator.github.io');
-        amazon.Login.setUseCookie(true);
-    };
-
-    // Setting the popup option to 'false' overrites 'interactive' behaviour and does not add items to cookies.
-    // An 'amazon_Login_auth_code_scope_cache' cookie must be manually created on the redirect URL. 
-    document.getElementById('LoginWithAmazon').onclick = function() {
-        options = { interactive: 'auto', popup: false, response_type: 'code', scope: 'profile', pkce: true };
-        var auth_request = amazon.Login.authorize(options, 'https://story-narrator.github.io/library');
-    };
-</script>
 </html>

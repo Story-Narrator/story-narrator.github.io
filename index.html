@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="./styles.css">
     <link rel="icon" type="image/x-icon" href="./assets/favicon.png">
 </head>
-<body>
+<body id="home">
     <div id="amazon-root"></div>
     <div id="parent">
         <div id="header">
@@ -46,7 +46,6 @@
     </div>
 </body>
 <script type="text/javascript">
-    // Loads the LWA SDK.
     (function(d) {
         var a = d.createElement('script'); a.type = 'text/javascript';
         a.async = true; a.id = 'amazon-login-sdk';
@@ -60,8 +59,6 @@
         amazon.Login.setUseCookie(true);
     };
 
-    // Setting the popup option to 'false' overrites 'interactive' behaviour and does not add items to cookies.
-    // An 'amazon_Login_auth_code_scope_cache' cookie must be manually created on the redirect URL. 
     document.getElementById('LoginWithAmazon').onclick = function() {
         options = { interactive: 'auto', popup: false, response_type: 'code', scope: 'profile', pkce: true };
         var auth_request = amazon.Login.authorize(options, 'https://story-narrator.github.io/system');
