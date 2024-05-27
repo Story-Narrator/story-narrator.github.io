@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Story Narrator: Story Editor</title>
+    <link rel="stylesheet" href="./styles.css">
+    <link rel="icon" type="image/x-icon" href="./assets/favicon.png">
+</head>
+<body id="sys">
+    <div id="sys_main">
+        <div id="se_backdrop_parent">
+            <div id="se_backdrop"></div>
+            <div id="se_backdrop_overlay"></div>
+        </div>
+        <h3 id="se_heading">ROB'S DAY AT THE BEACH</h3>
+        <h6 id="se_req_lbl">* Indicates a required field.</h6>
+        <h4 id="sys_subheading">Story Information</h4>
+        <div id="se_info">
+            <div class="se_info_rows">
+                <div>
+                    <label class="se_lbl" for="se_title" ><sup class="se_super">*</sup>Title:</label>
+                </div>
+                <div class="shrink">
+                    <input id="se_title" class="se_field" name="Title" type="text" value="Rob's day at the beach">
+                </div>
+                <div></div>
+            </div>
+            <div class="se_info_rows">
+                <div>
+                    <label class="se_lbl" for="se_content" ><sup class="se_super">*</sup>Content:</label>
+                </div>
+                <div class="shrink">
+                    <input id="se_content" class="se_field" name="Content" type="text" value="It was the height of summer..." disabled>
+                </div>
+                <div class="se_img_btn">
+                    <a href="./story_content_editor.html">
+                        <img class="se_icon" src="./assets/Edit_Icon.png" alt="Edit Icon">
+                    </a>
+                </div>
+            </div>
+            <div class="se_info_rows">
+                <div>
+                    <label class="se_lbl" for="se_category">Category:</label>
+                </div>
+                <select id="se_category" class="se_field" name="Category">
+                    <option value="uncategorised">Uncategorised</option> 
+                    <option value="sci-fi">Sci-Fi</option>
+                    <option value="romance">Romance</option>
+                    <option value="history">History</option>
+                    <option value="kids stories" selected>Kids Stories</option> 
+                </select>
+                <div></div>
+            </div>
+            <div id="se_cover_row">
+                <div><h5>Cover Image:</h5></div>
+                <div>
+                    <img id="se_cover" class="cover" src="./assets/Cover.png" alt="Cover Image">
+                </div>
+                <div class="se_img_btn">
+                    <img class="se_icon" src="./assets/Edit_Icon.png" alt="Edit Icon">
+                </div>
+            </div>
+            <div id="se_text_btn_row">
+                <div>
+                    <div id="se_discard_btn" class="se_text_btn">DISCARD CHANGES</div>
+                    <div id="se_save_btn" class="se_text_btn">SAVE CHANGES</div>
+                </div>
+                <div></div>
+            </div>
+        </div>
+        <h4 id="se_actions_heading">Story Actions</h4>
+        <div id="se_actions">
+            <div class="se_action_rows">
+                <div>
+                    <ul class="se_action">
+                        <li><span class="se_indent">Listen</span></li>
+                    </ul>
+                </div>
+                <div class="se_img_btn">
+                    <img class="se_icon" src="./assets/Play_Icon.png" alt="Listen Icon">
+                </div>
+                <div></div>
+                <div>
+                    <ul class="se_action">
+                        <li><span class="se_indent">Duplicate</span></li>
+                    </ul>
+                </div>
+                <div class="se_img_btn">
+                    <img class="se_icon" src="./assets/Duplicate_Icon.png" alt="Duplicate Icon">
+                </div>
+                <div></div>
+            </div>
+            <div class="se_action_rows">
+                <div>
+                    <ul class="se_action">
+                        <li><span class="se_indent">Share</span></li>
+                    </ul>
+                </div>
+                <div class="se_img_btn">
+                    <img class="se_icon" src="./assets/Share_Icon.png" alt="Share Icon">
+                </div>
+                <div></div>
+                <div>
+                    <ul class="se_action">
+                        <li><span class="se_indent">Delete</span></li>
+                    </ul>
+                </div>
+                <div class="se_img_btn">
+                    <img class="se_icon" src="./assets/Delete_Icon.png" alt="Delete Icon">
+                </div>
+                <div></div>
+            </div>
+            <div id="se_text_btn_row">
+                <div>
+                    <a href="./library.html">
+                        <div id="se_exit_btn" class="se_text_btn">EXIT TO LIBRARY</div>
+                    </a>
+                </div>
+                <div></div>
+            </div>
+        </div>
+    </div>
+</body>
+</script>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Story Narrator: Emotion Editor</title>
+    <link rel="stylesheet" href="./styles.css">
+    <link rel="icon" type="image/x-icon" href="./assets/favicon.png">
+    
+    <script src="./tinymce/js/tinymce/tinymce.min.js"></script>
+
+    <script type="text/javascript"> 
+
+        var editorWidth;
+
+        function SetEditor(passedDocument) {
+            tinymce.activeEditor.getBody().style.backgroundColor = passedDocument.body.style.backgroundColor;
+            tinymce.activeEditor.dom.addStyle(passedDocument.getElementsByTagName("style")[0].innerHTML);
+            tinymce.activeEditor.setContent(passedDocument.documentElement.outerHTML);
+            tinymce.activeEditor.undoManager.clear();
+    	};
+
+    	function GetEditor(){
+            var editorText = tinymce.activeEditor.getContent(),
+                editor = editorText.replace(/<body.*>/, "<body style=\"" + tinymce.activeEditor.getBody().getAttribute("style") + "\">");
+            return editor;
+        };
+
+    	function SetEditorSize(passedWidth, passedHeight){
+
+            editorWidth = passedWidth;
+
+            tinymce.activeEditor.theme.resizeTo(passedWidth, passedHeight);
+
+            var width = document.documentElement.scrollWidth,
+                height = document.documentElement.scrollHeight;
+                
+            window.external.ReturnEditorSize(width + 8 /*margin*/, height);
+        };
+
+        tinymce.init({
+            selector: '#mytextarea',
+            resize: true,
+            plugins: 'save',
+            toolbar1: 'undo redo | fontselect | fontsizeselect | bold italic underline | alignleft aligncenter alignright alignjustify | numlist bullist outdent indent',
+            toolbar2: 'save',
+            image_advtab: true,
+            content_css: "sce_styles.css",
+            save_enablewhendirty: false,
+            save_onsavecallback: function () {
+                console.log(GetEditor());
+            }
+        });
+    </script>
+</head>
+<body id="sys">
+    <div id="sys_main">
+        <h3 id="sys_heading">Emotion Profile Editor</h3>
+        <h6 id="se_req_lbl">* Indicates a required field.</h6>
+        <h4 id="sys_subheading">Profile Information</h4>
+        <div id="ee_info">
+            <div class="se_info_rows">
+                <div>
+                    <label class="se_lbl" for="se_title" ><sup class="se_super">*</sup>Name:</label>
+                </div>
+                <div class="shrink">
+                    <input id="se_title" class="se_field" name="Title" type="text" value="Happy">
+                </div>
+                <div></div>
+            </div>
+            <div id="ee_cover_row">
+                <div><h5><sup class="se_super">*</sup>Colour:</h5></div>
+                <div>
+                    <div id="ee_happy" class="ee_colour"></div>
+                </div>
+                <div class="se_img_btn">
+                    <img class="se_icon" src="./assets/Edit_Icon.png" alt="Edit Icon">
+                </div>
+            </div>
+            <div id="se_text_btn_row">
+                <div>
+                    <div id="se_discard_btn" class="se_text_btn">DISCARD CHANGES</div>
+                    <div id="se_save_btn" class="se_text_btn">SAVE CHANGES</div>
+                </div>
+                <div></div>
+            </div>
+        </div>
+        <h4 id="se_actions_heading">SSML Configuration</h4>
+        <form method="post">
+            <textarea id="mytextarea">[SSML Code]</textarea>
+        </form>
+    </div>
+</body>
+</html>

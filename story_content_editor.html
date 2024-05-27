@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Story Narrator: Story Content Editor</title>
+    <link rel="stylesheet" href="./styles.css">
+    <link rel="icon" type="image/x-icon" href="./assets/favicon.png">
+
+    <script src="./stories/user_story.js"></script>
+    <script src="./emotions/user_map.js"></script>
+    <script src="./tinymce/js/tinymce/tinymce.min.js"></script>
+
+    <script type="text/javascript">
+
+        var editorWidth;
+
+        function SetEditor(passedDocument) {
+            tinymce.activeEditor.getBody().style.backgroundColor = passedDocument.body.style.backgroundColor;
+            tinymce.activeEditor.dom.addStyle(passedDocument.getElementsByTagName("style")[0].innerHTML);
+            tinymce.activeEditor.setContent(passedDocument.documentElement.outerHTML);
+            tinymce.activeEditor.undoManager.clear();
+    	};
+
+    	function GetEditor(){
+            var editorText = tinymce.activeEditor.getContent(),
+                editor = editorText.replace(/<body.*>/, "<body style=\"" + tinymce.activeEditor.getBody().getAttribute("style") + "\">");
+            return editor;
+        };
+
+    	function SetEditorSize(passedWidth, passedHeight){
+
+            editorWidth = passedWidth;
+
+            tinymce.activeEditor.theme.resizeTo(passedWidth, passedHeight);
+
+            var width = document.documentElement.scrollWidth,
+                height = document.documentElement.scrollHeight;
+                
+            window.external.ReturnEditorSize(width + 8 /*margin*/, height);
+        };
+
+        tinymce.init({
+            emotion_map: user_map,
+            emotion_cols: 1,
+            emotion_rows: (user_map.length / 2) + 1,
+            selector: '#mytextarea',
+            // Attribution is required.
+            //branding: false,
+            resize: true,
+            plugins: 'save print preview fullpage searchreplace autolink directionality visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists textcolor wordcount imagetools contextmenu colorpicker textpattern help',
+            toolbar1: 'undo redo | fontselect | fontsizeselect | bold italic underline | forecolor | alignleft aligncenter alignright alignjustify | numlist bullist outdent indent',
+            toolbar2: 'emotion',
+            toolbar3: 'save',
+            // Unused tools, including the custom bodycolour and scrolltext tools. The scrolltext tool is defined in the below 'setup' function, whereas the bodycolour tool is defined in the textcolor plugin.
+            //toolbar4: 'scrolltext | strikethrough superscript subscript | backcolor | bodycolour | removeformat | link ',
+            image_advtab: true,
+            // Provides the animation CSS for scrolltext.
+            content_css: "sce_styles.css",
+            save_enablewhendirty: false,
+            save_onsavecallback: function () {
+                console.log(GetEditor());
+            },
+            // Defines the 'scrolltext' tool.
+            /*
+            setup: function (editor) {
+                editor.addButton('scrolltext', {
+                    type: 'listbox',
+                    text: 'Scroll Text',
+                    icon: false,
+                    onselect: function (e) {
+                        var elem = tinymce.activeEditor.selection.getStart(),
+                            bookmark = tinymce.activeEditor.selection.getBookmark(2);
+
+                        this.settings.values.forEach(function (currentValue) { tinymce.activeEditor.dom.removeClass(elem, currentValue.value); })
+
+                        if (this.value() == "no-anim") {
+                            var content = tinymce.activeEditor.getContent(),
+                                newContent = content.replace(/<style>.*<\/style>/, "<style></style>");
+
+                            tinymce.activeEditor.setContent(newContent);
+                        }
+                        else {
+                            tinymce.activeEditor.dom.addClass(elem, this.value());
+
+                            var newStyle = "@keyframes myanimation { 0% { left: -" + elem.offsetWidth + "px; } 100% { left: " + editorWidth + "px; } }",
+                                content = tinymce.activeEditor.getContent(),
+                                newContent = content.replace(/<style>.*<\/style>/, "<style> " + newStyle + " </style>");
+
+                            tinymce.activeEditor.setContent(newContent);
+                            tinymce.activeEditor.dom.addStyle(newStyle);
+                        }
+
+                        tinymce.activeEditor.selection.moveToBookmark(bookmark);
+                    },
+                    values: [
+                        { text: 'No Scroll', value: 'no-anim' },
+                        { text: 'Left to Right', value: 'anim-1' },
+                        { text: 'Right to Left', value: 'anim-2' }
+                    ],
+                    onPostRender: function () {
+                        // Select the first item by default
+                        this.value('no-anim');
+                    }
+                });
+            }
+            */
+            init_instance_callback : function(editor) {
+                editor.setContent(user_story);
+            }
+        });
+    </script>
+</head>
+
+<body id="sys">
+    <div id="sys_main">
+        <div id="se_backdrop_parent">
+            <div id="se_backdrop"></div>
+            <div id="se_backdrop_overlay"></div>
+        </div>
+        <h3 id="sys_heading">ROB'S DAY AT THE BEACH</h3>
+        <h4 id="sys_subheading">Story Content</h4>
+        <div id="sec_layout">
+            <div>
+                <form method="post">
+                    <textarea id="mytextarea"></textarea>
+                </form>
+            </div>
+            <div>
+                <a href="./story_editor.html">
+                    <div id="se_exit_btn" class="se_text_btn">RETURN TO STORY</div>
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
