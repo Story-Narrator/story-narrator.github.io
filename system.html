@@ -99,22 +99,24 @@
         d.getElementById('amazon-root').appendChild(a);
     })(document);
 
-    var getProfile = amazon.Login.retrieveProfile(
-        access_token,
-        function(response) {
-            if (response.success) {
-                user = response.profile.Name;
-                document.getElementById("user_lbl").innerHTML = "Logged in as: " + user;
-            }
-            else {
-                if (window.console && window.console.log) {
-                    window.console.log("An error occured when retrieving user profile: " + response.error);
-                };
-            }
-        }
-    );
-
     window.onAmazonLoginReady = function() {
+        var getProfile = function(access_token) {
+            amazon.Login.retrieveProfile(
+                access_token,
+                function(response) {
+                    if (response.success) {
+                        user = response.profile.Name;
+                        document.getElementById("user_lbl").innerHTML = "Logged in as: " + user;
+                    }
+                    else {
+                        if (window.console && window.console.log) {
+                            window.console.log("An error occured when retrieving user profile: " + response.error);
+                        };
+                    }
+                }
+            );
+        };
+        
         amazon.Login.setClientId('amzn1.application-oa2-client.ac9f141427bc46f9914ddaaeb6e08c4c');
         amazon.Login.setSiteDomain('story-narrator.github.io');
         amazon.Login.setUseCookie(true);
