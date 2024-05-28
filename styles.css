@@ -204,25 +204,120 @@ select {
 
 #main_container {
     overflow-y: auto;
+    border-top: 2px solid white;
 }
 
 #home_main {
-    background-color: blue;
+    background-color: #E8EEEE;
     display: grid;
-    grid-template-rows: 300px 300px 300px 150px;
+    grid-template-rows: 300px 300px 420px 61px;
+    row-gap: 2px;
 }
 
-.home_main_split {
+#home_high_split {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 10fr 7fr;
 }
 
-.home_split_img {
-    background-color: green;
+#home_low_split {
+    display: grid;
+    grid-template-columns: 7fr 10fr;
+}
+
+.home_img_parent {
+    padding: 10px;
+}
+
+#home_lib_parent {
+    background-color: #C3CDD1;
+}
+
+#home_emot_parent {
+    background-color: #DDE0EE;
+}
+
+.home_img_tbl {
+    display: table;
+    height: 100%;
+    width: 100%;
+}
+
+.home_img_td {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.home_img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    max-height: 278px;
+    max-width: 100%;
+    border: 1px solid #D3D3D3;
+}
+
+.home_split {
+    padding: 10px;
+    min-width: 305px;
+    overflow: hidden;
+}
+
+#home_lib_split {
+    background-color: #C3CDD1;
+}
+
+#home_emot_split{
+    background-color: #DDE0EE;
+}
+
+#home_gen_split{
+    background-color: #E0E0E0;
+}
+
+#home_lib_heading {
+    color: #434343;
+}
+
+#home_emot_heading {
+    color: #616EAD;
+}
+
+#home_gen_heading {
+    text-align: center;
+    color: #434343;
+}
+
+.home_text {
+    font-family: "Seravek Light";
+    font-size: 18pt;
+}
+
+.home_grey_text {
+    color: #434343;
+}
+
+.home_blue_text {
+    color: #616EAD;
+}
+
+#home_gen_text {
+    text-align: center;
+    margin-bottom: 15px;
 }
 
 #home_main_footer {
-    background-color: darkgray;
+    position: relative;
+    background-color: #505050;
+    padding: 10px;
+}
+
+#home_author {
+    position: absolute;
+    right: 10px;
+    bottom: 5px;
+    color: #777777;
+    font-family: "Seravek Light";
+    font-size: 10pt;
 }
 
 #sys_layout {
@@ -351,6 +446,11 @@ select {
     overflow-x: auto;
 }
 
+.home_tbl {
+    text-align: left;
+    border-collapse: collapse;
+}
+
 .sys_tbl {
     width: 100%;
     text-align: left;
@@ -392,6 +492,13 @@ table tr td:first-child, table tr th:first-child {
 
 table tr td:last-child, table tr th:last-child {
     border-right: none;
+}
+
+.home_td {
+    border-top: none;
+    color: white;
+    padding-left: 20px;
+    padding-right: 20px;
 }
 
 .cover {
