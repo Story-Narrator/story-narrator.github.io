@@ -7,6 +7,16 @@
     <title>Story Narrator: System</title>
     <link rel="stylesheet" href="./styles.css">
     <link rel="icon" type="image/x-icon" href="./assets/favicon.png">
+
+    <script src="./jsrsasign/jsrsasign-all-min.js"></script><!-- includes CryptoJS -->
+
+    <script type="text/javascript">
+        var debug = 0;
+
+        if (debug == 1) {
+
+        }
+    </script>
 </head>
 <body>
     <div id="amazon-root"></div>
@@ -84,7 +94,9 @@
     </div>
 </body>
 <script type="text/javascript">
-    var user = "Logging in...";
+    var user_name = "Logging in...";
+    var user_email = "[unauthorised]";
+    var user_id = "[unauthorised]";
 
     var urlParams = new URLSearchParams(window.location.search);
     var code = urlParams.get('code');
@@ -105,8 +117,17 @@
                 access_token,
                 function(response) {
                     if (response.success) {
-                        user = response.profile.Name;
-                        document.getElementById("user_lbl").innerHTML = "Logged in as: " + user;
+                        user_name = response.profile.Name;
+                        user_email = response.profile.PrimaryEmail;
+                        user_id = response.profile.CustomerID;
+                        
+                        if (window.console && window.console.log) {
+                            window.console.log("User Name: " + user_name);
+                            window.console.log("User Email: " + user_email);
+                            window.console.log("User ID: " + user_id);
+                        };
+
+                        document.getElementById("user_lbl").innerHTML = "Logged in as: " + user_name;
                     }
                     else {
                         if (window.console && window.console.log) {
@@ -129,8 +150,8 @@
             access_token = tokenResponse.access_token;
             if (window.console && window.console.log) {
                 window.console.log("Cached Access Token: " + tokenResponse.access_token);
-                getProfile(access_token);
             };
+            getProfile(access_token);
         }
         else {
             amazon.Login.retrieveToken(
@@ -139,8 +160,8 @@
                     access_token = response.access_token;
                     if (window.console && window.console.log) {
                         window.console.log("Access Token: " + response.access_token);
-                        getProfile(access_token);
                     };
+                    getProfile(access_token);
                 }
             );
         };
