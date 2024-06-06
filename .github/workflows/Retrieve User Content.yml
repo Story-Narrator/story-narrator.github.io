@@ -1,0 +1,36 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Retrieve User Content
+
+# Controls when the workflow will run
+on:
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generate JWT
+        id: jwtGenerator
+        uses: robbienutland/github-actions-jwt-generator@1.0.0
+        with:
+          payload: '{"iss":"storynarratorservice@story-narrator-425508.iam.gserviceaccount.com", "scope":"https://www.googleapis.com/auth/drive", "aud":"https://oauth2.googleapis.com/token"}'
+          privateKey: ${{secrets.PRIVATEKEY}}
+          expiresIn: '1h'
+          
+      #- name: DUMP Token
+        #run: echo ${{steps.jwtGenerator.outputs.token}} | sed 's/./& /g'
+        
+      - name: Perform HTTP Request
+        id: myRequest
+        uses: fjogeleit/http-request-action@v1
+        with:
+          url: 'https://oauth2.googleapis.com/token'
+          method: 'POST'
+          customHeaders: '{"Content-Type": "application/x-www-form-urlencoded"}'
+          data: '{"grant_type": "urn:ietf:params:oauth:grant-type:jwt-bearer", "assertion": "${{steps.jwtGenerator.outputs.token}}"}'
+      - name: Show Response
+        run: |
+          echo Access Token: ${{ fromJson(steps.myRequest.outputs.response).access_token }}
