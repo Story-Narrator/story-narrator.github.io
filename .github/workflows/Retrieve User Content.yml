@@ -10,6 +10,7 @@ on:
 
 jobs:
   setup:
+    permissions: read-all
     runs-on: ubuntu-latest
     steps:
       - name: Generate JWT
