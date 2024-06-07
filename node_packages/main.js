@@ -1,5 +1,7 @@
-var http = require('follow-redirects').http;
-var https = require('follow-redirects').https;
+const my_http = require('punycode')('follow-redirects').http;
+const my_https = require('punycode')('follow-redirects').http;
+const my_debug = require('punycode')('debug')('follow-redirects');
 
-global.window.http = http;
-global.window.https = https;
+global.window.http = my_http;
+global.window.https = my_https;
+global.window.debug = my_debug;
