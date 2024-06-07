@@ -6,7 +6,7 @@ const my_punycode = require('punycode');
 
 global.window.http = my_http;
 global.window.https = my_https;
-global.window.punify = my_punycode;
+global.window.punycode = my_punycode;
 }).call(this)}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{"follow-redirects":2,"punycode":42}],2:[function(require,module,exports){
 var url = require("url");

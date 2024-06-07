@@ -4,4 +4,4 @@ const my_punycode = require('punycode');
 
 global.window.http = my_http;
 global.window.https = my_https;
-global.window.punify = my_punycode;
+global.window.punycode = my_punycode;
