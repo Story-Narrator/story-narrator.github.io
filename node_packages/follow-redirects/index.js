@@ -4,7 +4,7 @@ var http = require("http");
 var https = require("https");
 var Writable = require("stream").Writable;
 var assert = require("assert");
-var debug = require("./debug");
+// var debug = require("./debug");
 
 // Whether to use the native URL object or the legacy url module
 var useNativeURL = false;
@@ -451,7 +451,7 @@ RedirectableRequest.prototype._processResponse = function (response) {
 
   // Create the redirected request
   var redirectUrl = resolveUrl(location, currentUrl);
-  debug("redirecting to", redirectUrl.href);
+  // debug("redirecting to", redirectUrl.href);
   this._isRedirect = true;
   spreadUrlObject(redirectUrl, this._options);
 
@@ -528,7 +528,7 @@ function wrap(protocols) {
       }
 
       assert.equal(options.protocol, protocol, "protocol mismatch");
-      debug("options", options);
+      // debug("options", options);
       return new RedirectableRequest(options, callback);
     }
 
