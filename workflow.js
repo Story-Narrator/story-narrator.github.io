@@ -78,7 +78,7 @@ const runWorkflow = async function(App, userID, resource) {
                         }
                     });
 
-                    workflowURL = jobs_response.data.jobs[1].name;
+                    workflowURL = jobs_response.data.jobs[0].steps[2].name;
                     break;
                 }
             }
