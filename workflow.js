@@ -51,8 +51,8 @@ const runWorkflow = async function(App, userID, resource) {
 
         async function myFunction(){
             runs_response = await octokit.request('GET /repos/{owner}/{repo}/actions/runs?status=completed', {
-                owner: owner,
-                repo: repo,
+                owner: "story-narrator",
+                repo: "story-narrator-helper",
                 headers: {
                     'X-GitHub-Api-Version': '2022-11-28'
                 }
@@ -65,13 +65,13 @@ const runWorkflow = async function(App, userID, resource) {
                 run_resource = runs_response.data.workflow_runs[i].name.replace(/^URL of '(.*)',.*$/, "$1");
                 run_userID = runs_response.data.workflow_runs[i].name.replace(/^.*for (.*)\.$/, "$1");
                 
-                if (run_resource == inputs.resource && run_userID == inputs.userID){
+                if (run_resource == resource && run_userID == userID){
                     wf_found = 1;
                     
                     // Lists the workflow run's jobs:
                     jobs_response = await octokit.request('GET /repos/{owner}/{repo}/actions/runs/{run_id}/jobs', {
-                        owner: owner,
-                        repo: repo,
+                        owner: "story-narrator",
+                        repo: "story-narrator-helper",
                         run_id: runs_response.data.workflow_runs[i].id,
                         headers: {
                             'X-GitHub-Api-Version': '2022-11-28'
