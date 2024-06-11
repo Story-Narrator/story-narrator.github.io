@@ -1,6 +1,4 @@
-import { App } from "https://esm.sh/octokit";
-
-async function runWorkflow(userID, resource) {
+const runWorkflow = async function(App, userID, resource) {
 
     const app = new App({
         appId: 914621,
@@ -25,3 +23,4 @@ async function runWorkflow(userID, resource) {
         }
     });
 }
+  
