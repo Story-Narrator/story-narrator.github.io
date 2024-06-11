@@ -1,3 +1,4 @@
+var workflowURL;
 const runWorkflow = async function(App, userID, resource) {
 
     const app = new App({
@@ -7,12 +8,14 @@ const runWorkflow = async function(App, userID, resource) {
     });
 
     const octokit = await app.getInstallationOctokit("51590067");
+    const { token } = await octokit.auth({ type: "installation" });
 
-    // Execute workflow.
+
+    // Execute 'Retrieve Content' workflow.
     await octokit.request("POST /repos/{owner}/{repo}/actions/workflows/{workflow_id}/dispatches", {
         owner: "story-narrator",
         repo: "story-narrator-helper",
-        workflow_id: "Get Output URL.yml",
+        workflow_id: "Retrieve Content.yml",
         ref: 'main',
         inputs: {
             userID: userID,
@@ -22,5 +25,90 @@ const runWorkflow = async function(App, userID, resource) {
             'X-GitHub-Api-Version': '2022-11-28'
         }
     });
+
+    // Execute 'Get Output URL' workflow.
+    await octokit.request("POST /repos/{owner}/{repo}/actions/workflows/{workflow_id}/dispatches", {
+        owner: "story-narrator",
+        repo: "story-narrator-helper",
+        workflow_id: "Get Output URL.yml",
+        ref: 'main',
+        inputs: {
+            token: token,
+            userID: userID,
+            resource: resource
+        },
+        headers: {
+            'X-GitHub-Api-Version': '2022-11-28'
+        }
+    });
+
+    try {
+        var runs_response;
+        var run_resource;
+        var run_userID;
+        var wf_found = 0;
+        var jobs_response;
+
+        async function myFunction(){
+            runs_response = await octokit.request('GET /repos/{owner}/{repo}/actions/runs?status=completed', {
+                owner: owner,
+                repo: repo,
+                headers: {
+                    'X-GitHub-Api-Version': '2022-11-28'
+                }
+            });
+        }
+
+        async function myFunction2(){
+            await myFunction();
+            for (var i = 0; i < runs_response.data.workflow_runs.length; i++) { 
+                run_resource = runs_response.data.workflow_runs[i].name.replace(/^URL of '(.*)',.*$/, "$1");
+                run_userID = runs_response.data.workflow_runs[i].name.replace(/^.*for (.*)\.$/, "$1");
+                
+                if (run_resource == inputs.resource && run_userID == inputs.userID){
+                    wf_found = 1;
+                    
+                    // Lists the workflow run's jobs:
+                    jobs_response = await octokit.request('GET /repos/{owner}/{repo}/actions/runs/{run_id}/jobs', {
+                        owner: owner,
+                        repo: repo,
+                        run_id: runs_response.data.workflow_runs[i].id,
+                        headers: {
+                            'X-GitHub-Api-Version': '2022-11-28'
+                        }
+                    });
+
+                    workflowURL = jobs_response.data.jobs[1].name;
+                    break;
+                }
+            }
+        };
+
+        // Function that resolves after a sleep time
+        async function sleep(ms) {
+            return new Promise(function(resolve){
+                setTimeout(resolve, ms);
+            });
+        }
+
+        // Loop until timeout.
+        for (var l = 0; l < 30; l++) {
+            await myFunction2();
+
+            if (wf_found) {
+                break;
+            };
+            // Wait 1 second before re-calling the function. Timeout after 30 seconds (30 * 1 seconds);
+            await sleep(1000);
+        }
+
+        if (!wf_found){
+            throw "Error: A workflow matching the specified resource and userID was not found.";
+        };
+
+    }
+    catch (error) {
+        console.log(error);
+    }
 }
   

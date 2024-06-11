@@ -16,7 +16,8 @@
         const userID = urlParams.get('userID');
         const resource = urlParams.get('resource');
 
-        runWorkflow(App, userID, resource);
+        await runWorkflow(App, userID, resource);
+        alert(workflowURL);
     </script>
 </head>
 <body id="sys">
