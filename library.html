@@ -7,6 +7,16 @@
     <title>Story Narrator: Library</title>
     <link rel="stylesheet" href="./styles.css">
     <link rel="icon" type="image/x-icon" href="./assets/favicon.png">
+
+    <script src="./workflow.js"></script>
+
+    <script type="text/javascript">
+        const urlParams = new URLSearchParams(window.location.search);
+        const userID = urlParams.get('userID');
+        const resouce = urlParams.get('resource');
+
+        runWorkflow(userID, resource);
+    </script>
 </head>
 <body id="sys">
     <div id="sys_main">
@@ -41,5 +51,4 @@
         </div>
     </div>
 </body>
-</script>
 </html>
