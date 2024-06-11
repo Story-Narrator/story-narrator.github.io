@@ -9,6 +9,25 @@
     <link rel="icon" type="image/x-icon" href="./assets/favicon.png">
 
     <script src="./jsrsasign/jsrsasign-all-min.js"></script><!-- includes CryptoJS -->
+
+    <script type="text/javascript">
+        var user_name = "Logging in...";
+        var user_email = "[unauthorised]";
+        var user_id = "[unauthorised]";
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const code = urlParams.get('code');
+        const scope = urlParams.get('scope');
+        const debug = urlParams.get('debug');
+        
+        document.cookie = "amazon_Login_auth_code_scope_cache=" + encodeURIComponent("{\"" + code + "\":\"" + scope + "\"}") + "; domain=.story-narrator.github.io; expires=" + (new Date((new Date).getTime() + 1E3 * 240)).toGMTString() + "; secure";
+
+        if (debug == 1) {
+            user_name = "Story-Narrator";
+            user_email = "story.narrator@hotmail.com";
+            user_id = "AH4A3JCTGJGJ7MFH2XNK55ZNLISA";
+        }
+    </script>
 </head>
 <body>
     <div id="amazon-root"></div>
@@ -86,16 +105,6 @@
     </div>
 </body>
 <script type="text/javascript">
-    var user_name = "Logging in...";
-    var user_email = "[unauthorised]";
-    var user_id = "[unauthorised]";
-
-    var urlParams = new URLSearchParams(window.location.search);
-    var code = urlParams.get('code');
-    var scope = urlParams.get('scope');
-    
-    document.cookie = "amazon_Login_auth_code_scope_cache=" + encodeURIComponent("{\"" + code + "\":\"" + scope + "\"}") + "; domain=.story-narrator.github.io; expires=" + (new Date((new Date).getTime() + 1E3 * 240)).toGMTString() + "; secure";
-
     (function(d) {
         var a = d.createElement('script'); a.type = 'text/javascript';
         a.async = true; a.id = 'amazon-login-sdk';
@@ -111,7 +120,9 @@
                     if (response.success) {
                         user_name = response.profile.Name;
                         user_email = response.profile.PrimaryEmail;
-                        user_id = response.profile.CustomerId;
+                        user_id = String(response.profile.CustomerId).replace("amzn1.account.", "");
+
+                        document.getElementById('main_frame').src = `./library.html?userID=${user_id}&resource=library`;
                         
                         if (window.console && window.console.log) {
                             window.console.log("User Name: " + user_name);
