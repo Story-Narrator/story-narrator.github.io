@@ -1,5 +1,3 @@
-// workflow.js
-
 var workflowURL;
 const runWorkflow = async function(App, userID, resource) {
 
@@ -50,9 +48,6 @@ const runWorkflow = async function(App, userID, resource) {
         var run_userID;
         var wf_found = 0;
         var jobs_response;
-        
-        // Create a new worker
-        var worker = new Worker("./worker.js");
 
         async function myFunction(){
             runs_response = await octokit.request('GET /repos/{owner}/{repo}/actions/runs?status=completed', {
@@ -72,7 +67,6 @@ const runWorkflow = async function(App, userID, resource) {
                 run_userID = runs_response.data.workflow_runs[i].name.replace(/^.*, for (.*)\.$/, "$1");
                 
                 if (run_resource == resource && run_userID == userID){
-                    worker.terminate();
                     wf_found = 1;
                     
                     // Lists the workflow run's jobs:
@@ -91,22 +85,28 @@ const runWorkflow = async function(App, userID, resource) {
             }
         };
 
-        // Send a message to the worker to start the interval
-        worker.postMessage("start");
+        // Function that resolves after a sleep time
+        async function sleep(ms) {
+            return new Promise(function(resolve){
+                setTimeout(resolve, ms);
+            });
+        }
 
-        // Listen for messages from the worker
-        worker.onmessage = async function(e) {
-            if (e.data == "check"){
-                await myFunction2();
-            }
-            else if (e.data="timeout") {
-                worker.terminate();
-                throw "Error: A workflow matching the specified resource and userID was not found.";
-            }
+        // Loop until timeout.
+        for (var l = 0; l < 30; l++) {
+            await myFunction2();
+
+            if (wf_found) {
+                break;
+            };
+            // Wait 1 second before re-calling the function. Timeout after 30 seconds (30 * 1 seconds);
+            await sleep(1000);
+        }
+
+        if (!wf_found){
+            throw "Error: A workflow matching the specified resource and userID was not found.";
         };
-        while(!wf_found){
-            // Stall this thread for the worker.
-        };
+
     }
     catch (error) {
         console.log(error);
