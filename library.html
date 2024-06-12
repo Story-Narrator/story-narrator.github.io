@@ -16,8 +16,10 @@
         const userID = urlParams.get('userID');
         const resource = urlParams.get('resource');
 
-        await runWorkflow(App, userID, resource);
-        alert(workflowURL);
+        if (userID != null && resource != null){
+            await runWorkflow(App, userID, resource);
+            alert(workflowURL);
+        }
     </script>
 </head>
 <body id="sys">
