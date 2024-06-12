@@ -61,9 +61,10 @@ const runWorkflow = async function(App, userID, resource) {
 
         async function myFunction2(){
             await myFunction();
+            console.log("Number of completed runs found: ", runs_response.data.workflow_runs.length);
             for (var i = 0; i < runs_response.data.workflow_runs.length; i++) { 
                 run_resource = runs_response.data.workflow_runs[i].name.replace(/^URL of '(.*)',.*$/, "$1");
-                run_userID = runs_response.data.workflow_runs[i].name.replace(/^.*for (.*)\.$/, "$1");
+                run_userID = runs_response.data.workflow_runs[i].name.replace(/^.*, for (.*)\.$/, "$1");
                 
                 if (run_resource == resource && run_userID == userID){
                     wf_found = 1;
