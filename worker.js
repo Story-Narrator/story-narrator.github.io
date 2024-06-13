@@ -93,7 +93,7 @@ async function listWorkflowRuns(token){
     }).then(function(response){
         return response.json();
     });
-
+    console.log(runsResponse);
     return runsResponse;
 }
 
