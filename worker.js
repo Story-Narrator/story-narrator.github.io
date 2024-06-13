@@ -27,7 +27,7 @@ var JWT = generateJWT("914621", "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhk
 
 const getToken = async function(installationID, JWT){
     var tokenRequest = await fetch(`https://api.github.com/app/installations/${installationID}/access_tokens`, {
-        method: "get",
+        method: "post",
         headers: {
             "Accept": "application/vnd.github+json",
             "Authorization": `Bearer ${JWT}`,
