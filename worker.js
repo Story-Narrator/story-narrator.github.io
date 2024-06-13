@@ -35,6 +35,8 @@ const getToken = async function(installationID, JWT){
         }
     }).then(function(response){
         return response.json();
+    }).then(function(data){
+        return data;
     });
     return tokenRequest.token;
 }
@@ -92,8 +94,9 @@ async function listWorkflowRuns(token){
         }
     }).then(function(response){
         return response.json();
+    }).then(function(data){
+        return data;
     });
-    console.log(runsResponse);
     return runsResponse;
 }
 
@@ -118,6 +121,8 @@ const getOutputURL = async function(token, userID, resource) {
                 }
             }).then(function(response){
                 return response.json();
+            }).then(function(data){
+                return data;
             });
 
             return jobsResponse.jobs[0].steps[2].name;
