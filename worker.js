@@ -1,6 +1,6 @@
 // worker.js
 
-importScripts("/v135/@octokit/app@15.0.1/es2022/app.mjs")
+importScripts("https://esm.sh/v135/octokit@4.0.2/es2022/octokit.mjs")
 importScripts('./workflow.js')
 
 // const runWorkflow = async function(App, userID, resource) {
