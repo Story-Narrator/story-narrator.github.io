@@ -28,9 +28,9 @@
                     if (e.data=="timeout") {
                         throw "Error: A workflow matching the specified resource and userID was not found.";
                         worker.terminate();
-                    } else if (e.data == "workflow"){
-                        console.log(workflowURL);
-                        alert(workflowURL);
+                    } else {
+                        console.log(e.data);
+                        alert(e.data);
                         worker.terminate();
                     }
                 }

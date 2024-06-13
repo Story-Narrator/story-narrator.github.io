@@ -127,7 +127,7 @@ const getOutputURL = async function(token, userID, resource) {
             }).then(function(response){
                 return response.json();
             });
-
+            console.log(jobsResponse.jobs[0].steps[2].name);
             return jobsResponse.jobs[0].steps[2].name;
         }
         else {
@@ -158,8 +158,8 @@ self.onmessage = async function(e){
     setIntervalX(async function (intervalID) {
         var workflowURL = await getOutputURL(token, userID, resource);
         if (workflowURL != null){
-            self.postMessage(workflowURL);
             clearInterval(intervalID);
+            self.postMessage(workflowURL);
         }
     }, 1000, 30);
 }
