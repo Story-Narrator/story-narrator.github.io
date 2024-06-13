@@ -35,7 +35,8 @@ const getToken = async function(installationID, JWT){
         }
     })
     console.log(tokenRequest.response.json().data.token);
-    return tokenRequest.response.json().data.token;
+    console.log(tokenRequest.response.json().token);
+    return tokenRequest.response.json().token;
 }
 
 var token = getToken("51590067", JWT);
