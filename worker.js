@@ -6,6 +6,7 @@ function setIntervalX(callback, delay, repetitions) {
        callback();
        if (++x === repetitions) {
            clearInterval(intervalID);
+           self.postMessage("timeout");
        }
     }, delay);
 }
@@ -14,6 +15,3 @@ function setIntervalX(callback, delay, repetitions) {
 setIntervalX(function () {
     self.postMessage("check");
 }, 1000, 30);
-
-// This will be posted if no URL is received after 30 seconds.
-self.postMessage("timeout");
