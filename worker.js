@@ -36,7 +36,7 @@ const getToken = async function(installationID, JWT){
     }).then(function(response){
         return response.json();
     });
-    console.log(tokenRequest.data);
+    console.log(tokenRequest);
     return tokenRequest.data.token;
 }
 
