@@ -24,22 +24,19 @@
 
             // Listen for messages from the worker
             worker.onmessage = async function(e) {
-                // try {
-                //     if (e.data == "check"){
-                //         var workflowURL = await getOutputURL(workflowInstance.octokit, userID, resource);
-                //         if (workflowURL != null){
-                //             printURL(workflowURL)
-                //             worker.terminate();
-                //         }
-                //     }
-                //     else if (e.data=="timeout") {
-                //         throw "Error: A workflow matching the specified resource and userID was not found.";
-                //         worker.terminate();
-                //     }
-                // }
-                // catch (error) {
-                //     console.log(error);
-                // }
+                try {
+                    if (e.data=="timeout") {
+                        throw "Error: A workflow matching the specified resource and userID was not found.";
+                        worker.terminate();
+                    } else if (e.data == "workflow"){
+                        console.log(workflowURL);
+                        alert(workflowURL);
+                        worker.terminate();
+                    }
+                }
+                catch (error) {
+                    console.log(error);
+                }
             };
         }
 

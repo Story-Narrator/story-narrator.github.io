@@ -156,11 +156,9 @@ self.onmessage = async function(e){
 
     // This will be repeated 30 times with 1 second intervals:
     setIntervalX(async function (intervalID) {
-        self.postMessage("check");
         var workflowURL = await getOutputURL(token, userID, resource);
         if (workflowURL != null){
-            alert(workflowURL);
-            console.log(workflowURL);
+            self.postMessage(workflowURL);
             clearInterval(intervalID);
         }
     }, 1000, 30);
