@@ -12,7 +12,7 @@ const generateJWT = function(appID, privateKey){
     // Payload
     var payload = JSON.stringify({
         iat: KJUR.jws.IntDate.get('now'),
-        exp: KJUR.jws.IntDate.get('now + 10minutes'),
+        exp: KJUR.jws.IntDate.get('now')+(60*10), // +10 minutes.
         iss: appID
     });
 
