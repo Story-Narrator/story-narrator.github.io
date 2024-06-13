@@ -106,14 +106,16 @@ const getOutputURL = async function(token, userID, resource) {
     var repo = "story-narrator-helper";
     var runsResponse = await listWorkflowRuns(token);
     var run_id;
+    var runResource;
+    var runUserID;
 
     console.log("Number of completed runs found: ", runsResponse.workflow_runs.length);
     for (var i = 0; i < runsResponse.workflow_runs.length; i++) { 
-        var runResource = runsResponse.workflow_runs[i].name.replace(/^URL of '(.*)',.*$/, "$1");
-        var runUserID = runsResponse.workflow_runs[i].name.replace(/^.*, for (.*)\.$/, "$1");
+        runResource = runsResponse.workflow_runs[i].name.replace(/^URL of '(.*)',.*$/, "$1");
+        runUserID = runsResponse.workflow_runs[i].name.replace(/^.*, for (.*)\.$/, "$1");
         
         if (runResource == resource && runUserID == userID){
-            run_id = runsResponse.workflow_runs[i].id
+            run_id = runsResponse.workflow_runs[i].id;
             // Lists the workflow run's jobs:
             var jobsResponse = await fetch(`https://api.github.com/repos/${owner}/${repo}/actions/runs/${run_id}/jobs`, {
                 method: "get",
