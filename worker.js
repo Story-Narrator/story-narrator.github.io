@@ -45,19 +45,20 @@ const runWorkflows = async function(token, userID, resource){
 
     // Execute 'Retrieve Content' workflow.
     var workflow_id = encodeURIComponent("Retrieve Content.yml");
-    console.log(workflow_id);
 
     await fetch(`https://api.github.com/repos/${owner}/${repo}/actions/workflows/${workflow_id}/dispatches`, {
         method: "post",
-        ref: 'main',
-        inputs: {
-            userID: userID,
-            resource: resource
-        },
         headers: {
             "Accept": "application/vnd.github+json",
             "Authorization": `token ${token}`,
             "X-GitHub-Api-Version": "2022-11-28"
+        },
+        body: {
+            "ref": "main",
+            "inputs": {
+                "userID": userID,
+                "resource": resource
+            }
         }
     });
 
@@ -66,16 +67,18 @@ const runWorkflows = async function(token, userID, resource){
 
     await fetch(`https://api.github.com/repos/${owner}/${repo}/actions/workflows/${workflow_id}/dispatches`, {
         method: "post",
-        ref: 'main',
-        inputs: {
-            token: token,
-            userID: userID,
-            resource: resource
-        },
         headers: {
             "Accept": "application/vnd.github+json",
             "Authorization": `token ${token}`,
             "X-GitHub-Api-Version": "2022-11-28"
+        },
+        body: {
+            "ref": "main",
+            "inputs": {
+                "token": token,
+                "userID": userID,
+                "resource": resource
+            }
         }
     });
 }
