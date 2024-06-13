@@ -16,9 +16,8 @@
         const userID = urlParams.get('userID');
         const resource = urlParams.get('resource');
 
-        const handleWorkerResult = function(result){
-            alert(result);
-            console.log(result);
+        const printURL = function(workflowURL){
+            alert(workflowURL);
         }
 
         if (userID != null && resource != null){
@@ -32,16 +31,21 @@
 
             // Listen for messages from the worker
             worker.onmessage = async function(e) {
-                if (e.data == "check"){
-                    var workflowURL = await getOutputURL(workflowInstance.octokit, userID, resource);
-                    if (workflowURL != null){
-                        handleWorkerResult(workflowURL)
+                try {
+                    if (e.data == "check"){
+                        var workflowURL = await getOutputURL(workflowInstance.octokit, userID, resource);
+                        if (workflowURL != null){
+                            printURL(workflowURL)
+                            worker.terminate();
+                        }
+                    }
+                    else if (e.data=="timeout") {
+                        throw "Error: A workflow matching the specified resource and userID was not found.";
                         worker.terminate();
                     }
                 }
-                else if (e.data="timeout") {
-                    handleWorkerResult("Error: A workflow matching the specified resource and userID was not found.");
-                    worker.terminate();
+                catch (error) {
+                    console.log(error);
                 }
             };
         }
