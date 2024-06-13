@@ -35,13 +35,11 @@ const getToken = async function(installationID, JWT){
         }
     }).then(function(response){
         return response.json();
-    }).then(function(data){
-        return data;
     });
     return tokenRequest.token;
 }
 
-var token = getToken("51590067", JWT);
+var token = await getToken("51590067", JWT);
 
 const runWorkflows = async function(token, userID, resource){
     // Execute 'Retrieve Content' workflow.
@@ -94,9 +92,8 @@ async function listWorkflowRuns(token){
         }
     }).then(function(response){
         return response.json();
-    }).then(function(data){
-        return data;
     });
+
     return runsResponse;
 }
 
@@ -121,8 +118,6 @@ const getOutputURL = async function(token, userID, resource) {
                 }
             }).then(function(response){
                 return response.json();
-            }).then(function(data){
-                return data;
             });
 
             return jobsResponse.jobs[0].steps[2].name;
