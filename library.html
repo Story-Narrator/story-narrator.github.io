@@ -15,13 +15,14 @@
         const urlParams = new URLSearchParams(window.location.search);
         const userID = urlParams.get('userID');
         const resource = urlParams.get('resource');
+        const debug = urlParams.get('debug');
 
         const printURL = function(workflowURL){
             alert(workflowURL);
         }
 
-        if (userID != null && resource != null){
-            const workflowInstance = await runWorkflow(App, userID, resource);
+        if (userID != null && resource != null || debug == 1){
+            //const workflowInstance = await runWorkflow(App, userID, resource);
 
             // Create a new worker
             var worker = new Worker("./worker.js");
@@ -31,22 +32,22 @@
 
             // Listen for messages from the worker
             worker.onmessage = async function(e) {
-                try {
-                    if (e.data == "check"){
-                        var workflowURL = await getOutputURL(workflowInstance.octokit, userID, resource);
-                        if (workflowURL != null){
-                            printURL(workflowURL)
-                            worker.terminate();
-                        }
-                    }
-                    else if (e.data=="timeout") {
-                        throw "Error: A workflow matching the specified resource and userID was not found.";
-                        worker.terminate();
-                    }
-                }
-                catch (error) {
-                    console.log(error);
-                }
+                // try {
+                //     if (e.data == "check"){
+                //         var workflowURL = await getOutputURL(workflowInstance.octokit, userID, resource);
+                //         if (workflowURL != null){
+                //             printURL(workflowURL)
+                //             worker.terminate();
+                //         }
+                //     }
+                //     else if (e.data=="timeout") {
+                //         throw "Error: A workflow matching the specified resource and userID was not found.";
+                //         worker.terminate();
+                //     }
+                // }
+                // catch (error) {
+                //     console.log(error);
+                // }
             };
         }
 
