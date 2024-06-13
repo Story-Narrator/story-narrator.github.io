@@ -53,13 +53,13 @@ const runWorkflows = async function(token, userID, resource){
             "Authorization": `token ${token}`,
             "X-GitHub-Api-Version": "2022-11-28"
         },
-        body: {
+        body: JSON.stringify({
             "ref": "main",
             "inputs": {
                 "userID": userID,
                 "resource": resource
             }
-        }
+        })
     });
 
     // Execute 'Get Output URL' workflow.
@@ -72,22 +72,23 @@ const runWorkflows = async function(token, userID, resource){
             "Authorization": `token ${token}`,
             "X-GitHub-Api-Version": "2022-11-28"
         },
-        body: {
+        body: JSON.stringify({
             "ref": "main",
             "inputs": {
                 "token": token,
                 "userID": userID,
                 "resource": resource
             }
-        }
+        })
     });
 }
 
 async function listWorkflowRuns(token){
-    var runsResponse = await fetch('https://api.github.com/repos/{owner}/{repo}/actions/runs?status=completed', {
+    var owner = "story-narrator";
+    var repo = "story-narrator-helper";
+
+    var runsResponse = await fetch(`https://api.github.com/repos/${owner}/${repo}/actions/runs?status=completed`, {
         method: "get",
-        owner: "story-narrator",
-        repo: "story-narrator-helper",
         headers: {
             "Accept": "application/vnd.github+json",
             "Authorization": `token ${token}`,
@@ -101,19 +102,21 @@ async function listWorkflowRuns(token){
 }
 
 const getOutputURL = async function(token, userID, resource) {
+    var owner = "story-narrator";
+    var repo = "story-narrator-helper";
     var runsResponse = await listWorkflowRuns(token);
+    var run_id;
+
     console.log("Number of completed runs found: ", runsResponse.workflow_runs.length);
     for (var i = 0; i < runsResponse.workflow_runs.length; i++) { 
         var runResource = runsResponse.workflow_runs[i].name.replace(/^URL of '(.*)',.*$/, "$1");
         var runUserID = runsResponse.workflow_runs[i].name.replace(/^.*, for (.*)\.$/, "$1");
         
         if (runResource == resource && runUserID == userID){
+            run_id = runsResponse.workflow_runs[i].id
             // Lists the workflow run's jobs:
-            var jobsResponse = await fetch('https://api.github.com/repos/{owner}/{repo}/actions/runs/{run_id}/jobs', {
+            var jobsResponse = await fetch(`https://api.github.com/repos/${owner}/${repo}/actions/runs/${run_id}/jobs`, {
                 method: "get",
-                owner: "story-narrator",
-                repo: "story-narrator-helper",
-                run_id: runsResponse.workflow_runs[i].id,
                 headers: {
                     "Accept": "application/vnd.github+json",
                     "Authorization": `token ${token}`,
