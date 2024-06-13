@@ -1,4 +1,7 @@
-var workflowURL;
+// workflow.js
+
+// break this into two functions. First gets called once. The second (just checking for completion) gets called with each tick which is posed by the library.html file.
+
 const runWorkflow = async function(App, userID, resource) {
 
     const app = new App({
@@ -42,74 +45,43 @@ const runWorkflow = async function(App, userID, resource) {
         }
     });
 
-    try {
-        var runs_response;
-        var run_resource;
-        var run_userID;
-        var wf_found = 0;
-        var jobs_response;
+    return {app: app, octokit: octokit};
+}
 
-        async function myFunction(){
-            runs_response = await octokit.request('GET /repos/{owner}/{repo}/actions/runs?status=completed', {
+async function listWorkflowRuns(octokit){
+    var runs_response = await octokit.request('GET /repos/{owner}/{repo}/actions/runs?status=completed', {
+        owner: "story-narrator",
+        repo: "story-narrator-helper",
+        headers: {
+            'X-GitHub-Api-Version': '2022-11-28'
+        }
+    });
+    return runs_response;
+}
+
+const getOutputURL = async function(octokit, userID, resource) {
+    var runs_response = await listWorkflowRuns(octokit);
+    console.log("Number of completed runs found: ", runs_response.data.workflow_runs.length);
+    for (var i = 0; i < runs_response.data.workflow_runs.length; i++) { 
+        var run_resource = runs_response.data.workflow_runs[i].name.replace(/^URL of '(.*)',.*$/, "$1");
+        var run_userID = runs_response.data.workflow_runs[i].name.replace(/^.*, for (.*)\.$/, "$1");
+        
+        if (run_resource == resource && run_userID == userID){
+            // Lists the workflow run's jobs:
+            var jobs_response = await octokit.request('GET /repos/{owner}/{repo}/actions/runs/{run_id}/jobs', {
                 owner: "story-narrator",
                 repo: "story-narrator-helper",
+                run_id: runs_response.data.workflow_runs[i].id,
                 headers: {
                     'X-GitHub-Api-Version': '2022-11-28'
                 }
             });
+
+            return jobs_response.data.jobs[0].steps[2].name;
         }
-
-        async function myFunction2(){
-            await myFunction();
-            console.log("Number of completed runs found: ", runs_response.data.workflow_runs.length);
-            for (var i = 0; i < runs_response.data.workflow_runs.length; i++) { 
-                run_resource = runs_response.data.workflow_runs[i].name.replace(/^URL of '(.*)',.*$/, "$1");
-                run_userID = runs_response.data.workflow_runs[i].name.replace(/^.*, for (.*)\.$/, "$1");
-                
-                if (run_resource == resource && run_userID == userID){
-                    wf_found = 1;
-                    
-                    // Lists the workflow run's jobs:
-                    jobs_response = await octokit.request('GET /repos/{owner}/{repo}/actions/runs/{run_id}/jobs', {
-                        owner: "story-narrator",
-                        repo: "story-narrator-helper",
-                        run_id: runs_response.data.workflow_runs[i].id,
-                        headers: {
-                            'X-GitHub-Api-Version': '2022-11-28'
-                        }
-                    });
-
-                    workflowURL = jobs_response.data.jobs[0].steps[2].name;
-                    break;
-                }
-            }
-        };
-
-        // Function that resolves after a sleep time
-        async function sleep(ms) {
-            return new Promise(function(resolve){
-                setTimeout(resolve, ms);
-            });
+        else {
+            return null;
         }
-
-        // Loop until timeout.
-        for (var l = 0; l < 30; l++) {
-            await myFunction2();
-
-            if (wf_found) {
-                break;
-            };
-            // Wait 1 second before re-calling the function. Timeout after 30 seconds (30 * 1 seconds);
-            await sleep(1000);
-        }
-
-        if (!wf_found){
-            throw "Error: A workflow matching the specified resource and userID was not found.";
-        };
-
-    }
-    catch (error) {
-        console.log(error);
-    }
+    };
 }
   

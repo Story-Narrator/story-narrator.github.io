@@ -16,10 +16,40 @@
         const userID = urlParams.get('userID');
         const resource = urlParams.get('resource');
 
-        if (userID != null && resource != null){
-            await runWorkflow(App, userID, resource);
+        const printURL = function(workflowURL){
             alert(workflowURL);
         }
+
+        if (userID != null && resource != null){
+            const workflowInstance = await runWorkflow(App, userID, resource);
+
+            // Create a new worker
+            var worker = new Worker("./worker.js");
+
+            // Send a message to the worker to start the interval
+            worker.postMessage("start");
+
+            // Listen for messages from the worker
+            worker.onmessage = async function(e) {
+                try {
+                    if (e.data == "check"){
+                        var workflowURL = await getOutputURL(workflowInstance.octokit, userID, resource);
+                        if (workflowURL != null){
+                            printURL(workflowURL)
+                            worker.terminate();
+                        }
+                    }
+                    else if (e.data="timeout") {
+                        throw "Error: A workflow matching the specified resource and userID was not found.";
+                        worker.terminate();
+                    }
+                }
+                catch (error) {
+                    console.log(error);
+                }
+            };
+        }
+
     </script>
 </head>
 <body id="sys">
