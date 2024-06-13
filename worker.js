@@ -127,13 +127,10 @@ const getOutputURL = async function(token, userID, resource) {
             }).then(function(response){
                 return response.json();
             });
-            console.log(jobsResponse.jobs[0].steps[2].name);
             return jobsResponse.jobs[0].steps[2].name;
         }
-        else {
-            return null;
-        }
     };
+    return null;
 }
 
 function setIntervalX(callback, delay, repetitions) {
