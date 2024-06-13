@@ -34,8 +34,9 @@ const getToken = async function(installationID, JWT){
             "X-GitHub-Api-Version": "2022-11-28"
         }
     })
-    console.log(tokenRequest);
-    return tokenRequest.response.data.token;
+    console.log(tokenRequest.data.token);
+    console.log(tokenRequest.token);
+    return tokenRequest.token;
 }
 
 var token = getToken("51590067", JWT);
