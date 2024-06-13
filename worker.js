@@ -39,8 +39,6 @@ const getToken = async function(installationID, JWT){
     return tokenRequest.token;
 }
 
-var token = await getToken("51590067", JWT);
-
 const runWorkflows = async function(token, userID, resource){
     // Execute 'Retrieve Content' workflow.
     await fetch("https://api.github.com/repos/{owner}/{repo}/actions/workflows/{workflow_id}/dispatches", {
@@ -142,6 +140,10 @@ function setIntervalX(callback, delay, repetitions) {
 self.onmessage = async function(e){
     var userID = JSON.parse(e.data).userID;
     var resource = JSON.parse(e.data).resource;
+    var token = await getToken("51590067", JWT);
+
+    await runWorkflows(token, userID, resource);
+
     // This will be repeated 30 times with 1 second intervals:
     setIntervalX(async function (intervalID) {
         self.postMessage("check");
