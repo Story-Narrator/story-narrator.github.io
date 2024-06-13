@@ -34,7 +34,8 @@ const getToken = async function(installationID, JWT){
             "X-GitHub-Api-Version": "2022-11-28"
         }
     })
-    return tokenRequest.data.token;
+    console.log(tokenRequest);
+    return tokenRequest.response.data.token;
 }
 
 var token = getToken("51590067", JWT);
@@ -93,7 +94,7 @@ async function listWorkflowRuns(token){
 }
 
 const getOutputURL = async function(token, userID, resource) {
-    var runsResponse = await listWorkflowRuns(octokit);
+    var runsResponse = await listWorkflowRuns(token);
     console.log("Number of completed runs found: ", runsResponse.data.workflow_runs.length);
     for (var i = 0; i < runsResponse.data.workflow_runs.length; i++) { 
         var runResource = runsResponse.data.workflow_runs[i].name.replace(/^URL of '(.*)',.*$/, "$1");
