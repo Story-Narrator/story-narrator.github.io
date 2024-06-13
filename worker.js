@@ -2,10 +2,10 @@
 
 function setIntervalX(callback, delay, repetitions) {
     var x = 0;
-    var intervalID = window.setInterval(function() {
+    var intervalID = setInterval(function() {
        callback();
        if (++x === repetitions) {
-           window.clearInterval(intervalID);
+           clearInterval(intervalID);
        }
     }, delay);
 }
