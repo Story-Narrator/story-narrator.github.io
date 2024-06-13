@@ -40,12 +40,15 @@ const getToken = async function(installationID, JWT){
 }
 
 const runWorkflows = async function(token, userID, resource){
+    var owner = "story-narrator";
+    var repo = "story-narrator-helper";
+
     // Execute 'Retrieve Content' workflow.
-    await fetch("https://api.github.com/repos/{owner}/{repo}/actions/workflows/{workflow_id}/dispatches", {
+    var workflow_id = encodeURIComponent("Retrieve Content.yml");
+    console.log(workflow_id);
+
+    await fetch(`https://api.github.com/repos/${owner}/${repo}/actions/workflows/${workflow_id}/dispatches`, {
         method: "post",
-        owner: "story-narrator",
-        repo: "story-narrator-helper",
-        workflow_id: "Retrieve Content.yml",
         ref: 'main',
         inputs: {
             userID: userID,
@@ -59,11 +62,10 @@ const runWorkflows = async function(token, userID, resource){
     });
 
     // Execute 'Get Output URL' workflow.
-    await fetch("https://api.github.com/repos/{owner}/{repo}/actions/workflows/{workflow_id}/dispatches", {
+    var workflow_id = encodeURIComponent("Get Output URL.yml");
+
+    await fetch(`https://api.github.com/repos/${owner}/${repo}/actions/workflows/${workflow_id}/dispatches`, {
         method: "post",
-        owner: "story-narrator",
-        repo: "story-narrator-helper",
-        workflow_id: "Get Output URL.yml",
         ref: 'main',
         inputs: {
             token: token,
