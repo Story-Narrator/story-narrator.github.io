@@ -36,8 +36,7 @@ const getToken = async function(installationID, JWT){
     }).then(function(response){
         return response.json();
     });
-    console.log(tokenRequest);
-    return tokenRequest.data.token;
+    return tokenRequest.token;
 }
 
 var token = getToken("51590067", JWT);
@@ -100,10 +99,10 @@ async function listWorkflowRuns(token){
 
 const getOutputURL = async function(token, userID, resource) {
     var runsResponse = await listWorkflowRuns(token);
-    console.log("Number of completed runs found: ", runsResponse.data.workflow_runs.length);
-    for (var i = 0; i < runsResponse.data.workflow_runs.length; i++) { 
-        var runResource = runsResponse.data.workflow_runs[i].name.replace(/^URL of '(.*)',.*$/, "$1");
-        var runUserID = runsResponse.data.workflow_runs[i].name.replace(/^.*, for (.*)\.$/, "$1");
+    console.log("Number of completed runs found: ", runsResponse.workflow_runs.length);
+    for (var i = 0; i < runsResponse.workflow_runs.length; i++) { 
+        var runResource = runsResponse.workflow_runs[i].name.replace(/^URL of '(.*)',.*$/, "$1");
+        var runUserID = runsResponse.workflow_runs[i].name.replace(/^.*, for (.*)\.$/, "$1");
         
         if (runResource == resource && runUserID == userID){
             // Lists the workflow run's jobs:
@@ -111,7 +110,7 @@ const getOutputURL = async function(token, userID, resource) {
                 method: "get",
                 owner: "story-narrator",
                 repo: "story-narrator-helper",
-                run_id: runsResponse.data.workflow_runs[i].id,
+                run_id: runsResponse.workflow_runs[i].id,
                 headers: {
                     "Accept": "application/vnd.github+json",
                     "Authorization": `token ${token}`,
@@ -121,7 +120,7 @@ const getOutputURL = async function(token, userID, resource) {
                 return response.json();
             });
 
-            return jobsResponse.data.jobs[0].steps[2].name;
+            return jobsResponse.jobs[0].steps[2].name;
         }
         else {
             return null;
