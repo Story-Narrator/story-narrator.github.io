@@ -1,7 +1,6 @@
 // worker.js
 
 importScripts("./jsrsasign/jsrsasign-all-min.js")
-importScripts('./workflow.js')
 
 const generateJWT = function(appID, privateKey){
     // Header
