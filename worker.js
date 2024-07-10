@@ -12,7 +12,7 @@ const generateJWT = function(appID, privateKey){
     // Payload
     var payload = JSON.stringify({
         iat: KJUR.jws.IntDate.get('now'),
-        exp: KJUR.jws.IntDate.get('now')+(60*10), // +10 minutes.
+        exp: KJUR.jws.IntDate.get('now') + (60 * 10), // +10 minutes.
         iss: appID
     });
 
@@ -43,6 +43,26 @@ const runWorkflows = async function(token, userID, resource){
     var owner = "story-narrator";
     var repo = "story-narrator-helper";
 
+    // Execute 'All' workflow.
+    var workflow_id = encodeURIComponent("All.yml");
+
+    await fetch(`https://api.github.com/repos/${owner}/${repo}/actions/workflows/${workflow_id}/dispatches`, {
+        method: "post",
+        headers: {
+            "Accept": "application/vnd.github+json",
+            "Authorization": `token ${token}`,
+            "X-GitHub-Api-Version": "2022-11-28"
+        },
+        body: JSON.stringify({
+            "ref": "main",
+            "inputs": {
+                "userID": userID,
+                "resource": resource
+            }
+        })
+    });
+
+    /*
     // Execute 'Retrieve Content' workflow.
     var workflow_id = encodeURIComponent("Retrieve Content.yml");
 
@@ -81,6 +101,7 @@ const runWorkflows = async function(token, userID, resource){
             }
         })
     });
+    */
 }
 
 async function listWorkflowRuns(token){
@@ -111,8 +132,8 @@ const getOutputURL = async function(token, userID, resource) {
 
     console.log("Number of completed runs found: ", runsResponse.workflow_runs.length);
     for (var i = 0; i < runsResponse.workflow_runs.length; i++) { 
-        runResource = runsResponse.workflow_runs[i].name.replace(/^URL of '(.*)',.*$/, "$1");
-        runUserID = runsResponse.workflow_runs[i].name.replace(/^.*, for (.*)\.$/, "$1");
+        runResource = runsResponse.workflow_runs[i].name.replace(/^Retrieve '(.*)',.*$/, "$1");
+        runUserID = runsResponse.workflow_runs[i].name.replace(/^.*, requested by (.*)\.$/, "$1");
         
         if (runResource == resource && runUserID == userID){
             run_id = runsResponse.workflow_runs[i].id;
@@ -127,7 +148,7 @@ const getOutputURL = async function(token, userID, resource) {
             }).then(function(response){
                 return response.json();
             });
-            return jobsResponse.jobs[0].steps[2].name;
+            return jobsResponse.jobs[0].steps[8].name;
         }
     };
     return null;
