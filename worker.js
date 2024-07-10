@@ -148,7 +148,14 @@ const getOutputURL = async function(token, userID, resource) {
             }).then(function(response){
                 return response.json();
             });
-            return jobsResponse.jobs[0].steps[8].name;
+
+            var log = await fetch(jobsResponse.jobs[0].steps[9].name, {
+                method: "get",
+            }).then(function(response){
+                return response.json();
+            });
+
+            return log;
         }
     };
     return null;
