@@ -122,7 +122,7 @@
                         user_email = response.profile.PrimaryEmail;
                         user_id = String(response.profile.CustomerId).replace("amzn1.account.", "");
 
-                        document.getElementById('main_frame').src = `./library.html?userID=${user_id}&resource=library`;
+                        document.getElementById('main_frame').src = `./library.html?userID=${user_id}&resource=Library`;
                         
                         if (window.console && window.console.log) {
                             window.console.log("User Name: " + user_name);
