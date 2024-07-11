@@ -155,7 +155,7 @@ self.onmessage = async function(e){
         refreshIntervalId = setInterval(await listWorkflowRuns(token), 1000);
     }
     if (JSON.parse(e.data).instruction == "Get Workflow Log"){
-        var runsResponse = JSON.parse(e.data).runsResponse;
+        var runsResponse = JSON.parse(JSON.parse(e.data).runsResponse);
         var workflowURL = await getOutputURL(runsResponse, token, userID, resource);
         self.postMessage(workflowURL);
     }
