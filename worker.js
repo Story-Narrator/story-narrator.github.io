@@ -109,7 +109,9 @@ async function listWorkflowRuns(token){
     var owner = "story-narrator";
     var repo = "story-narrator-helper";
 
-    var runsResponse = await fetch(`https://api.github.com/repos/${owner}/${repo}/actions/runs?status=completed`, {
+    //https://api.github.com/repos/${owner}/${repo}/actions/runs?status=completed
+
+    var runsResponse = await fetch(`https://api.github.com/repos/${owner}/${repo}/actions/runs`, {
         method: "get",
         headers: {
             "Accept": "application/vnd.github+json",
