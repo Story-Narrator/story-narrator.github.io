@@ -66,7 +66,7 @@ const runWorkflows = async function(token, userID, resource){
     });
 }
 
-const listWorkflowRuns = async function(token){
+async function listWorkflowRuns(token){
 
     var owner = "story-narrator";
     var repo = "story-narrator-helper";
@@ -82,7 +82,21 @@ const listWorkflowRuns = async function(token){
         return response.json();
     });
 
-    return runsResponse;
+    if (runsResponse.workflow_runs.length > 0) {
+        clearInterval(refreshIntervalId);
+        self.postMessage(JSON.stringify(runsResponse));
+    }
+    else {
+        if (attempts < 90) {
+            attempts++;
+            console.log("Runs: " + runsResponse.workflow_runs.length);
+            //self.postMessage("Runs: " + runsResponse.workflow_runs.length + ". Attempt #" + attempts);
+        }
+        else {
+            clearInterval(refreshIntervalId);
+            self.postMessage("timeout");
+        }
+    }
 }
 
 const getOutputURL = async function(runsResponse, token, userID, resource) {
@@ -126,34 +140,6 @@ const getOutputURL = async function(runsResponse, token, userID, resource) {
     return null;
 }
 
-const asyncIntervals = [];
-
-const runAsyncInterval = async function(cb, interval, intervalIndex) {
-    await cb();
-    if (asyncIntervals[intervalIndex]) {
-        setTimeout(function() {
-            runAsyncInterval(cb, interval, intervalIndex)
-        }, interval);
-    }
-};
-
-const setAsyncInterval = function(cb, interval){
-    if (cb && typeof cb === "function") {
-        const intervalIndex = asyncIntervals.length;
-        asyncIntervals.push(true);
-        runAsyncInterval(cb, interval, intervalIndex);
-        return intervalIndex;
-    } else {
-        throw new Error('Callback must be a function');
-    }
-};
-
-const clearAsyncInterval = function(intervalIndex){
-    if (asyncIntervals[intervalIndex]) {
-        asyncIntervals[intervalIndex] = false;
-    }
-};
-
 self.onmessage = async function(e){
     var userID = JSON.parse(e.data).userID;
     var resource = JSON.parse(e.data).resource;
@@ -167,27 +153,7 @@ self.onmessage = async function(e){
         //     console.log("hi");
         // }, 1000);
         
-        //refreshIntervalId = setInterval(await listWorkflowRuns(token), 1000);
-
-        setAsyncInterval(async function(token){
-
-            runsResponse = await listWorkflowRuns(token);
-
-            if (runsResponse.workflow_runs.length > 0) {
-                clearInterval(refreshIntervalId);
-                self.postMessage(JSON.stringify(runsResponse));
-            }
-            else {
-                if (attempts < 90) {
-                    attempts++;
-                    self.postMessage("Runs: " + runsResponse.workflow_runs.length + ". Attempt #" + attempts);
-                }
-                else {
-                    clearInterval(refreshIntervalId);
-                    self.postMessage("timeout");
-                }
-            }
-        }, 1000);
+        refreshIntervalId = setInterval(await listWorkflowRuns(token), 1000);
     }
 
     if (JSON.parse(e.data).instruction == "Get Workflow Log"){
