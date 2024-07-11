@@ -27,10 +27,10 @@
                     alert(e.data);
                     worker.postMessage(JSON.stringify({runsResponse: e.data, instruction: "Get Workflow Log"}));
                 }
-                else {
-                    alert(e.data);
-                    worker.terminate();
-                }
+                // else {
+                //     alert(e.data);
+                //     worker.terminate();
+                // }
             };
         }
 
