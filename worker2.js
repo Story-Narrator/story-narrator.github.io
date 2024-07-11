@@ -3,7 +3,7 @@
 importScripts("./jsrsasign/jsrsasign-all-min.js")
 
 var refreshIntervalId;
-var seconds = 0;
+var attempts = 0;
 
 const generateJWT = function(appID, privateKey){
     // Header
@@ -87,8 +87,9 @@ async function listWorkflowRuns(token){
         self.postMessage(JSON.stringify(runsResponse));
     }
     else {
-        if (seconds < 90) {
-            seconds++;
+        if (attempts < 90) {
+            attempts++;
+            self.postMessage("Attempt #" + attempts);
         }
         else {
             clearInterval(refreshIntervalId);
