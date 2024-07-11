@@ -23,7 +23,7 @@
                 if (e.data=="timeout") {
                     // do something
                 }
-                else if (new String(e.data).startsWith("{\"total count\":")) {
+                else if (new String(e.data).startsWith("{\"total_count\":")) {
                     alert(e.data);
                     worker.postMessage(JSON.stringify({runsResponse: e.data, instruction: "Get Workflow Log"}));
                 }
