@@ -105,6 +105,9 @@ const runWorkflows = async function(token, userID, resource){
 }
 
 async function listWorkflowRuns(token){
+    
+    self.postMessage("Notice - Token: " + token);
+
     var owner = "story-narrator";
     var repo = "story-narrator-helper";
 
@@ -130,7 +133,7 @@ const getOutputURL = async function(token, userID, resource) {
     var runResource;
     var runUserID;
 
-    self.postMessage("Number of completed runs found: " + runsResponse.workflow_runs.length);
+    self.postMessage("Notice - Number of completed runs found: " + runsResponse.workflow_runs.length);
     
     for (var i = 0; i < runsResponse.workflow_runs.length; i++) { 
         runResource = runsResponse.workflow_runs[i].name.replace(/^Retrieve '(.*)',.*$/, "$1");

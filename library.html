@@ -28,7 +28,7 @@
                     if (e.data=="timeout") {
                         throw "Error: A workflow matching the specified resource and userID was not found.";
                         worker.terminate();
-                    } else if (e.data.startsWith("Number of completed runs found: ")) {
+                    } else if (e.data.startsWith("Notice - ")) {
                         if (window.console && window.console.log) {
                             window.console.log(e.data);
                         }
