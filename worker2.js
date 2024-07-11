@@ -82,9 +82,9 @@ async function listWorkflowRuns(token){
         return response.json();
     });
 
-    console.log("hi");
+    return runsResponse;
 
-    return new Promise();
+}
 
     // if (runsResponse.workflow_runs.length > 0) {
     //     clearInterval(refreshIntervalId);
@@ -101,7 +101,6 @@ async function listWorkflowRuns(token){
     //         self.postMessage("timeout");
     //     }
     // }
-}
 
 const getOutputURL = async function(runsResponse, token, userID, resource) {
     var owner = "story-narrator";
