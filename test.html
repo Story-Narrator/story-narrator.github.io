@@ -27,7 +27,7 @@
                     alert(e.data);
                     worker.postMessage(JSON.stringify({userID: userID, resource: resource, runsResponse: e.data, instruction: "Get Workflow Log"}));
                 }
-                else if (new String(e.data).startsWith("Runs: ")) {
+                else if (new String(e.data).startsWith("Runs: ") || new String(e.data).startsWith("Attempt #")) {
                     alert(e.data);
                 }
                 else {
