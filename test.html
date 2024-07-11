@@ -22,9 +22,10 @@
             worker.onmessage = function(e) {
                 if (e.data=="timeout") {
                     // do something
-                } else if (e.data.startsWith("{")) {
-                    worker.postMessage(JSON.stringify({runsResponse: e.data, instruction: "Get Workflow Log"}));
                 }
+                // else if (e.data.startsWith("{")) {
+                //     worker.postMessage(JSON.stringify({runsResponse: e.data, instruction: "Get Workflow Log"}));
+                // }
                 else {
                     alert(e.data);
                     worker.terminate();
