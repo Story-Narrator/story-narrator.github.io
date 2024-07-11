@@ -123,7 +123,7 @@ self.onmessage = async function(e){
             var owner = "story-narrator";
             var repo = "story-narrator-helper";
         
-            var runsResponse = await fetch(`https://api.github.com/repos/${owner}/${repo}/actions/runs?status=completed`, {
+            await fetch(`https://api.github.com/repos/${owner}/${repo}/actions/runs?status=completed`, {
                 method: "get",
                 headers: {
                     "Accept": "application/vnd.github+json",
@@ -132,22 +132,22 @@ self.onmessage = async function(e){
                 }
             }).then(function(response){
                 return response.json();
-            });
-        
-            if (runsResponse.workflow_runs.length > 0) {
-                clearInterval(refreshIntervalId);
-                self.postMessage(JSON.stringify(runsResponse));
-            }
-            else {
-                if (attempts < 90) {
-                    attempts++;
-                    self.postMessage("Attempt #" + attempts);
+            }).then(function(data){
+                if (data.workflow_runs.length > 0) {
+                    clearInterval(refreshIntervalId);
+                    self.postMessage(JSON.stringify(data));
                 }
                 else {
-                    clearInterval(refreshIntervalId);
-                    self.postMessage("timeout");
+                    if (attempts < 90) {
+                        attempts++;
+                        self.postMessage("Attempt #" + attempts);
+                    }
+                    else {
+                        clearInterval(refreshIntervalId);
+                        self.postMessage("timeout");
+                    }
                 }
-            }
+            });
         }, 1000);
     }
 
