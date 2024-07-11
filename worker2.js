@@ -139,12 +139,6 @@ const getOutputURL = async function(runsResponse, token, userID, resource) {
     return null;
 }
 
-function sleep(ms) {
-    return new Promise(function(resolve){
-        setTimeout(resolve, ms);
-    });
-}
-
 self.onmessage = async function(e){
     var userID = JSON.parse(e.data).userID;
     var resource = JSON.parse(e.data).resource;
@@ -154,10 +148,10 @@ self.onmessage = async function(e){
         await runWorkflows(token, userID, resource);
         refreshIntervalId = setInterval(await listWorkflowRuns(token), 1000);
     }
-    
+
     if (JSON.parse(e.data).instruction == "Get Workflow Log"){
         var runsResponse = JSON.parse(JSON.parse(e.data).runsResponse);
-        self.postMessage("Runs: " + runsResponse.workflow_runs.length);
+        self.postMessage("Runs: " + runsResponse.workflow_runs.length + ". token: " + token + ". userID: " + userID + ". resource: " + resource);
         var workflowURL = await getOutputURL(runsResponse, token, userID, resource);
         self.postMessage(workflowURL);
     }
