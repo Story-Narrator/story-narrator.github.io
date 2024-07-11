@@ -188,5 +188,5 @@ self.onmessage = async function(e){
             clearInterval(intervalID);
             //self.postMessage(workflowURL);
         }
-    }, 1000, 30);
+    }, 1000, 90);
 }
