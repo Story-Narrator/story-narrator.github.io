@@ -23,7 +23,7 @@
             worker.postMessage(JSON.stringify({userID: userID, resource: resource}));
 
             // Listen for messages from the worker
-            worker.onmessage = async function(e) {
+            worker.onmessage = function(e) {
                 try {
                     if (e.data=="timeout") {
                         throw "Error: A workflow matching the specified resource and userID was not found.";
