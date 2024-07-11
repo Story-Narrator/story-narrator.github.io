@@ -61,47 +61,6 @@ const runWorkflows = async function(token, userID, resource){
             }
         })
     });
-
-    /*
-    // Execute 'Retrieve Content' workflow.
-    var workflow_id = encodeURIComponent("Retrieve Content.yml");
-
-    await fetch(`https://api.github.com/repos/${owner}/${repo}/actions/workflows/${workflow_id}/dispatches`, {
-        method: "post",
-        headers: {
-            "Accept": "application/vnd.github+json",
-            "Authorization": `token ${token}`,
-            "X-GitHub-Api-Version": "2022-11-28"
-        },
-        body: JSON.stringify({
-            "ref": "main",
-            "inputs": {
-                "userID": userID,
-                "resource": resource
-            }
-        })
-    });
-
-    // Execute 'Get Output URL' workflow.
-    var workflow_id = encodeURIComponent("Get Output URL.yml");
-
-    await fetch(`https://api.github.com/repos/${owner}/${repo}/actions/workflows/${workflow_id}/dispatches`, {
-        method: "post",
-        headers: {
-            "Accept": "application/vnd.github+json",
-            "Authorization": `token ${token}`,
-            "X-GitHub-Api-Version": "2022-11-28"
-        },
-        body: JSON.stringify({
-            "ref": "main",
-            "inputs": {
-                "token": token,
-                "userID": userID,
-                "resource": resource
-            }
-        })
-    });
-    */
 }
 
 async function listWorkflowRuns(token){
@@ -109,7 +68,9 @@ async function listWorkflowRuns(token){
     var owner = "story-narrator";
     var repo = "story-narrator-helper";
 
-    var runsResponse = await fetch(`https://api.github.com/repos/${owner}/${repo}/actions/runs?status=completed`, {
+    //https://api.github.com/repos/${owner}/${repo}/actions/runs?status=completed
+
+    var runsResponse = await fetch(`https://api.github.com/repos/${owner}/${repo}/actions/runs`, {
         method: "get",
         headers: {
             "Accept": "application/vnd.github+json",
@@ -120,7 +81,7 @@ async function listWorkflowRuns(token){
         return response.json();
     });
 
-    //self.postMessage("Notice - runsResponse: " + JSON.stringify(runsResponse));
+    self.postMessage("Notice - runsResponse: " + JSON.stringify(runsResponse));
 
     return runsResponse;
 }

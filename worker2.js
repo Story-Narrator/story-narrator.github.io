@@ -123,15 +123,14 @@ async function listWorkflowRuns(token){
     return runsResponse;
 }
 
-const getOutputURL = async function(token, userID, resource) {
+const getOutputURL = async function(runsResponse, userID, resource) {
     var owner = "story-narrator";
     var repo = "story-narrator-helper";
-    var runsResponse = await listWorkflowRuns(token);
     var run_id;
     var runResource;
     var runUserID;
 
-    self.postMessage("Notice - Number of completed runs found: " + runsResponse.workflow_runs.length);
+    //self.postMessage("Notice - Number of completed runs found: " + runsResponse.workflow_runs.length);
     
     for (var i = 0; i < runsResponse.workflow_runs.length; i++) { 
         runResource = runsResponse.workflow_runs[i].name.replace(/^Retrieve '(.*)',.*$/, "$1");
@@ -175,22 +174,22 @@ self.onmessage = async function(e){
     var userID = JSON.parse(e.data).userID;
     var resource = JSON.parse(e.data).resource;
     var token = await getToken("51590067", JWT);
-    var finished = false;
+    // var finished = false;
 
     await runWorkflows(token, userID, resource);
 
-    for (let i = 0; i < 90; i++) {
-        var workflowURL = await getOutputURL(token, userID, resource);
-        await sleep(1000);
+    await sleep(30000);
+    var runsResponse = await listWorkflowRuns(token);
+    var workflowURL = await getOutputURL(runsResponse, userID, resource);
+    self.postMessage(workflowURL);
 
-        if (workflowURL != null){
-            self.postMessage(workflowURL);
-            finished = true;
-            break;
-        }
-    }
+    // if (workflowURL != null){
+    //     self.postMessage(workflowURL);
+    //     finished = true;
+    //     break;
+    // }
 
-    if (!finished){
-        self.postMessage("timeout");
-    }
+    // if (!finished){
+    //     self.postMessage("timeout");
+    // }
 }
