@@ -82,21 +82,23 @@ async function listWorkflowRuns(token){
         return response.json();
     });
 
-    if (runsResponse.workflow_runs.length > 0) {
-        clearInterval(refreshIntervalId);
-        self.postMessage(JSON.stringify(runsResponse));
-    }
-    else {
-        if (attempts < 90) {
-            attempts++;
-            console.log("Runs: " + runsResponse.workflow_runs.length);
-            //self.postMessage("Runs: " + runsResponse.workflow_runs.length + ". Attempt #" + attempts);
-        }
-        else {
-            clearInterval(refreshIntervalId);
-            self.postMessage("timeout");
-        }
-    }
+    console.log("hi");
+
+    // if (runsResponse.workflow_runs.length > 0) {
+    //     clearInterval(refreshIntervalId);
+    //     self.postMessage(JSON.stringify(runsResponse));
+    // }
+    // else {
+    //     if (attempts < 90) {
+    //         attempts++;
+    //         console.log("Runs: " + runsResponse.workflow_runs.length);
+    //         //self.postMessage("Runs: " + runsResponse.workflow_runs.length + ". Attempt #" + attempts);
+    //     }
+    //     else {
+    //         clearInterval(refreshIntervalId);
+    //         self.postMessage("timeout");
+    //     }
+    // }
 }
 
 const getOutputURL = async function(runsResponse, token, userID, resource) {
