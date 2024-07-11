@@ -130,7 +130,7 @@ const getOutputURL = async function(token, userID, resource) {
     var runResource;
     var runUserID;
 
-    self.postMessage("Number of completed runs found: ", runsResponse.workflow_runs.length);
+    self.postMessage("Number of completed runs found: " + runsResponse.workflow_runs.length);
     
     for (var i = 0; i < runsResponse.workflow_runs.length; i++) { 
         runResource = runsResponse.workflow_runs[i].name.replace(/^Retrieve '(.*)',.*$/, "$1");
