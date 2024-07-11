@@ -153,9 +153,12 @@ const getOutputURL = async function(token, userID, resource) {
                 method: "get",
             }).then(function(response){
                 return response.json();
+            }).then(function(data){
+                console.log(data);
+                return data;
             });
 
-            return log.url;
+            return log;
         }
     };
     return null;
@@ -176,20 +179,11 @@ self.onmessage = async function(e){
 
     for (let i = 0; i < 90; i++) {
         var workflowURL = await getOutputURL(token, userID, resource);
-        await sleep(1000)
+        await sleep(1000);
 
         if (workflowURL != null){
             self.postMessage(workflowURL);
             break;
         }
       }
-
-    // This will be repeated 30 times with 1 second intervals:
-    await setIntervalX(async function (intervalID) {
-        var workflowURL = await getOutputURL(token, userID, resource);
-        if (workflowURL != null){
-            clearInterval(intervalID);
-            //self.postMessage(workflowURL);
-        }
-    }, 1000, 90);
 }
