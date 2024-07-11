@@ -145,8 +145,14 @@ self.onmessage = async function(e){
     var token = await getToken("51590067", JWT);
 
     if (JSON.parse(e.data).instruction == "Run Workflows"){
+        
         await runWorkflows(token, userID, resource);
-        refreshIntervalId = setInterval(await listWorkflowRuns(token), 1000);
+
+        refreshIntervalId = setInterval(function() {
+            console.log("hi");
+        }, 1000);
+        
+        //refreshIntervalId = setInterval(await listWorkflowRuns(token), 1000);
     }
 
     if (JSON.parse(e.data).instruction == "Get Workflow Log"){
