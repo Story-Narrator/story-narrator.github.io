@@ -2,6 +2,9 @@
 
 importScripts("./jsrsasign/jsrsasign-all-min.js")
 
+var refreshIntervalId;
+var attempts = 0;
+
 const generateJWT = function(appID, privateKey){
     // Header
     var header = JSON.stringify({
@@ -63,6 +66,40 @@ const runWorkflows = async function(token, userID, resource){
     });
 }
 
+async function listWorkflowRuns(token){
+
+    var owner = "story-narrator";
+    var repo = "story-narrator-helper";
+
+    var runsResponse = await fetch(`https://api.github.com/repos/${owner}/${repo}/actions/runs?status=completed`, {
+        method: "get",
+        headers: {
+            "Accept": "application/vnd.github+json",
+            "Authorization": `token ${token}`,
+            "X-GitHub-Api-Version": "2022-11-28"
+        }
+    }).then(function(response){
+        return response.json();
+    });
+
+    if (runsResponse.workflow_runs.length > 0) {
+        clearInterval(refreshIntervalId);
+        self.postMessage(JSON.stringify(runsResponse));
+    }
+    else {
+        if (attempts < 90) {
+            attempts++;
+            self.postMessage("Runs: " + runsResponse.workflow_runs.length + ". Attempt #" + attempts);
+        }
+        else {
+            clearInterval(refreshIntervalId);
+            self.postMessage("timeout");
+        }
+    }
+
+    return runsResponse;
+}
+
 const getOutputURL = async function(runsResponse, token, userID, resource) {
     var owner = "story-narrator";
     var repo = "story-narrator-helper";
@@ -108,47 +145,16 @@ self.onmessage = async function(e){
     var userID = JSON.parse(e.data).userID;
     var resource = JSON.parse(e.data).resource;
     var token = await getToken("51590067", JWT);
-    var attempts = 0;
 
     if (JSON.parse(e.data).instruction == "Run Workflows"){
         
         await runWorkflows(token, userID, resource);
 
-        // refreshIntervalId = setInterval(function() {
-        //     console.log("hi");
-        // }, 1000);
-        
-        var refreshIntervalId = setInterval(async function(token){
-
-            var owner = "story-narrator";
-            var repo = "story-narrator-helper";
-        
-            await fetch(`https://api.github.com/repos/${owner}/${repo}/actions/runs?status=completed`, {
-                method: "get",
-                headers: {
-                    "Accept": "application/vnd.github+json",
-                    "Authorization": `token ${token}`,
-                    "X-GitHub-Api-Version": "2022-11-28"
-                }
-            }).then(function(response){
-                return response.json();
-            }).then(function(data){
-                if (data.workflow_runs.length > 0) {
-                    clearInterval(refreshIntervalId);
-                    self.postMessage(JSON.stringify(data));
-                }
-                else {
-                    if (attempts < 90) {
-                        attempts++;
-                        self.postMessage("Attempt #" + attempts);
-                    }
-                    else {
-                        clearInterval(refreshIntervalId);
-                        self.postMessage("timeout");
-                    }
-                }
-            });
+        refreshIntervalId = setInterval(function() {
+            console.log("hi");
         }, 1000);
+        
+        refreshIntervalId = setInterval(await listWorkflowRuns(token), 1000);
     }
 
     if (JSON.parse(e.data).instruction == "Get Workflow Log"){
