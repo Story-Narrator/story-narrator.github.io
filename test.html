@@ -27,6 +27,9 @@
                     alert(e.data);
                     worker.postMessage(JSON.stringify({runsResponse: e.data, instruction: "Get Workflow Log"}));
                 }
+                else if (new String(e.data).startsWith("Runs: ")) {
+                    alert(e.data);
+                }
                 else {
                     alert(e.data);
                     worker.terminate();

@@ -156,7 +156,7 @@ self.onmessage = async function(e){
     }
     if (JSON.parse(e.data).instruction == "Get Workflow Log"){
         var runsResponse = JSON.parse(JSON.parse(e.data).runsResponse);
-        alert(runsResponse.workflow_runs.length);
+        self.postMessage("Runs: " + runsResponse.workflow_runs.length);
         var workflowURL = await getOutputURL(runsResponse, token, userID, resource);
         self.postMessage(workflowURL);
     }
