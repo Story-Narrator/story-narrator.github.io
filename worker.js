@@ -161,7 +161,7 @@ const getOutputURL = async function(token, userID, resource) {
                     const data = JSON.parse(text); // ***
                     return data.results.length;
                 } catch (error) {
-                    console.error("Parsing error", e);
+                    console.error("Parsing error", error);
                     console.error("Text we were parsing:", text);
                 }
             });
