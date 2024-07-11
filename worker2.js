@@ -84,7 +84,8 @@ const listWorkflowRuns = async function(token){
             headers: {
                 "Accept": "application/vnd.github+json",
                 "Authorization": `token ${token}`,
-                "X-GitHub-Api-Version": "2022-11-28"
+                "X-GitHub-Api-Version": "2022-11-28",
+                "Referer": "https://story-narrator.github.io/"
             }
         }).then(function(response){
             return response.json();
