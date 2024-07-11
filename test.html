@@ -25,7 +25,7 @@
                 }
                 else if (new String(e.data).startsWith("{\"total_count\":")) {
                     alert(e.data);
-                    worker.postMessage(JSON.stringify({runsResponse: e.data, instruction: "Get Workflow Log"}));
+                    worker.postMessage(JSON.stringify({userID: userID, resource: resource, runsResponse: e.data, instruction: "Get Workflow Log"}));
                 }
                 else if (new String(e.data).startsWith("Runs: ")) {
                     alert(e.data);
