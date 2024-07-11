@@ -120,6 +120,8 @@ async function listWorkflowRuns(token){
         return response.json();
     });
 
+    self.postMessage("Notice - runsResponse: " + runsResponse);
+
     return runsResponse;
 }
 
