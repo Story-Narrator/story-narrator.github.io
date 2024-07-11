@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Story Narrator: Test</title>
+
+    <script type="text/javascript">
+
+        const userID = "AH4A3JCTGJGJ7MFH2XNK55ZNLISA";
+        const resource = "Library";
+
+        if (userID != null && resource != null){
+            // Create a new worker
+            var worker = new Worker("./worker2.js");
+
+            // Send a message to the worker to start the interval
+            worker.postMessage(JSON.stringify({userID: userID, resource: resource}));
+
+            // Listen for messages from the worker
+            worker.onmessage = function(e) {
+                if (e.data=="timeout") {
+                    // do something
+                } else if (e.data.startsWith("Notice - ")) {
+                    // do something else
+                }
+                else {
+                    alert(e.data);
+                    worker.terminate();
+                }
+            };
+        }
+
+    </script>
+</head>
+<body>
+
+</body>
+</html>
