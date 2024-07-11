@@ -66,41 +66,49 @@ const runWorkflows = async function(token, userID, resource){
     });
 }
 
-async function listWorkflowRuns(token){
+const delay = async function(ms, state = null) {
+    return new Promise(function(resolve, reject){
+        setTimeout( function(){
+            resolve(state);
+        }, ms);
+    });
+}
 
+const listWorkflowRuns = async function(token){
+    
     var owner = "story-narrator";
     var repo = "story-narrator-helper";
+    var runsResponse;
+    var i;
 
-    var runsResponse = await fetch(`https://api.github.com/repos/${owner}/${repo}/actions/runs?status=completed`, {
-        method: "get",
-        headers: {
-            "Accept": "application/vnd.github+json",
-            "Authorization": `token ${token}`,
-            "X-GitHub-Api-Version": "2022-11-28"
+    for (i = 0; i < 90; i++) {
+        runsResponse = await fetch(`https://api.github.com/repos/${owner}/${repo}/actions/runs?status=completed`, {
+            method: "get",
+            headers: {
+                "Accept": "application/vnd.github+json",
+                "Authorization": `token ${token}`,
+                "X-GitHub-Api-Version": "2022-11-28"
+            }
+        }).then(function(response){
+            return response.json();
+        });
+
+        self.postMessage("Runs: " + runsResponse.workflow_runs.length + ". Attempt #" + attempts);
+
+        if (runsResponse.workflow_runs.length > 0) {
+            self.postMessage(JSON.stringify(runsResponse));
+            break;
         }
-    }).then(function(response){
-        return response.json();
-    });
+        await delay(1000);
+    }
+    
+    if (i == 90){
+        self.postMessage("timeout");
+    }
 
     return runsResponse;
 
 }
-
-    // if (runsResponse.workflow_runs.length > 0) {
-    //     clearInterval(refreshIntervalId);
-    //     self.postMessage(JSON.stringify(runsResponse));
-    // }
-    // else {
-    //     if (attempts < 90) {
-    //         attempts++;
-    //         console.log("Runs: " + runsResponse.workflow_runs.length);
-    //         //self.postMessage("Runs: " + runsResponse.workflow_runs.length + ". Attempt #" + attempts);
-    //     }
-    //     else {
-    //         clearInterval(refreshIntervalId);
-    //         self.postMessage("timeout");
-    //     }
-    // }
 
 const getOutputURL = async function(runsResponse, token, userID, resource) {
     var owner = "story-narrator";
@@ -156,7 +164,7 @@ self.onmessage = async function(e){
         //     console.log("hi");
         // }, 1000);
         
-        refreshIntervalId = setInterval(await listWorkflowRuns(token), 1000);
+        await listWorkflowRuns(token);
     }
 
     if (JSON.parse(e.data).instruction == "Get Workflow Log"){
