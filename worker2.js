@@ -66,6 +66,25 @@ const runWorkflows = async function(token, userID, resource){
     });
 }
 
+const listWorkflowRuns = async function(token){
+
+    var owner = "story-narrator";
+    var repo = "story-narrator-helper";
+
+    var runsResponse = await fetch(`https://api.github.com/repos/${owner}/${repo}/actions/runs?status=completed`, {
+        method: "get",
+        headers: {
+            "Accept": "application/vnd.github+json",
+            "Authorization": `token ${token}`,
+            "X-GitHub-Api-Version": "2022-11-28"
+        }
+    }).then(function(response){
+        return response.json();
+    });
+
+    return runsResponse;
+}
+
 const getOutputURL = async function(runsResponse, token, userID, resource) {
     var owner = "story-narrator";
     var repo = "story-narrator-helper";
@@ -150,22 +169,10 @@ self.onmessage = async function(e){
         
         //refreshIntervalId = setInterval(await listWorkflowRuns(token), 1000);
 
-        setAsyncInterval(async function listWorkflowRuns(token){
+        setAsyncInterval(async function(token){
 
-            var owner = "story-narrator";
-            var repo = "story-narrator-helper";
-        
-            var runsResponse = await fetch(`https://api.github.com/repos/${owner}/${repo}/actions/runs?status=completed`, {
-                method: "get",
-                headers: {
-                    "Accept": "application/vnd.github+json",
-                    "Authorization": `token ${token}`,
-                    "X-GitHub-Api-Version": "2022-11-28"
-                }
-            }).then(function(response){
-                return response.json();
-            });
-        
+            runsResponse = await listWorkflowRuns(token);
+
             if (runsResponse.workflow_runs.length > 0) {
                 clearInterval(refreshIntervalId);
                 self.postMessage(JSON.stringify(runsResponse));
