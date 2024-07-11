@@ -76,9 +76,9 @@ const listWorkflowRuns = async function(token){
     var owner = "story-narrator";
     var repo = "story-narrator-helper";
     var runsResponse;
-    var i;
+    var i = 0;
 
-    for (i = 0; i < 90; i++) {
+    while(true) {
         runsResponse = await fetch(`https://api.github.com/repos/${owner}/${repo}/actions/runs?status=completed`, {
             method: "get",
             headers: {
@@ -90,13 +90,15 @@ const listWorkflowRuns = async function(token){
             return response.json();
         });
 
-        self.postMessage("Runs: " + runsResponse.workflow_runs.length + ". Attempt #" + i);
+        console.log("Runs: " + runsResponse.workflow_runs.length + ". Attempt #" + i);
+        //self.postMessage("Runs: " + runsResponse.workflow_runs.length + ". Attempt #" + i);
 
         if (runsResponse.workflow_runs.length > 0) {
             self.postMessage(JSON.stringify(runsResponse));
             break;
         }
-        await delay(1000);
+        //await delay(1000);
+        i++
     }
     
     if (i == 90){
