@@ -130,9 +130,7 @@ const getOutputURL = async function(token, userID, resource) {
     var runResource;
     var runUserID;
 
-    if (window.console && window.console.log) {
-        window.console.log("Number of completed runs found: ", runsResponse.workflow_runs.length);
-    };
+    self.postMessage("Number of completed runs found: ", runsResponse.workflow_runs.length);
     
     for (var i = 0; i < runsResponse.workflow_runs.length; i++) { 
         runResource = runsResponse.workflow_runs[i].name.replace(/^Retrieve '(.*)',.*$/, "$1");
@@ -176,6 +174,7 @@ self.onmessage = async function(e){
     var userID = JSON.parse(e.data).userID;
     var resource = JSON.parse(e.data).resource;
     var token = await getToken("51590067", JWT);
+    var finished = false;
 
     await runWorkflows(token, userID, resource);
 
@@ -185,7 +184,12 @@ self.onmessage = async function(e){
 
         if (workflowURL != null){
             self.postMessage(workflowURL);
+            finished = true;
             break;
         }
-      }
+    }
+
+    if (!finished){
+        self.postMessage("timeout");
+    }
 }
