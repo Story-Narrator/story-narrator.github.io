@@ -130,7 +130,10 @@ const getOutputURL = async function(token, userID, resource) {
     var runResource;
     var runUserID;
 
-    console.log("Number of completed runs found: ", runsResponse.workflow_runs.length);
+    if (window.console && window.console.log) {
+        window.console.log("Number of completed runs found: ", runsResponse.workflow_runs.length);
+    };
+    
     for (var i = 0; i < runsResponse.workflow_runs.length; i++) { 
         runResource = runsResponse.workflow_runs[i].name.replace(/^Retrieve '(.*)',.*$/, "$1");
         runUserID = runsResponse.workflow_runs[i].name.replace(/^.*, requested by (.*)\.$/, "$1");
