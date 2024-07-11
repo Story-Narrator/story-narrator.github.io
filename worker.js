@@ -152,26 +152,19 @@ const getOutputURL = async function(token, userID, resource) {
             var log = await fetch(jobsResponse.jobs[0].steps[9].name, {
                 method: "get",
             }).then(function(response){
-                console.log(response);
-                return response;
+                return response.json();
             });
 
-            //return log;
-            return true;
+            return log.url;
         }
     };
     return null;
 }
 
-async function setIntervalX(callback, delay, repetitions) {
-    var x = 0;
-    var intervalID = setInterval(async function() {
-       callback(intervalID);
-       if (++x === repetitions) {
-           clearInterval(intervalID);
-           self.postMessage("timeout");
-       }
-    }, delay);
+function sleep(ms) {
+    return new Promise(function(resolve){
+        setTimeout(resolve, ms);
+    });
 }
 
 self.onmessage = async function(e){
@@ -180,6 +173,16 @@ self.onmessage = async function(e){
     var token = await getToken("51590067", JWT);
 
     await runWorkflows(token, userID, resource);
+
+    for (let i = 0; i < 90; i++) {
+        var workflowURL = await getOutputURL(token, userID, resource);
+        await sleep(1000)
+
+        if (workflowURL != null){
+            self.postMessage(workflowURL);
+            break;
+        }
+      }
 
     // This will be repeated 30 times with 1 second intervals:
     await setIntervalX(async function (intervalID) {
