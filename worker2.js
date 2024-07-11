@@ -2,9 +2,6 @@
 
 importScripts("./jsrsasign/jsrsasign-all-min.js")
 
-var refreshIntervalId;
-var attempts = 0;
-
 const generateJWT = function(appID, privateKey){
     // Header
     var header = JSON.stringify({
@@ -93,7 +90,7 @@ const listWorkflowRuns = async function(token){
             return response.json();
         });
 
-        self.postMessage("Runs: " + runsResponse.workflow_runs.length + ". Attempt #" + attempts);
+        self.postMessage("Runs: " + runsResponse.workflow_runs.length + ". Attempt #" + i);
 
         if (runsResponse.workflow_runs.length > 0) {
             self.postMessage(JSON.stringify(runsResponse));
@@ -155,22 +152,10 @@ self.onmessage = async function(e){
     var userID = JSON.parse(e.data).userID;
     var resource = JSON.parse(e.data).resource;
     var token = await getToken("51590067", JWT);
-
-    if (JSON.parse(e.data).instruction == "Run Workflows"){
         
-        await runWorkflows(token, userID, resource);
+    await runWorkflows(token, userID, resource);
+    var runsResponse = await listWorkflowRuns(token);
 
-        // refreshIntervalId = setInterval(function() {
-        //     console.log("hi");
-        // }, 1000);
-        
-        await listWorkflowRuns(token);
-    }
-
-    if (JSON.parse(e.data).instruction == "Get Workflow Log"){
-        var runsResponse = JSON.parse(JSON.parse(e.data).runsResponse);
-        self.postMessage("Runs: " + runsResponse.workflow_runs.length + ". token: " + token + ". userID: " + userID + ". resource: " + resource);
-        var workflowURL = await getOutputURL(runsResponse, token, userID, resource);
-        self.postMessage(workflowURL);
-    }
+    var workflowURL = await getOutputURL(runsResponse, token, userID, resource);
+    self.postMessage(workflowURL);
 }
