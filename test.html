@@ -16,14 +16,14 @@
             var worker = new Worker("./worker2.js");
 
             // Send a message to the worker to start the interval
-            worker.postMessage(JSON.stringify({userID: userID, resource: resource}));
+            worker.postMessage(JSON.stringify({userID: userID, resource: resource, instruction: "Run Workflows"}));
 
             // Listen for messages from the worker
             worker.onmessage = function(e) {
                 if (e.data=="timeout") {
                     // do something
-                } else if (e.data.startsWith("Notice - ")) {
-                    // do something else
+                } else if (e.data.startsWith("{")) {
+                    worker.postMessage(JSON.stringify({runsResponse: e.data, instruction: "Get Workflow Log"}));
                 }
                 else {
                     alert(e.data);

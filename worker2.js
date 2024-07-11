@@ -2,6 +2,9 @@
 
 importScripts("./jsrsasign/jsrsasign-all-min.js")
 
+var refreshIntervalId;
+var seconds = 0;
+
 const generateJWT = function(appID, privateKey){
     // Header
     var header = JSON.stringify({
@@ -61,47 +64,6 @@ const runWorkflows = async function(token, userID, resource){
             }
         })
     });
-
-    /*
-    // Execute 'Retrieve Content' workflow.
-    var workflow_id = encodeURIComponent("Retrieve Content.yml");
-
-    await fetch(`https://api.github.com/repos/${owner}/${repo}/actions/workflows/${workflow_id}/dispatches`, {
-        method: "post",
-        headers: {
-            "Accept": "application/vnd.github+json",
-            "Authorization": `token ${token}`,
-            "X-GitHub-Api-Version": "2022-11-28"
-        },
-        body: JSON.stringify({
-            "ref": "main",
-            "inputs": {
-                "userID": userID,
-                "resource": resource
-            }
-        })
-    });
-
-    // Execute 'Get Output URL' workflow.
-    var workflow_id = encodeURIComponent("Get Output URL.yml");
-
-    await fetch(`https://api.github.com/repos/${owner}/${repo}/actions/workflows/${workflow_id}/dispatches`, {
-        method: "post",
-        headers: {
-            "Accept": "application/vnd.github+json",
-            "Authorization": `token ${token}`,
-            "X-GitHub-Api-Version": "2022-11-28"
-        },
-        body: JSON.stringify({
-            "ref": "main",
-            "inputs": {
-                "token": token,
-                "userID": userID,
-                "resource": resource
-            }
-        })
-    });
-    */
 }
 
 async function listWorkflowRuns(token){
@@ -120,7 +82,19 @@ async function listWorkflowRuns(token){
         return response.json();
     });
 
-    return runsResponse;
+    if (runsResponse.workflow_runs.length > 0) {
+        clearInterval(refreshIntervalId);
+        self.postMessage(JSON.stringify(runsResponse));
+    }
+    else {
+        if (timer < 90) {
+            timer++;
+        }
+        else {
+            clearInterval(refreshIntervalId);
+            self.postMessage("timeout");
+        }
+    }
 }
 
 const getOutputURL = async function(runsResponse, token, userID, resource) {
@@ -171,30 +145,17 @@ function sleep(ms) {
 }
 
 self.onmessage = async function(e){
-    var userID = JSON.parse(e.data).userID;
-    var resource = JSON.parse(e.data).resource;
-    var token = await getToken("51590067", JWT);
-    var finished = false;
-    var runsResponse;
-
-    await runWorkflows(token, userID, resource);
+    if (JSON.parse(e.data).instruction == "Run Workflows"){
+        var userID = JSON.parse(e.data).userID;
+        var resource = JSON.parse(e.data).resource;
+        var token = await getToken("51590067", JWT);
     
-
-    // await sleep(30000);
-    // var runsResponse = await listWorkflowRuns(token);
-
-    for (let i = 0; i < 90; i++) {
-        runsResponse = await listWorkflowRuns(token);
-        if (runsResponse.workflow_runs.length > 0){
-            var workflowURL = await getOutputURL(runsResponse, token, userID, resource);
-            self.postMessage(workflowURL);
-            finished = true;
-            break;
-        }
-        await sleep(1000);
+        await runWorkflows(token, userID, resource);
+        refreshIntervalId = setInterval(await listWorkflowRuns(token), 1000);
     }
-
-    if (!finished){
-        self.postMessage("timeout");
+    if (JSON.parse(e.data).instruction == "Get Workflow Log"){
+        var runsResponse = JSON.parse(e.data).runsResponse;
+        var workflowURL = await getOutputURL(runsResponse, token, userID, resource);
+        self.postMessage(workflowURL);
     }
 }
