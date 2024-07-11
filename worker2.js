@@ -97,7 +97,7 @@ async function listWorkflowRuns(token){
         }
     }
 
-    return runsResponse;
+    return;
 }
 
 const getOutputURL = async function(runsResponse, token, userID, resource) {
@@ -150,9 +150,9 @@ self.onmessage = async function(e){
         
         await runWorkflows(token, userID, resource);
 
-        refreshIntervalId = setInterval(function() {
-            console.log("hi");
-        }, 1000);
+        // refreshIntervalId = setInterval(function() {
+        //     console.log("hi");
+        // }, 1000);
         
         refreshIntervalId = setInterval(await listWorkflowRuns(token), 1000);
     }
