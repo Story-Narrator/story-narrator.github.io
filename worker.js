@@ -105,8 +105,6 @@ const runWorkflows = async function(token, userID, resource){
 }
 
 async function listWorkflowRuns(token){
-    
-    self.postMessage("Notice - Token: " + token);
 
     var owner = "story-narrator";
     var repo = "story-narrator-helper";
