@@ -84,6 +84,8 @@ async function listWorkflowRuns(token){
 
     console.log("hi");
 
+    return new Promise();
+
     // if (runsResponse.workflow_runs.length > 0) {
     //     clearInterval(refreshIntervalId);
     //     self.postMessage(JSON.stringify(runsResponse));
