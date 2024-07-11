@@ -123,7 +123,7 @@ async function listWorkflowRuns(token){
     return runsResponse;
 }
 
-const getOutputURL = async function(runsResponse, userID, resource) {
+const getOutputURL = async function(runsResponse, token, userID, resource) {
     var owner = "story-narrator";
     var repo = "story-narrator-helper";
     var run_id;
@@ -180,7 +180,7 @@ self.onmessage = async function(e){
 
     await sleep(30000);
     var runsResponse = await listWorkflowRuns(token);
-    var workflowURL = await getOutputURL(runsResponse, userID, resource);
+    var workflowURL = await getOutputURL(runsResponse, token, userID, resource);
     self.postMessage(workflowURL);
 
     // if (workflowURL != null){
