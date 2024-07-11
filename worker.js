@@ -154,16 +154,7 @@ const getOutputURL = async function(token, userID, resource) {
             }).then(function(response){
                 return response.text();
             }).then(function(text){
-                // *** you can look at `text` here in a debugger, or
-                // *** log it, save it, etc., before parsing below
-                // *** (which might throw an error)
-                try {
-                    const data = JSON.parse(text); // ***
-                    return data.results.length;
-                } catch (error) {
-                    console.error("Parsing error", error);
-                    console.error("Text we were parsing:", text);
-                }
+                return text;
             });
 
             return log;
