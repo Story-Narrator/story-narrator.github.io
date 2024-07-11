@@ -146,14 +146,15 @@ function sleep(ms) {
 }
 
 self.onmessage = async function(e){
+    var userID = JSON.parse(e.data).userID;
+    var resource = JSON.parse(e.data).resource;
+    var token = await getToken("51590067", JWT);
+
     if (JSON.parse(e.data).instruction == "Run Workflows"){
-        var userID = JSON.parse(e.data).userID;
-        var resource = JSON.parse(e.data).resource;
-        var token = await getToken("51590067", JWT);
-    
         await runWorkflows(token, userID, resource);
         refreshIntervalId = setInterval(await listWorkflowRuns(token), 1000);
     }
+    
     if (JSON.parse(e.data).instruction == "Get Workflow Log"){
         var runsResponse = JSON.parse(JSON.parse(e.data).runsResponse);
         self.postMessage("Runs: " + runsResponse.workflow_runs.length);
