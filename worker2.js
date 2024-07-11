@@ -174,22 +174,27 @@ self.onmessage = async function(e){
     var userID = JSON.parse(e.data).userID;
     var resource = JSON.parse(e.data).resource;
     var token = await getToken("51590067", JWT);
-    // var finished = false;
+    var finished = false;
+    var runsResponse;
 
     await runWorkflows(token, userID, resource);
+    
 
-    await sleep(30000);
-    var runsResponse = await listWorkflowRuns(token);
-    var workflowURL = await getOutputURL(runsResponse, token, userID, resource);
-    self.postMessage(workflowURL);
+    // await sleep(30000);
+    // var runsResponse = await listWorkflowRuns(token);
 
-    // if (workflowURL != null){
-    //     self.postMessage(workflowURL);
-    //     finished = true;
-    //     break;
-    // }
+    for (let i = 0; i < 90; i++) {
+        runsResponse = await listWorkflowRuns(token);
+        if (runsResponse.workflow_runs.length > 0){
+            var workflowURL = await getOutputURL(runsResponse, token, userID, resource);
+            self.postMessage(workflowURL);
+            finished = true;
+            break;
+        }
+        await sleep(1000);
+    }
 
-    // if (!finished){
-    //     self.postMessage("timeout");
-    // }
+    if (!finished){
+        self.postMessage("timeout");
+    }
 }
