@@ -87,8 +87,8 @@ async function listWorkflowRuns(token){
         self.postMessage(JSON.stringify(runsResponse));
     }
     else {
-        if (timer < 90) {
-            timer++;
+        if (seconds < 90) {
+            seconds++;
         }
         else {
             clearInterval(refreshIntervalId);
