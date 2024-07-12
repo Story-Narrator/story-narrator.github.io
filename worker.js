@@ -63,14 +63,12 @@ const runWorkflows = async function(token, userID, resource){
     });
 }
 
-async function listWorkflowRuns(token){
+const listWorkflowRuns = async function(token){
 
     var owner = "story-narrator";
     var repo = "story-narrator-helper";
 
-    //https://api.github.com/repos/${owner}/${repo}/actions/runs?status=completed
-
-    var runsResponse = await fetch(`https://api.github.com/repos/${owner}/${repo}/actions/runs`, {
+    var runsResponse = await fetch(`https://api.github.com/repos/${owner}/${repo}/actions/runs?status=completed&timeInMs=${Date.now()}`, {
         method: "get",
         headers: {
             "Accept": "application/vnd.github+json",
@@ -80,8 +78,6 @@ async function listWorkflowRuns(token){
     }).then(function(response){
         return response.json();
     });
-
-    self.postMessage("Notice - runsResponse: " + JSON.stringify(runsResponse));
 
     return runsResponse;
 }
@@ -94,7 +90,9 @@ const getOutputURL = async function(token, userID, resource) {
     var runResource;
     var runUserID;
 
-    self.postMessage("Notice - Number of completed runs found: " + runsResponse.workflow_runs.length);
+    if (console && console.log) {
+        console.log("Number of completed runs found: " + runsResponse.workflow_runs.length);
+    }
     
     for (var i = 0; i < runsResponse.workflow_runs.length; i++) { 
         runResource = runsResponse.workflow_runs[i].name.replace(/^Retrieve '(.*)',.*$/, "$1");

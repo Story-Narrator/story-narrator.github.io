@@ -26,45 +26,8 @@
             user_name = "Story-Narrator";
             user_email = "story.narrator@hotmail.com";
             user_id = "AH4A3JCTGJGJ7MFH2XNK55ZNLISA";
-                }
-
-        const userID = "AH4A3JCTGJGJ7MFH2XNK55ZNLISA";
-        const resource = "Library";
-
-        if (userID != null && resource != null){
-            // Create a new worker
-            var worker = new Worker("./worker.js");
-
-            // Send a message to the worker to start the interval
-            worker.postMessage(JSON.stringify({userID: userID, resource: resource}));
-
-            // Listen for messages from the worker
-            worker.onmessage = function(e) {
-                try {
-                    if (e.data=="timeout") {
-                        throw "Error: A workflow matching the specified resource and userID was not found.";
-                        worker.terminate();
-                    } else if (e.data.startsWith("Notice - ")) {
-                        if (window.console && window.console.log) {
-                            window.console.log(e.data);
-                        }
-                    }
-                    else {
-                        if (window.console && window.console.log) {
-                            window.console.log(e.data);
-                        }
-                        
-                        alert(e.data);
-                        worker.terminate();
-                    }
-                }
-                catch (error) {
-                    if (window.console && window.console.log) {
-                        window.console.log(error);
-                    }
-                }
-            };
         }
+
     </script>
 </head>
 <body>
