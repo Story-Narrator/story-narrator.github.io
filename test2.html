@@ -23,7 +23,7 @@
         }).then(function(response){
             return response.json();
         }).then(function(data){
-            if (runsResponse.workflow_runs.length > 0){
+            if (data.workflow_runs.length > 0){
                 alert("done");
             }
             else {
