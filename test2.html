@@ -27,7 +27,7 @@
                 alert("done");
             }
             else {
-                worker.postMessage("tick");
+                worker.postMessage(JSON.stringify({instruction: "tick"}));
             }
         });
     }

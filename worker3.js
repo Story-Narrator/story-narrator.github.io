@@ -143,7 +143,7 @@ self.onmessage = async function(e){
         self.postMessage(JSON.stringify({token: token, runsResponse: JSON.stringify(runsResponse)}));
     }
 
-    if (new String(e.data) == "tick"){
+    if (JSON.parse(e.data).instruction == "tick"){
         await sleep(1000);
         self.postMessage("tock");
     }
