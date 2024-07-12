@@ -13,10 +13,10 @@
         var owner = "story-narrator";
         var repo = "story-narrator-helper";
 
-        var xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function() {
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
-                if (JSON.parse(xhttp.responseText).workflow_runs.length > 0){
+                if (JSON.parse(xmlhttp.responseText).workflow_runs.length > 0){
                     alert("done");
                 }
             }
@@ -24,11 +24,11 @@
                 worker.postMessage(JSON.stringify({instruction: "tick"}));
             }
         };
-        xhttp.open("GET", `https://api.github.com/repos/${owner}/${repo}/actions/runs?status=completed`);
+        xmlhttp.open("GET", `https://api.github.com/repos/${owner}/${repo}/actions/runs?status=completed`);
         xmlhttp.setRequestHeader("Accept", "application/vnd.github+json");
         xmlhttp.setRequestHeader("Authorization", `token ${token}`);
         xmlhttp.setRequestHeader("X-GitHub-Api-Version", "2022-11-28");
-        xhttp.send();
+        xmlhttp.send();
     }
 
         const userID = "AH4A3JCTGJGJ7MFH2XNK55ZNLISA";
