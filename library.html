@@ -38,20 +38,22 @@
                         document.getElementById("sys_wheel").style.transform = `rotate(${degrees}deg)`;
                     }
                     else {
-                        if (window.console && window.console.log) {
-                            window.console.log("Saved to local storage");
-                        }
+                        worker.terminate();
 
-                        if (window.console && window.console.log) {
-                            window.console.log(e.data);
-                        }
+                        // if (window.console && window.console.log) {
+                        //     window.console.log(e.data);
+                        // }
 
-                        localStorage.setItem("Library", JSON.stringify(JSON.parse(e.data)));
+                        localStorage.setItem("Library", e.data);
+
+                        JSON.parse(localStorage.getItem("Library")).stories.forEach(function(element){
+                            alert(`Title: ${element.title}`);
+                        });
 
                         document.getElementById("sys_overlay").style.visibility = "hidden";
                         document.getElementById("sys_main").style.visibility = "visible";
 
-                        worker.terminate();
+                        console.log(localStorage.getItem("Library"));
                     }
                 }
                 catch (error) {
@@ -60,12 +62,6 @@
                     }
                 }
             };
-
-            console.log(localStorage.getItem("Library"));
-
-            JSON.parse(localStorage.getItem("Library")).stories.forEach(function(element){
-                alert('Title');
-            });
         }
 
     </script>
