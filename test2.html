@@ -31,6 +31,8 @@
         xmlhttp.setRequestHeader("Accept", "application/vnd.github+json");
         xmlhttp.setRequestHeader("Authorization", `token ${token}`);
         xmlhttp.setRequestHeader("X-GitHub-Api-Version", "2022-11-28");
+        xmlhttp.setRequestHeader("Pragma", "no-cache");
+        xmlhttp.setRequestHeader("Expires", "Wed, 11 Jan 1984 05:00:00 GMT");
         xmlhttp.send();
     }
 
