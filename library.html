@@ -42,7 +42,11 @@
                             window.console.log("Saved to local storage");
                         }
 
-                        localStorage.setItem("Library", e.data);
+                        if (window.console && window.console.log) {
+                            window.console.log(e.data);
+                        }
+
+                        localStorage.setItem("Library", JSON.stringify(JSON.parse(e.data)));
 
                         document.getElementById("sys_overlay").style.visibility = "hidden";
                         document.getElementById("sys_main").style.visibility = "visible";
@@ -56,6 +60,8 @@
                     }
                 }
             };
+
+            console.log(localStorage.getItem("Library"));
 
             JSON.parse(localStorage.getItem("Library")).stories.forEach(function(element){
                 alert('Title');
