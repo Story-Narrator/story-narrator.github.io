@@ -44,8 +44,9 @@
                         
                         alert(e.data);
 
-                        document.getElementById("sys_wheel").style.transform = `rotate(${degrees}deg)`;
-                        
+                        document.getElementById("sys_overlay").style.display = none;
+                        document.getElementById("sys_main").style.display = initial;
+
                         worker.terminate();
                     }
                 }

@@ -142,7 +142,9 @@ self.onmessage = async function(e){
 
     for (let i = 0; i < 90; i++) {
         var workflowURL = await getOutputURL(token, userID, resource);
-        await sleep(1000);
+        await sleep(500);
+        self.postMessage("tick");
+        await sleep(500);
         self.postMessage("tick");
 
 
