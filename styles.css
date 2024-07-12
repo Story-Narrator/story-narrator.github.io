@@ -497,7 +497,7 @@ select {
     border-collapse: collapse;
 }
 
-.sys_tbl {
+#sys_tbl {
     width: 100%;
     text-align: left;
     border-collapse: collapse;
