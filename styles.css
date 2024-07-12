@@ -465,7 +465,7 @@ select {
 
 #sys_main {
     padding: 15px;
-    display: none;
+    visibility: hidden;
 }
 
 #sys_heading {

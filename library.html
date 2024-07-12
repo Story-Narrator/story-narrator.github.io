@@ -44,8 +44,8 @@
                         
                         alert(e.data);
 
-                        document.getElementById("sys_overlay").style.display = "none";
-                        document.getElementById("sys_main").style.display = "initial";
+                        document.getElementById("sys_overlay").style.visibility = "hidden";
+                        document.getElementById("sys_main").style.visibility = "visible";
 
                         worker.terminate();
                     }
