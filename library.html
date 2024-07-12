@@ -47,128 +47,128 @@
             </div>
         </div>
     </div>
-    <script type="text/javascript">
-
-        const urlParams = new URLSearchParams(window.location.search);
-        const userID = urlParams.get('userID');
-        const resource = urlParams.get('resource');
-
-        if (userID != null && resource != null){
-            // Create a new worker
-            var worker = new Worker("./worker.js");
-            var degrees = 0;
-
-            // Send a message to the worker to start the interval
-            worker.postMessage(JSON.stringify({userID: userID, resource: resource}));
-
-            // Listen for messages from the worker
-            worker.onmessage = function(e) {
-                try {
-                    if (e.data=="timeout") {
-                        throw "Error: A workflow matching the specified resource and userID was not found.";
-                        alert("An error occured. Please refresh the page.");
-                        worker.terminate();
-                    }
-                    else if(e.data=="tick"){
-                        degrees += 15;
-                        if (degrees == 360){
-                            degrees = 0;
-                        }
-
-                        document.getElementById("sys_wheel").style.transform = `rotate(${degrees}deg)`;
-                    }
-                    else {
-                        worker.terminate();
-
-                        // if (window.console && window.console.log) {
-                        //     window.console.log(e.data);
-                        // }
-
-                        localStorage.clear();
-
-                        localStorage.setItem("Library", e.data);
-
-
-                        var tr_node;
-                        var td_node;
-                        var td_text_node;
-
-                        JSON.parse(localStorage.getItem("Library")).stories.forEach(function(element){
-
-                            tr_node = document.createElement("tr");
-                                td_node = document.createElement("td");
-                                    td_text_node = document.createTextNode("element.cover");
-                                td_node.appendChild(td_text_node);
-                            tr_node.appendChild(td_node);
-                                td_node = document.createElement("td");
-                                    td_text_node = document.createTextNode("element.title");
-                                td_node.appendChild(td_text_node);
-                            tr_node.appendChild(td_node);
-                                td_node = document.createElement("td");
-                                    td_text_node = document.createTextNode("element.category");
-                                td_node.appendChild(td_text_node);
-                            tr_node.appendChild(td_node);
-                                td_node = document.createElement("td");
-                                    td_text_node = document.createTextNode("element.created");
-                                td_node.appendChild(td_text_node);
-                            tr_node.appendChild(td_node);
-                                td_node = document.createElement("td");
-                                    td_text_node = document.createTextNode("element.modified");
-                                td_node.appendChild(td_text_node);
-                            tr_node.appendChild(td_node);
-                                td_node = document.createElement("td");
-                                td_node.className = "tbl_cell_small";
-                                    a_node = document.createElement("a");
-                                    a_node.className = "sys_updt_btn";
-                                    a_node.href = "./story_editor.html"; 
-                                        img_node = document.createElement("img");
-                                        img_node.className = "sys_action_icon";
-                                        img_node.src = "./assets/Edit_Icon.png";
-                                        img_node.alt = "Edit Icon";
-                                        p_node = document.createElement("p");
-                                        p_node.className = "sys_action_lbl";
-                                            p_text_node = document.createTextNode("Edit");
-                                        p_node.appendChild(p_text_node);
-                                    a_node.appendChild(img_node);
-                                    a_node.appendChild(p_node);
-                                td_node.appendChild(a_node);
-                                    a_node = document.createElement("a");
-                                    a_node.className = "sys_del_btn";
-                                    a_node.href = "";    
-                                        img_node = document.createElement("img");
-                                        img_node.className = "sys_action_icon";
-                                        img_node.src = "./assets/Delete_Icon.png";
-                                        img_node.alt = "Delete Icon";
-                                        p_node = document.createElement("p");
-                                        p_node.className = "sys_action_lbl";
-                                            p_text_node = document.createTextNode("Delete");
-                                        p_node.appendChild(p_text_node);
-                                    a_node.appendChild(img_node);
-                                    a_node.appendChild(p_node);
-                                td_node.appendChild(a_node);
-                            tr_node.appendChild(td_node);
-
-                            console.log(tr_node);
-
-                            document.getElementById("sys_tbl").appendChild(tr_node);
-
-
-                            //alert(`Title: ${element.title}`);
-                        });
-
-                        document.getElementById("sys_overlay").style.visibility = "hidden";
-                        document.getElementById("sys_main").style.visibility = "visible";
-
-                        console.log(localStorage.getItem("Library"));
-                    }
-                }
-                catch (error) {
-                    if (window.console && window.console.log) {
-                        window.console.log(error);
-                    }
-                }
-            };
-        }
-    </script>
 </body>
+<script type="text/javascript">
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const userID = urlParams.get('userID');
+    const resource = urlParams.get('resource');
+
+    if (userID != null && resource != null){
+        // Create a new worker
+        var worker = new Worker("./worker.js");
+        var degrees = 0;
+
+        // Send a message to the worker to start the interval
+        worker.postMessage(JSON.stringify({userID: userID, resource: resource}));
+
+        // Listen for messages from the worker
+        worker.onmessage = function(e) {
+            try {
+                if (e.data=="timeout") {
+                    throw "Error: A workflow matching the specified resource and userID was not found.";
+                    alert("An error occured. Please refresh the page.");
+                    worker.terminate();
+                }
+                else if(e.data=="tick"){
+                    degrees += 15;
+                    if (degrees == 360){
+                        degrees = 0;
+                    }
+
+                    document.getElementById("sys_wheel").style.transform = `rotate(${degrees}deg)`;
+                }
+                else {
+                    worker.terminate();
+
+                    // if (window.console && window.console.log) {
+                    //     window.console.log(e.data);
+                    // }
+
+                    localStorage.clear();
+
+                    localStorage.setItem("Library", e.data);
+
+
+                    var tr_node;
+                    var td_node;
+                    var td_text_node;
+
+                    JSON.parse(localStorage.getItem("Library")).stories.forEach(function(element){
+
+                        tr_node = document.createElement("tr");
+                            td_node = document.createElement("td");
+                                td_text_node = document.createTextNode("element.cover");
+                            td_node.appendChild(td_text_node);
+                        tr_node.appendChild(td_node);
+                            td_node = document.createElement("td");
+                                td_text_node = document.createTextNode("element.title");
+                            td_node.appendChild(td_text_node);
+                        tr_node.appendChild(td_node);
+                            td_node = document.createElement("td");
+                                td_text_node = document.createTextNode("element.category");
+                            td_node.appendChild(td_text_node);
+                        tr_node.appendChild(td_node);
+                            td_node = document.createElement("td");
+                                td_text_node = document.createTextNode("element.created");
+                            td_node.appendChild(td_text_node);
+                        tr_node.appendChild(td_node);
+                            td_node = document.createElement("td");
+                                td_text_node = document.createTextNode("element.modified");
+                            td_node.appendChild(td_text_node);
+                        tr_node.appendChild(td_node);
+                            td_node = document.createElement("td");
+                            td_node.className = "tbl_cell_small";
+                                a_node = document.createElement("a");
+                                a_node.className = "sys_updt_btn";
+                                a_node.href = "./story_editor.html"; 
+                                    img_node = document.createElement("img");
+                                    img_node.className = "sys_action_icon";
+                                    img_node.src = "./assets/Edit_Icon.png";
+                                    img_node.alt = "Edit Icon";
+                                    p_node = document.createElement("p");
+                                    p_node.className = "sys_action_lbl";
+                                        p_text_node = document.createTextNode("Edit");
+                                    p_node.appendChild(p_text_node);
+                                a_node.appendChild(img_node);
+                                a_node.appendChild(p_node);
+                            td_node.appendChild(a_node);
+                                a_node = document.createElement("a");
+                                a_node.className = "sys_del_btn";
+                                a_node.href = "";    
+                                    img_node = document.createElement("img");
+                                    img_node.className = "sys_action_icon";
+                                    img_node.src = "./assets/Delete_Icon.png";
+                                    img_node.alt = "Delete Icon";
+                                    p_node = document.createElement("p");
+                                    p_node.className = "sys_action_lbl";
+                                        p_text_node = document.createTextNode("Delete");
+                                    p_node.appendChild(p_text_node);
+                                a_node.appendChild(img_node);
+                                a_node.appendChild(p_node);
+                            td_node.appendChild(a_node);
+                        tr_node.appendChild(td_node);
+
+                        console.log(tr_node);
+
+                        document.getElementById("sys_tbl").appendChild(tr_node);
+
+
+                        //alert(`Title: ${element.title}`);
+                    });
+
+                    document.getElementById("sys_overlay").style.visibility = "hidden";
+                    document.getElementById("sys_main").style.visibility = "visible";
+
+                    console.log(localStorage.getItem("Library"));
+                }
+            }
+            catch (error) {
+                if (window.console && window.console.log) {
+                    window.console.log(error);
+                }
+            }
+        };
+    }
+</script>
 </html>
