@@ -57,23 +57,23 @@
 
                             tr_node = document.createElement("tr");
                                 td_node = document.createElement("td");
-                                    td_text_node = document.createTextNode("element.cover");
+                                    td_text_node = document.createTextNode(element.cover);
                                 td_node.appendChild(td_text_node);
                             tr_node.appendChild(td_node);
                                 td_node = document.createElement("td");
-                                    td_text_node = document.createTextNode("element.title");
+                                    td_text_node = document.createTextNode(element.title);
                                 td_node.appendChild(td_text_node);
                             tr_node.appendChild(td_node);
                                 td_node = document.createElement("td");
-                                    td_text_node = document.createTextNode("element.category");
+                                    td_text_node = document.createTextNode(element.category);
                                 td_node.appendChild(td_text_node);
                             tr_node.appendChild(td_node);
                                 td_node = document.createElement("td");
-                                    td_text_node = document.createTextNode("element.created");
+                                    td_text_node = document.createTextNode(element.created);
                                 td_node.appendChild(td_text_node);
                             tr_node.appendChild(td_node);
                                 td_node = document.createElement("td");
-                                    td_text_node = document.createTextNode("element.modified");
+                                    td_text_node = document.createTextNode(element.modified);
                                 td_node.appendChild(td_text_node);
                             tr_node.appendChild(td_node);
                                 td_node = document.createElement("td");
@@ -94,7 +94,8 @@
                                 td_node.appendChild(a_node);
                                     a_node = document.createElement("a");
                                     a_node.className = "sys_del_btn";
-                                    a_node.href = "";    
+                                    a_node.href = "";
+                                    a_node.onclick = "return confirm('Are you sure you want to delete this story?');";  
                                         img_node = document.createElement("img");
                                         img_node.className = "sys_action_icon";
                                         img_node.src = "./assets/Delete_Icon.png";
