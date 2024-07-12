@@ -39,10 +39,10 @@
                     }
                     else {
                         if (window.console && window.console.log) {
-                            window.console.log(e.data);
+                            window.console.log("Saved to local storage");
                         }
-                        
-                        alert(e.data);
+
+                        localStorage.setItem(Library, e.data);
 
                         document.getElementById("sys_overlay").style.visibility = "hidden";
                         document.getElementById("sys_main").style.visibility = "visible";
@@ -56,6 +56,10 @@
                     }
                 }
             };
+
+            JSON.parse(localStorage.getItem(Library)).stories.forEach(function(element){
+                alert('Title');
+            });
         }
 
     </script>
