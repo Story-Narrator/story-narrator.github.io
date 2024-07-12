@@ -77,8 +77,6 @@ const listWorkflowRuns = async function(token){
         }
     }).then(function(response){
         return response.json();
-    }).then(function(data){
-        return data;
     });
 
     return runsResponse;
@@ -143,6 +141,11 @@ self.onmessage = async function(e){
         var runsResponse = await listWorkflowRuns(token);
     
         self.postMessage(JSON.stringify({token: token, runsResponse: JSON.stringify(runsResponse)}));
+    }
+
+    if (new String(e.data) == "tick"){
+        await sleep(1000);
+        self.postMessage("tock");
     }
 
     if (JSON.parse(e.data).instruction == "Get Workflow"){
