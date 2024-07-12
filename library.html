@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Story Narrator: Library</title>
     <link rel="stylesheet" href="./styles.css">
-    <link rel="icon" type="image/x-icon" href="./assets/favicon.png">
 
     <script type="text/javascript">
 
@@ -35,7 +34,8 @@
                         if (degrees == 360){
                             degrees = 0;
                         }
-                        document.getElementById("sys_wheel").style.transform = `rotate(${degrees})`;
+                        console.log(degrees);
+                        document.getElementById("sys_wheel").style.transform = `rotate(${degrees}deg)`;
                     }
                     else {
                         if (window.console && window.console.log) {
