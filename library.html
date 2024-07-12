@@ -34,7 +34,7 @@
                         if (degrees == 360){
                             degrees = 0;
                         }
-                        console.log(degrees);
+
                         document.getElementById("sys_wheel").style.transform = `rotate(${degrees}deg)`;
                     }
                     else {
@@ -43,6 +43,9 @@
                         }
                         
                         alert(e.data);
+
+                        document.getElementById("sys_wheel").style.transform = `rotate(${degrees}deg)`;
+                        
                         worker.terminate();
                     }
                 }
