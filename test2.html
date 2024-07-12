@@ -14,11 +14,13 @@
 
         const urlParams = new URLSearchParams(window.location.search);
         const token = urlParams.get('token');
-        var run = urlParams.get('run');
+        var run = Number(urlParams.get('run'));
 
         if (!run){
-            run = 0; 
+            run = 0;
         }
+
+        console.log("Run: " + run);
 
         if (userID != null && resource != null){
             // Create a new worker
