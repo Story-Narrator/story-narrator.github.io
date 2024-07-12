@@ -77,6 +77,8 @@ const listWorkflowRuns = async function(token){
         }
     }).then(function(response){
         return response.json();
+    }).then(function(data){
+        return data;
     });
 
     return runsResponse;
