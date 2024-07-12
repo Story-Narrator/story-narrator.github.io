@@ -16,19 +16,23 @@
             var worker = new Worker("./worker2.js");
 
             // Send a message to the worker to start the interval
-            worker.postMessage(JSON.stringify({userID: userID, resource: resource, instruction: "Run Workflows"}));
+            worker.postMessage(JSON.stringify({instruction: "Run Workflow", userID: userID, resource: resource}));
 
             // Listen for messages from the worker
             worker.onmessage = function(e) {
                 if (e.data=="timeout") {
                     // do something
                 }
-                else if (new String(e.data).startsWith("{\"")) {
-                    alert(e.data);
-                    //worker.postMessage(JSON.stringify({userID: userID, resource: resource, runsResponse: e.data, instruction: "Get Workflow Log"}));
-                }
-                else if (new String(e.data).startsWith("Runs: ")) {
-                    //alert(e.data);
+                else if (new String(e.data).startsWith("{\"token\":")) {
+                    var jsonMessage = JSON.parse(e.data);
+                    var jsonRunsResponse = JSON.parse(jsonMessage.runsResponse);
+                    console.log("Runs: " + jsonRunsResponse.workflow_runs.length);
+                    if (jsonRunsResponse.workflow_runs.length > 0){
+                        worker.postMessage(JSON.stringify({instruction: "Get Workflow Log", runsResponse: jsonMessage.runsResponse, token: jsonMessage.token, userID: userID, resource: resource}));
+                    }
+                    else {
+                        worker.postMessage(JSON.stringify({instruction: "Get Workflow", token: jsonMessage.token}));
+                    }
                 }
                 else {
                     alert(e.data);

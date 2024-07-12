@@ -63,48 +63,21 @@ const runWorkflows = async function(token, userID, resource){
     });
 }
 
-const delay = async function(ms, state = null) {
-    return new Promise(function(resolve, reject){
-        setTimeout( function(){
-            resolve(state);
-        }, ms);
-    });
-}
-
 const listWorkflowRuns = async function(token){
     
     var owner = "story-narrator";
     var repo = "story-narrator-helper";
-    var runsResponse;
-    var i = 0;
 
-    while(true) {
-        runsResponse = await fetch(`https://api.github.com/repos/${owner}/${repo}/actions/runs?status=completed`, {
-            method: "get",
-            headers: {
-                "Accept": "application/vnd.github+json",
-                "Authorization": `token ${token}`,
-                "X-GitHub-Api-Version": "2022-11-28",
-                "Referer": "https://story-narrator.github.io/"
-            }
-        }).then(function(response){
-            return response.json();
-        });
-
-        console.log("Runs: " + runsResponse.workflow_runs.length + ". Attempt #" + i);
-        //self.postMessage("Runs: " + runsResponse.workflow_runs.length + ". Attempt #" + i);
-
-        if (runsResponse.workflow_runs.length > 0) {
-            self.postMessage(JSON.stringify(runsResponse));
-            break;
+    var runsResponse = await fetch(`https://api.github.com/repos/${owner}/${repo}/actions/runs?status=completed`, {
+        method: "get",
+        headers: {
+            "Accept": "application/vnd.github+json",
+            "Authorization": `token ${token}`,
+            "X-GitHub-Api-Version": "2022-11-28"
         }
-        //await delay(1000);
-        i++
-    }
-    
-    if (i == 90){
-        self.postMessage("timeout");
-    }
+    }).then(function(response){
+        return response.json();
+    });
 
     return runsResponse;
 
@@ -151,14 +124,38 @@ const getOutputURL = async function(runsResponse, token, userID, resource) {
     return null;
 }
 
-self.onmessage = async function(e){
-    var userID = JSON.parse(e.data).userID;
-    var resource = JSON.parse(e.data).resource;
-    var token = await getToken("51590067", JWT);
-        
-    await runWorkflows(token, userID, resource);
-    var runsResponse = await listWorkflowRuns(token);
+function sleep(ms) {
+    return new Promise(function(resolve){
+        setTimeout(resolve, ms);
+    });
+}
 
-    var workflowURL = await getOutputURL(runsResponse, token, userID, resource);
-    self.postMessage(workflowURL);
+self.onmessage = async function(e){
+
+    if (JSON.parse(e.data).instruction == "Run Workflow"){
+        var token = await getToken("51590067", JWT);
+        var userID = JSON.parse(e.data).userID;
+        var resource = JSON.parse(e.data).resource;
+            
+        await runWorkflows(token, userID, resource);
+        var runsResponse = await listWorkflowRuns(token);
+    
+        self.postMessage(`{"token": "${token}", "runsResponse": "${JSON.stringify(runsResponse)}"}`);
+    }
+
+    if (JSON.parse(e.data).instruction == "Get Workflow"){
+        await sleep(1000);
+        var token = JSON.parse(e.data).token;
+        var runsResponse = await listWorkflowRuns(token);
+        self.postMessage(`{"token": "${token}", "runsResponse": "${JSON.stringify(runsResponse)}"}`);
+    }
+
+    if (JSON.parse(e.data).instruction == "Get Workflow Log"){
+        var runsResponse = JSON.parse(JSON.parse(e.data).runsResponse);
+        var token = JSON.parse(e.data).token;
+        var userID = JSON.parse(e.data).userID;
+        var resource = JSON.parse(e.data).resource;
+        var workflowURL = await getOutputURL(runsResponse, token, userID, resource);
+        self.postMessage(workflowURL);
+    }
 }
