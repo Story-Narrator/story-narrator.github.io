@@ -103,72 +103,71 @@
             </div>
         </div>
     </div>
-</body>
-<script type="text/javascript">
-    (function(d) {
-        var a = d.createElement('script'); a.type = 'text/javascript';
-        a.async = true; a.id = 'amazon-login-sdk';
-        a.src = 'https://assets.loginwithamazon.com/sdk/na/login1.js';
-        d.getElementById('amazon-root').appendChild(a);
-    })(document);
-
-    window.onAmazonLoginReady = function() {
-        var getProfile = function(access_token) {
-            amazon.Login.retrieveProfile(
-                access_token,
-                function(response) {
-                    if (response.success) {
-                        user_name = response.profile.Name;
-                        user_email = response.profile.PrimaryEmail;
-                        user_id = String(response.profile.CustomerId).replace("amzn1.account.", "");
-
-                        document.getElementById('main_frame').src = `./library.html?userID=${user_id}&resource=Library`;
-                        
-                        if (window.console && window.console.log) {
-                            window.console.log("User Name: " + user_name);
-                            window.console.log("User Email: " + user_email);
-                            window.console.log("User ID: " + user_id);
-                        };
-
-                        document.getElementById("user_lbl").innerHTML = "Logged in as: " + user_name;
-                    }
-                    else {
-                        if (window.console && window.console.log) {
-                            window.console.log("An error occured when retrieving user profile: " + response.error);
-                            document.getElementById("user_lbl").innerHTML = "Logged in as: [unauthorised]";
-                        };
-                    }
-                }
-            );
-        };
-
-        amazon.Login.setClientId('amzn1.application-oa2-client.ac9f141427bc46f9914ddaaeb6e08c4c');
-        amazon.Login.setSiteDomain('story-narrator.github.io');
-        amazon.Login.setUseCookie(true);
-
-        var access_token;
-        var tokenResponse = amazon.Login.retrieveToken();
-
-        if (tokenResponse) {
-            access_token = tokenResponse.access_token;
-            if (window.console && window.console.log) {
-                window.console.log("Cached Access Token: " + tokenResponse.access_token);
-            };
-            getProfile(access_token);
-        }
-        else {
-            amazon.Login.retrieveToken(
-                code,
-                function(response) {
-                    access_token = response.access_token;
-                    if (window.console && window.console.log) {
-                        window.console.log("Access Token: " + response.access_token);
-                    };
-                    getProfile(access_token);
-                }
-            );
-        };
-    };
+    <script type="text/javascript">
+        (function(d) {
+            var a = d.createElement('script'); a.type = 'text/javascript';
+            a.async = true; a.id = 'amazon-login-sdk';
+            a.src = 'https://assets.loginwithamazon.com/sdk/na/login1.js';
+            d.getElementById('amazon-root').appendChild(a);
+        })(document);
     
-</script>
+        window.onAmazonLoginReady = function() {
+            var getProfile = function(access_token) {
+                amazon.Login.retrieveProfile(
+                    access_token,
+                    function(response) {
+                        if (response.success) {
+                            user_name = response.profile.Name;
+                            user_email = response.profile.PrimaryEmail;
+                            user_id = String(response.profile.CustomerId).replace("amzn1.account.", "");
+    
+                            document.getElementById('main_frame').src = `./library.html?userID=${user_id}&resource=Library`;
+                            
+                            if (window.console && window.console.log) {
+                                window.console.log("User Name: " + user_name);
+                                window.console.log("User Email: " + user_email);
+                                window.console.log("User ID: " + user_id);
+                            };
+    
+                            document.getElementById("user_lbl").innerHTML = "Logged in as: " + user_name;
+                        }
+                        else {
+                            if (window.console && window.console.log) {
+                                window.console.log("An error occured when retrieving user profile: " + response.error);
+                                document.getElementById("user_lbl").innerHTML = "Logged in as: [unauthorised]";
+                            };
+                        }
+                    }
+                );
+            };
+    
+            amazon.Login.setClientId('amzn1.application-oa2-client.ac9f141427bc46f9914ddaaeb6e08c4c');
+            amazon.Login.setSiteDomain('story-narrator.github.io');
+            amazon.Login.setUseCookie(true);
+    
+            var access_token;
+            var tokenResponse = amazon.Login.retrieveToken();
+    
+            if (tokenResponse) {
+                access_token = tokenResponse.access_token;
+                if (window.console && window.console.log) {
+                    window.console.log("Cached Access Token: " + tokenResponse.access_token);
+                };
+                getProfile(access_token);
+            }
+            else {
+                amazon.Login.retrieveToken(
+                    code,
+                    function(response) {
+                        access_token = response.access_token;
+                        if (window.console && window.console.log) {
+                            window.console.log("Access Token: " + response.access_token);
+                        };
+                        getProfile(access_token);
+                    }
+                );
+            };
+        };
+    </script>
+</body>
 </html>
