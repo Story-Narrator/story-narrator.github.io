@@ -140,6 +140,7 @@ self.onmessage = async function(e){
 
     await runWorkflows(token, userID, resource);
 
+    // Timeout after 45 seconds worth of pauses.
     for (let i = 0; i < 90; i++) {
         var workflowURL = await getOutputURL(token, userID, resource);
 
@@ -149,7 +150,6 @@ self.onmessage = async function(e){
             break;
         }
         else {
-            await sleep(500);
             self.postMessage("tick");
             await sleep(500);
             self.postMessage("tick");
