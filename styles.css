@@ -77,6 +77,14 @@ h6 {
     font-weight: 500;
 }
 
+hr {
+    margin: 0px;
+    margin-bottom: 2px;
+    background: linear-gradient(to right, #F1F3F200, #F1F3F2, #F1F3F200);
+    border: 0;
+    height: 3px;
+}
+
 input {
     border-color: #777777;
     border-style: solid;
@@ -418,8 +426,46 @@ select {
     font-size: 12pt;
 }
 
+#sys_overlay {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    right: 15px;
+    bottom: 15px;
+    background-color: #A9A9D0;
+}
+
+#sys_loading {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    margin: auto;
+    height: 300px;
+    width: 300px;
+}
+
+#sys_loading_heading {
+    font-size: 60pt;
+    text-align: center;
+    color: #F1F3F2;
+}
+
+#sys_loading_subheading {
+    text-align: center;
+    font-size: 36pt;
+}
+
+#sys_wheel {
+    margin-left: 75px;
+    width: 150px;
+    height: 150px;
+}
+
 #sys_main {
     padding: 15px;
+    display: none;
 }
 
 #sys_heading {

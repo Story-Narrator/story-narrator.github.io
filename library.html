@@ -17,6 +17,7 @@
         if (userID != null && resource != null){
             // Create a new worker
             var worker = new Worker("./worker.js");
+            var degrees = 0;
 
             // Send a message to the worker to start the interval
             worker.postMessage(JSON.stringify({userID: userID, resource: resource}));
@@ -26,7 +27,15 @@
                 try {
                     if (e.data=="timeout") {
                         throw "Error: A workflow matching the specified resource and userID was not found.";
+                        alert("An error occured. Please refresh the page.");
                         worker.terminate();
+                    }
+                    else if(e.data=="tick"){
+                        degrees += 15;
+                        if (degrees == 360){
+                            degrees = 0;
+                        }
+                        document.getElementById("sys_wheel").style.transform = `rotate(${degrees})`;
                     }
                     else {
                         if (window.console && window.console.log) {
@@ -48,6 +57,14 @@
     </script>
 </head>
 <body id="sys">
+    <div id="sys_overlay">
+        <div id="sys_loading">
+            <h3 id="sys_loading_heading">NOTICE</h3>
+            <hr>
+            <h6 id="sys_loading_subheading">Loading...</h6>
+            <img id="sys_wheel" src="./assets/Loading_Icon.png" alt="Loading Icon">
+        </div>
+    </div>
     <div id="sys_main">
         <h3 id="sys_heading">My Library</h3>
         <div id="sys_parent">
