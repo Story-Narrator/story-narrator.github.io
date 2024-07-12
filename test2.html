@@ -57,7 +57,7 @@
                     location.replace(window.location.href.split('?')[0] + `?token=${jsonMessage.token}&run=${run++}`);
                 }
                 else if (new String(e.data) == "tock") {
-                    location.replace(window.location.href.split('?')[0] + `?token=${token}&run=${run++}`);
+                    location.reload(true);
                 }
             };
 
