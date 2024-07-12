@@ -39,13 +39,12 @@
                 if (new String(e.data).startsWith("{\"token\":")) {
                     var jsonMessage = JSON.parse(e.data);
                     var jsonRunsResponse = JSON.parse(jsonMessage.runsResponse);
-                    console.log("Runs: " + jsonRunsResponse.workflow_runs.length);
                     if (jsonRunsResponse.workflow_runs.length > 0){
                         worker.postMessage(JSON.stringify({instruction: "Get Workflow Log", runsResponse: jsonMessage.runsResponse, token: jsonMessage.token, userID: userID, resource: resource}));
                     }
                     else {
                         var jsonMessage = JSON.parse(e.data);
-                        location.replace(location.href + `?token=${jsonMessage.token}&run=${run++}`);
+                        location.replace(window.location.href.split('?')[0] + `?token=${jsonMessage.token}&run=${run++}`);
                     }
                 }
                 else {
