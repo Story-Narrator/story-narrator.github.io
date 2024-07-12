@@ -11,7 +11,7 @@
 
     <script type="text/javascript">
 
-    const listWorkflowRuns = function(token, worker){
+    const listWorkflowRuns = function(token, worker, run){
     
         var owner = "story-narrator";
         var repo = "story-narrator-helper";
@@ -27,11 +27,10 @@
                 worker.postMessage(JSON.stringify({instruction: "tick"}));
             }
         };
-        xmlhttp.open("GET", `https://api.github.com/repos/${owner}/${repo}/actions/runs?status=completed`);
+        xmlhttp.open("GET", `https://api.github.com/repos/${owner}/${repo}/actions/runs?status=completed&dummy=${run}`);
         xmlhttp.setRequestHeader("Accept", "application/vnd.github+json");
         xmlhttp.setRequestHeader("Authorization", `token ${token}`);
         xmlhttp.setRequestHeader("X-GitHub-Api-Version", "2022-11-28");
-        xmlhttp.setRequestHeader("Expires", "Wed, 11 Jan 1984 05:00:00 GMT");
         xmlhttp.send();
     }
 
@@ -60,7 +59,7 @@
                     location.replace(window.location.href.split('?')[0] + `?token=${jsonMessage.token}&run=${run++}`);
                 }
                 else if (new String(e.data) == "tock") {
-                    location.reload(true);
+                    location.replace(window.location.href.split('?')[0] + `?token=${token}&run=${run++}`);
                 }
             };
 
