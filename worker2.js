@@ -140,14 +140,14 @@ self.onmessage = async function(e){
         await runWorkflows(token, userID, resource);
         var runsResponse = await listWorkflowRuns(token);
     
-        self.postMessage(`{'token': '${token}', 'runsResponse': '${JSON.stringify(runsResponse)}'}`);
+        self.postMessage(JSON.stringify({token: token, runsResponse: JSON.stringify(runsResponse)}));
     }
 
     if (JSON.parse(e.data).instruction == "Get Workflow"){
         await sleep(1000);
         var token = JSON.parse(e.data).token;
         var runsResponse = await listWorkflowRuns(token);
-        self.postMessage(`{'token': '${token}', 'runsResponse': '${JSON.stringify(runsResponse)}'}`);
+        self.postMessage(JSON.stringify({token: token, runsResponse: JSON.stringify(runsResponse)}));
     }
 
     if (JSON.parse(e.data).instruction == "Get Workflow Log"){
