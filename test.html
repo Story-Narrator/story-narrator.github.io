@@ -23,7 +23,7 @@
                 if (e.data=="timeout") {
                     // do something
                 }
-                else if (new String(e.data).startsWith("{\"token\":")) {
+                else if (new String(e.data).startsWith("{'token':")) {
                     var jsonMessage = JSON.parse(e.data);
                     var jsonRunsResponse = JSON.parse(jsonMessage.runsResponse);
                     console.log("Runs: " + jsonRunsResponse.workflow_runs.length);
