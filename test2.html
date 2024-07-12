@@ -51,7 +51,7 @@
                 alert("timeout");
             }
             else if (token){
-                var runsResponse = await listWorkflowRuns(token);
+                var runsResponse = listWorkflowRuns(token);
                 if (runsResponse.workflow_runs.length > 0){
                     alert("done");
                     // worker.postMessage(JSON.stringify({instruction: "Get Workflow Log", runsResponse: jsonMessage.runsResponse, token: jsonMessage.token, userID: userID, resource: resource}));
