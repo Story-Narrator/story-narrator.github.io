@@ -49,6 +49,20 @@
     </div>
     <script type="text/javascript">
 
+        const handleFiles = function() {
+            const fileList = this.files; /* now you can work with the file list */
+
+            const imgFile = fileList[0];
+            if (imgFile.name.substr(imgFile.name.length - 4) != ".png"){
+                alert("Unsupported file type. Please select a '.png' file.");
+            }
+            else {
+                alert("Supported file type.");
+            }
+            
+            alert(this.id);
+        }
+
         const populateTable = function(){
             var i = 0;
             var tr_node;
@@ -76,6 +90,7 @@
                         input_node = document.createElement("input");
                         input_node.type = "file";
                         input_node.id = `myFile${i}`;
+                        input_node.addEventListener("change", handleFiles, false);
                         input_node.name = `myFile${i}`;
                     td_node.appendChild(td_text_node);
                     td_node.appendChild(br_node);
@@ -131,22 +146,9 @@
                     td_node.appendChild(a_node);
                 tr_node.appendChild(td_node);
 
-                console.log(tr_node);
+                //console.log(tr_node);
 
                 document.getElementById("sys_tbl").appendChild(tr_node);
-
-                // var canvas = document.createElement("canvas");
-                // var context = canvas.getContext('2d');
-
-                // function make_base(){
-                //     var base_image = new Image();
-                //     base_image.src = 'img/base.png';
-                //     base_image.onload = function(){
-                //         context.drawImage(base_image, 100, 100);
-                //     }
-                // }
-
-                // make_base();
 
                 i++;
             });
@@ -211,6 +213,19 @@
 
         document.getElementById("sys_overlay").style.visibility = "hidden";
         document.getElementById("sys_main").style.visibility = "visible";
+
+                // var canvas = document.createElement("canvas");
+                // var context = canvas.getContext('2d');
+
+                // function make_base(){
+                //     var base_image = new Image();
+                //     base_image.src = 'img/base.png';
+                //     base_image.onload = function(){
+                //         context.drawImage(base_image, 100, 100);
+                //     }
+                // }
+
+                // make_base();
         
     </script>
 </body>
