@@ -59,8 +59,11 @@
                             tr_node = document.createElement("tr");
                                 td_node = document.createElement("td");
                                     td_text_node = document.createTextNode(element.cover);
+                                    br_node = document.createElement("br");
                                     label_node = document.createElement("label");
-                                    label_node.for = `myFile${i}`;
+                                    label_node.htmlFor = `myFile${i}`;
+                                        label_text_node = document.createTextNode("Select a file:");
+                                    label_node.appendChild(label_text_node);
                                     input_node = document.createElement("input");
                                     input_node.type = "file";
                                     input_node.id = `myFile${i}`;
@@ -68,6 +71,7 @@
                                     // <label for="myfile">Select a file:</label>
                                     // <input type="file" id="myfile" name="myfile">
                                 td_node.appendChild(td_text_node);
+                                td_node.appendChild(br_node);
                                 td_node.appendChild(label_node);
                                 td_node.appendChild(input_node);
                             tr_node.appendChild(td_node);
