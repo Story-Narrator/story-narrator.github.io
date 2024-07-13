@@ -114,8 +114,6 @@
 
     if (!localStorage.getItem("Library")) {
 
-        document.getElementById("sys_main").style.visibility = "hidden";
-
         const urlParams = new URLSearchParams(window.location.search);
         const userID = urlParams.get('userID');
         const resource = urlParams.get('resource');
@@ -156,10 +154,7 @@
 
                         populateTable();
 
-                        document.getElementById("sys_overlay").style.visibility = "hidden";
-                        document.getElementById("sys_main").style.visibility = "visible";
-
-                        console.log(localStorage.getItem("Library"));
+                        //console.log(localStorage.getItem("Library"));
                     }
                 }
                 catch (error) {
@@ -173,6 +168,9 @@
     else {
         populateTable();
     }
+
+    document.getElementById("sys_overlay").style.visibility = "hidden";
+    document.getElementById("sys_main").style.visibility = "visible";
     </script>
 </head>
 <body id="sys">
