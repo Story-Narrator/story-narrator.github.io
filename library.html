@@ -6,172 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Story Narrator: Library</title>
     <link rel="stylesheet" href="./styles.css">
-
-    <script type="text/javascript">
-
-    const populateTable = function(){
-        var i = 0;
-        var tr_node;
-        var td_node;
-        var td_text_node;
-        var br_node;
-        var label_node;
-        var label_text_node;
-        var input_node;
-        var a_node;
-        var img_node;
-        var p_node;
-        var p_text_node;
-
-        JSON.parse(localStorage.getItem("Library")).stories.forEach(function(element){
-
-            tr_node = document.createElement("tr");
-                td_node = document.createElement("td");
-                    td_text_node = document.createTextNode(element.cover);
-                    br_node = document.createElement("br");
-                    label_node = document.createElement("label");
-                    label_node.htmlFor = `myFile${i}`;
-                        label_text_node = document.createTextNode("Select a file: ");
-                    label_node.appendChild(label_text_node);
-                    input_node = document.createElement("input");
-                    input_node.type = "file";
-                    input_node.id = `myFile${i}`;
-                    input_node.name = `myFile${i}`;
-                td_node.appendChild(td_text_node);
-                td_node.appendChild(br_node);
-                td_node.appendChild(label_node);
-                td_node.appendChild(input_node);
-            tr_node.appendChild(td_node);
-                td_node = document.createElement("td");
-                    td_text_node = document.createTextNode(element.title);
-                td_node.appendChild(td_text_node);
-            tr_node.appendChild(td_node);
-                td_node = document.createElement("td");
-                    td_text_node = document.createTextNode(element.category);
-                td_node.appendChild(td_text_node);
-            tr_node.appendChild(td_node);
-                td_node = document.createElement("td");
-                    td_text_node = document.createTextNode(element.created);
-                td_node.appendChild(td_text_node);
-            tr_node.appendChild(td_node);
-                td_node = document.createElement("td");
-                    td_text_node = document.createTextNode(element.modified);
-                td_node.appendChild(td_text_node);
-            tr_node.appendChild(td_node);
-                td_node = document.createElement("td");
-                td_node.className = "tbl_cell_small";
-                    a_node = document.createElement("a");
-                    a_node.className = "sys_updt_btn";
-                    a_node.href = "./story_editor.html"; 
-                        img_node = document.createElement("img");
-                        img_node.className = "sys_action_icon";
-                        img_node.src = "./assets/Edit_Icon.png";
-                        img_node.alt = "Edit Icon";
-                        p_node = document.createElement("p");
-                        p_node.className = "sys_action_lbl";
-                            p_text_node = document.createTextNode("Edit");
-                        p_node.appendChild(p_text_node);
-                    a_node.appendChild(img_node);
-                    a_node.appendChild(p_node);
-                td_node.appendChild(a_node);
-                    a_node = document.createElement("a");
-                    a_node.className = "sys_del_btn";
-                    a_node.href = "";
-                    a_node.onclick = "return confirm('Are you sure you want to delete this story?');";  
-                        img_node = document.createElement("img");
-                        img_node.className = "sys_action_icon";
-                        img_node.src = "./assets/Delete_Icon.png";
-                        img_node.alt = "Delete Icon";
-                        p_node = document.createElement("p");
-                        p_node.className = "sys_action_lbl";
-                            p_text_node = document.createTextNode("Delete");
-                        p_node.appendChild(p_text_node);
-                    a_node.appendChild(img_node);
-                    a_node.appendChild(p_node);
-                td_node.appendChild(a_node);
-            tr_node.appendChild(td_node);
-
-            console.log(tr_node);
-
-            document.getElementById("sys_tbl").appendChild(tr_node);
-
-            // var canvas = document.createElement("canvas");
-            // var context = canvas.getContext('2d');
-
-            // function make_base(){
-            //     var base_image = new Image();
-            //     base_image.src = 'img/base.png';
-            //     base_image.onload = function(){
-            //         context.drawImage(base_image, 100, 100);
-            //     }
-            // }
-
-            // make_base();
-
-            i++;
-        });
-    }
-
-    if (!localStorage.getItem("Library")) {
-
-        const urlParams = new URLSearchParams(window.location.search);
-        const userID = urlParams.get('userID');
-        const resource = urlParams.get('resource');
-
-        if (userID != null && resource != null){
-            // Create a new worker
-            var worker = new Worker("./worker.js");
-            var degrees = 0;
-
-            // Send a message to the worker to start the interval
-            worker.postMessage(JSON.stringify({userID: userID, resource: resource}));
-
-            // Listen for messages from the worker
-            worker.onmessage = function(e) {
-                try {
-                    if (e.data=="timeout") {
-                        throw "Error: A workflow matching the specified resource and userID was not found.";
-                        alert("An error occured. Please refresh the page.");
-                        worker.terminate();
-                    }
-                    else if(e.data=="tick"){
-                        degrees += 15;
-                        if (degrees == 360){
-                            degrees = 0;
-                        }
-
-                        document.getElementById("sys_wheel").style.transform = `rotate(${degrees}deg)`;
-                    }
-                    else {
-                        worker.terminate();
-
-                        // if (window.console && window.console.log) {
-                        //     window.console.log(e.data);
-                        // }
-
-                        localStorage.clear();
-                        localStorage.setItem("Library", e.data);
-
-                        populateTable();
-
-                        //console.log(localStorage.getItem("Library"));
-                    }
-                }
-                catch (error) {
-                    if (window.console && window.console.log) {
-                        window.console.log(error);
-                    }
-                }
-            };
-        }
-    }
-    else {
-        populateTable();
-    }
-
-    document.getElementById("sys_overlay").style.visibility = "hidden";
-    document.getElementById("sys_main").style.visibility = "visible";
-    </script>
 </head>
 <body id="sys">
     <div id="sys_overlay">
@@ -213,5 +47,171 @@
             </div>
         </div>
     </div>
+    <script type="text/javascript">
+
+        const populateTable = function(){
+            var i = 0;
+            var tr_node;
+            var td_node;
+            var td_text_node;
+            var br_node;
+            var label_node;
+            var label_text_node;
+            var input_node;
+            var a_node;
+            var img_node;
+            var p_node;
+            var p_text_node;
+
+            JSON.parse(localStorage.getItem("Library")).stories.forEach(function(element){
+
+                tr_node = document.createElement("tr");
+                    td_node = document.createElement("td");
+                        td_text_node = document.createTextNode(element.cover);
+                        br_node = document.createElement("br");
+                        label_node = document.createElement("label");
+                        label_node.htmlFor = `myFile${i}`;
+                            label_text_node = document.createTextNode("Select a file: ");
+                        label_node.appendChild(label_text_node);
+                        input_node = document.createElement("input");
+                        input_node.type = "file";
+                        input_node.id = `myFile${i}`;
+                        input_node.name = `myFile${i}`;
+                    td_node.appendChild(td_text_node);
+                    td_node.appendChild(br_node);
+                    td_node.appendChild(label_node);
+                    td_node.appendChild(input_node);
+                tr_node.appendChild(td_node);
+                    td_node = document.createElement("td");
+                        td_text_node = document.createTextNode(element.title);
+                    td_node.appendChild(td_text_node);
+                tr_node.appendChild(td_node);
+                    td_node = document.createElement("td");
+                        td_text_node = document.createTextNode(element.category);
+                    td_node.appendChild(td_text_node);
+                tr_node.appendChild(td_node);
+                    td_node = document.createElement("td");
+                        td_text_node = document.createTextNode(element.created);
+                    td_node.appendChild(td_text_node);
+                tr_node.appendChild(td_node);
+                    td_node = document.createElement("td");
+                        td_text_node = document.createTextNode(element.modified);
+                    td_node.appendChild(td_text_node);
+                tr_node.appendChild(td_node);
+                    td_node = document.createElement("td");
+                    td_node.className = "tbl_cell_small";
+                        a_node = document.createElement("a");
+                        a_node.className = "sys_updt_btn";
+                        a_node.href = "./story_editor.html"; 
+                            img_node = document.createElement("img");
+                            img_node.className = "sys_action_icon";
+                            img_node.src = "./assets/Edit_Icon.png";
+                            img_node.alt = "Edit Icon";
+                            p_node = document.createElement("p");
+                            p_node.className = "sys_action_lbl";
+                                p_text_node = document.createTextNode("Edit");
+                            p_node.appendChild(p_text_node);
+                        a_node.appendChild(img_node);
+                        a_node.appendChild(p_node);
+                    td_node.appendChild(a_node);
+                        a_node = document.createElement("a");
+                        a_node.className = "sys_del_btn";
+                        a_node.href = "";
+                        a_node.onclick = "return confirm('Are you sure you want to delete this story?');";  
+                            img_node = document.createElement("img");
+                            img_node.className = "sys_action_icon";
+                            img_node.src = "./assets/Delete_Icon.png";
+                            img_node.alt = "Delete Icon";
+                            p_node = document.createElement("p");
+                            p_node.className = "sys_action_lbl";
+                                p_text_node = document.createTextNode("Delete");
+                            p_node.appendChild(p_text_node);
+                        a_node.appendChild(img_node);
+                        a_node.appendChild(p_node);
+                    td_node.appendChild(a_node);
+                tr_node.appendChild(td_node);
+
+                console.log(tr_node);
+
+                document.getElementById("sys_tbl").appendChild(tr_node);
+
+                // var canvas = document.createElement("canvas");
+                // var context = canvas.getContext('2d');
+
+                // function make_base(){
+                //     var base_image = new Image();
+                //     base_image.src = 'img/base.png';
+                //     base_image.onload = function(){
+                //         context.drawImage(base_image, 100, 100);
+                //     }
+                // }
+
+                // make_base();
+
+                i++;
+            });
+        }
+
+        if (!localStorage.getItem("Library")) {
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const userID = urlParams.get('userID');
+            const resource = urlParams.get('resource');
+
+            if (userID != null && resource != null){
+                // Create a new worker
+                var worker = new Worker("./worker.js");
+                var degrees = 0;
+
+                // Send a message to the worker to start the interval
+                worker.postMessage(JSON.stringify({userID: userID, resource: resource}));
+
+                // Listen for messages from the worker
+                worker.onmessage = function(e) {
+                    try {
+                        if (e.data=="timeout") {
+                            throw "Error: A workflow matching the specified resource and userID was not found.";
+                            alert("An error occured. Please refresh the page.");
+                            worker.terminate();
+                        }
+                        else if(e.data=="tick"){
+                            degrees += 15;
+                            if (degrees == 360){
+                                degrees = 0;
+                            }
+
+                            document.getElementById("sys_wheel").style.transform = `rotate(${degrees}deg)`;
+                        }
+                        else {
+                            worker.terminate();
+
+                            // if (window.console && window.console.log) {
+                            //     window.console.log(e.data);
+                            // }
+
+                            localStorage.clear();
+                            localStorage.setItem("Library", e.data);
+
+                            populateTable();
+
+                            //console.log(localStorage.getItem("Library"));
+                        }
+                    }
+                    catch (error) {
+                        if (window.console && window.console.log) {
+                            window.console.log(error);
+                        }
+                    }
+                };
+            }
+        }
+        else {
+            populateTable();
+        }
+
+        document.getElementById("sys_overlay").style.visibility = "hidden";
+        document.getElementById("sys_main").style.visibility = "visible";
+        
+    </script>
 </body>
 </html>
