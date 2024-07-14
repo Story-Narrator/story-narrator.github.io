@@ -71,7 +71,7 @@
                             // Simply Print the Base64 Encoded String, 
                             // without additional data: Attributes.
 
-                            console.log(JSON.stringify({"cover": base64String.substr(base64String.indexOf(', ') + 1)}));
+                            //console.log(JSON.stringify({"cover": base64String.substr(base64String.indexOf(', ') + 1)}));
 
 
 
@@ -101,7 +101,10 @@
 
                 tr_node = document.createElement("tr");
                     td_node = document.createElement("td");
-                        td_text_node = document.createTextNode(element.cover);
+                        img_node = document.createElement("img");
+                        img_node.className = "cover";
+                        img_node.src = element.cover;
+                        img_node.alt = "Cover Image";
                         br_node = document.createElement("br");
                         label_node = document.createElement("label");
                         label_node.htmlFor = `myFile${i}`;
@@ -112,7 +115,7 @@
                         input_node.id = `myFile${i}`;
                         input_node.addEventListener("change", handleFiles, false);
                         input_node.name = `myFile${i}`;
-                    td_node.appendChild(td_text_node);
+                    td_node.appendChild(img_node);
                     td_node.appendChild(br_node);
                     td_node.appendChild(label_node);
                     td_node.appendChild(input_node);
