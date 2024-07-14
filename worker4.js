@@ -118,7 +118,7 @@ const getOutputURL = async function(token, userID, resource) {
                 return response.text();
             }).then(function(text){
                 console.log(text);
-                var substring = text.replace(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{7}Z /mg, "").replace(/((.*\n)*.*"BOF": |,\n.*"EOF": (.*\n|.*)*)/g, "").replace(/^\s{4}/mg, "");
+                var substring = text.replace(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{7}Z /mg, "").replace(/^\s{4}/mg, "").split(/("BOF": |,\n\s*"EOF": "")/)[1];
                 console.log(substring);
                 return substring;
             });
