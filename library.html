@@ -26,7 +26,7 @@
                     </tr>
                     <!-- <tr>
                         <td>
-                            <img id="lib_cover" class="cover" src="./assets/Cover.png" alt="Cover Image">
+                            <img class="cover lib_cover" src="./assets/Cover.png" alt="Cover Image">
                         </td>
                         <td>Rob's day at the beach</td>
                         <td>Kids Books</td>
@@ -102,7 +102,7 @@
                 tr_node = document.createElement("tr");
                     td_node = document.createElement("td");
                         img_node = document.createElement("img");
-                        img_node.className = "cover";
+                        img_node.className = "cover lib_cover";
                         img_node.src = element.cover;
                         img_node.alt = "Cover Image";
                         br_node = document.createElement("br");
@@ -185,7 +185,7 @@
 
             if (userID != null && resource != null){
                 // Create a new worker
-                var worker = new Worker("./worker4.js");
+                var worker = new Worker("./worker.js");
                 var degrees = 0;
 
                 // Send a message to the worker to start the interval
