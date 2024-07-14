@@ -87,13 +87,13 @@
             var i = 0;
             var tr_node;
             var td_node;
-            var td_text_node;
+            var img_node;
             var br_node;
             var label_node;
             var label_text_node;
             var input_node;
+            var td_text_node;
             var a_node;
-            var img_node;
             var p_node;
             var p_text_node;
 
@@ -210,9 +210,9 @@
                         else {
                             worker.terminate();
 
-                            // if (window.console && window.console.log) {
-                            //     window.console.log(e.data);
-                            // }
+                            if (window.console && window.console.log) {
+                                window.console.log(e.data);
+                            }
 
                             localStorage.clear();
                             localStorage.setItem("Library", e.data);
