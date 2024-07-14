@@ -177,7 +177,7 @@
             });
         }
 
-        if (!localStorage.getItem("Library")) {
+        if (localStorage.getItem("Library") === null) {
 
             const urlParams = new URLSearchParams(window.location.search);
             const userID = urlParams.get('userID');
