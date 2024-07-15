@@ -55,7 +55,7 @@
             <div id="se_cover_row">
                 <div><h5>Cover Image:</h5></div>
                 <div>
-                    <img id="se_cover" class="cover" src="./assets/Cover.png" alt="Cover Image">
+                    <img id="se_cover" class="cover" src="./assets/Beach.png" alt="Cover Image">
                 </div>
                 <div class="se_img_btn">
                     <img class="se_icon" src="./assets/Edit_Icon.png" alt="Edit Icon">
@@ -121,6 +121,379 @@
             </div>
         </div>
     </div>
+    <script type="text/javascript">
+
+        const handleFiles = function() {
+            const fileList = this.files;
+
+            const imgFile = fileList[0];
+            if (imgFile.name.substr(imgFile.name.length - 4) != ".png"){
+                alert("Error: Unsupported file type. Please select a '.png' file.");
+            }
+            else {
+                if (imgFile.size > 1000000){
+                    alert("Error: Image file size too large. Please select a file that does not exceed 1MB.");   
+                }
+                else {
+                    // alert("Supported file type and size.");
+                        let reader = new FileReader();
+                        reader.readAsDataURL(imgFile);
+                        reader.onloadend = function () {
+                            let base64String = reader.result;
+                            //console.log('Base64 String - ', base64String);
+
+                            // Simply Print the Base64 Encoded String, 
+                            // without additional data: Attributes.
+
+                            console.log(JSON.stringify({"cover": base64String.substr(base64String.indexOf(', ') + 1)}));
+
+
+
+                        }
+                }
+            }
+            
+            // alert(this.id);
+            // alert(imgFile.size);
+        }
+
+        const populatePage = function(storyID){
+
+            var userStory = JSON.parse(localStorage.getItem("Library")).stories[storyID];
+
+            var main_div;
+            var parent_div_node;
+            var first_child_div_node;
+            var second_child_div_node;
+            var heading_node;
+            var heading_text_node;
+            var label_node;
+            var superscript_node;
+            var superscript_text_node;
+            var label_text_node;
+            var input_node;
+            var a_node;
+            var img_node;
+            var select_node;
+            var option_node;
+            var option_text_node;
+            var third_child_div_node;
+            var div_text_node;
+            var unordered_list_node;
+            var list_item_node;
+            var span_node;
+            var span_text_node;
+
+            main_div = document.getElementById("sys_main");
+                parent_div_node = document.createElement("div");
+                parent_div_node.id = "se_backdrop_parent";
+                    first_child_div_node = document.createElement("div");
+                    first_child_div_node.id = "se_backdrop";
+                parent_div_node.appendChild(first_child_div_node);
+                    first_child_div_node = document.createElement("div");
+                    first_child_div_node.id = "se_backdrop_overlay";
+                parent_div_node.appendChild(first_child_div_node);
+            main_div.appendChild(parent_div_node);
+                heading_node = document.createElement("h3");
+                heading_node.id = "se_heading";
+                    heading_text_node = document.createTextNode(new String(userStory.title).toUpperCase());
+                heading_node = document.appendChild(heading_text_node);
+            main_div.appendChild(heading_node);
+                heading_node = document.createElement("h6");
+                heading_node.id = "se_req_lbl";
+                    heading_text_node = document.createTextNode("* Indicates a required field.");
+                heading_node = document.appendChild(heading_text_node);
+            main_div.appendChild(heading_node);
+                heading_node = document.createElement("h4");
+                heading_node.id = "sys_subheading";
+                    heading_text_node = document.createTextNode("Story Information");
+                heading_node = document.appendChild(heading_text_node);
+            main_div.appendChild(heading_node);
+                parent_div_node = document.createElement("div");
+                parent_div_node.id = "se_info";
+                    first_child_div_node = document.createElement("div");
+                    first_child_div_node.id = "se_info_rows";
+                        second_child_div_node = document.createElement("div");
+                            label_node = document.createElement("label");
+                            label_node.className = "se_lbl";
+                            label_node.htmlFor = "se_title";
+                                superscript_node = document.createElement("sup");
+                                superscript_node.className = "se_super";
+                                    superscript_text_node = document.createTextNode("*");
+                                superscript_node.appendChild(superscript_text_node);
+                                label_text_node = document.createTextNode("Title:")
+                            label_node.appendChild(label_text_node);
+                        second_child_div_node.appendChild(label_node);
+                    first_child_div_node.appendChild(second_child_div_node);
+                        second_child_div_node = document.createElement("div");
+                        second_child_div_node.className = "shrink";
+                            input_node = document.createElement("input");
+                            input_node.id = "se_title";
+                            input_node.className = "se_field";
+                            input_node.name = "Title";
+                            input_name.tpye = "text";
+                            input_name.value = userStory.title;
+                        second_child_div_node.appendChild(input_node);
+                    first_child_div_node.appendChild(second_child_div_node);
+                        second_child_div_node = document.createElement("div");
+                    first_child_div_node.appendChild(second_child_div_node);
+                parent_div_node.appendChild(first_child_div_node);
+                    first_child_div_node = document.createElement("div");
+                    first_child_div_node.id = "se_info_rows";
+                        second_child_div_node = document.createElement("div");
+                            label_node = document.createElement("label");
+                            label_node.className = "se_lbl";
+                            label_node.htmlFor = "se_content";
+                                superscript_node = document.createElement("sup");
+                                superscript_node.className = "se_super";
+                                    superscript_text_node = document.createTextNode("*");
+                                superscript_node.appendChild(superscript_text_node);
+                                label_text_node = document.createTextNode("Content:")
+                            label_node.appendChild(label_text_node);
+                        second_child_div_node.appendChild(label_node);
+                    first_child_div_node.appendChild(second_child_div_node);
+                        second_child_div_node = document.createElement("div");
+                        second_child_div_node.className = "shrink";
+                            input_node = document.createElement("input");
+                            input_node.id = "se_content";
+                            input_node.className = "se_field";
+                            input_node.name = "Content";
+                            input_name.tpye = "text";
+                            input_name.value = "It was the height of summer...";
+                            input_name.disabled = true;
+                        second_child_div_node.appendChild(input_node);
+                    first_child_div_node.appendChild(second_child_div_node);
+                        second_child_div_node = document.createElement("div");
+                        second_child_div_node.className = "se_img_btn";
+                            a_node = document.createElement("a");
+                            a_node.href="./story_content_editor.html";
+                                img_node = document.createElement("img");
+                                img_node.className = "se_icon";
+                                img_node.src = "./assets/Edit_Icon.png";
+                                img_node.alt = "Edit Icon";
+                            a_node.appendChild(img_node);
+                        second_child_div_node.appendChild(a_node);
+                    first_child_div_node.appendChild(second_child_div_node);
+                parent_div_node.appendChild(first_child_div_node);
+                    first_child_div_node = document.createElement("div");
+                    first_child_div_node.id = "se_info_rows";
+                        second_child_div_node = document.createElement("div");
+                            label_node = document.createElement("label");
+                            label_node.className = "se_lbl";
+                            label_node.htmlFor = "se_category";
+                                label_text_node = document.createTextNode("Category:")
+                            label_node.appendChild(label_text_node);
+                        second_child_div_node.appendChild(label_node);
+                    first_child_div_node.appendChild(second_child_div_node);
+                        select_node = document.createElement("select");
+                        select_node.id = "se_category";
+                        select_node.className = "se_field";
+                        select_node.name = "Category";
+                            option_node = document.createElement("option");
+                            option_node.value = "uncategorised";
+                                option_text_node = document.createTextNode("Uncategorised");
+                            option_node.appendChild(option_text_node);
+                        select_node.appendChild(option_node);
+                            option_node = document.createElement("option");
+                            option_node.value = "sci-fi";
+                                option_text_node = document.createTextNode("Sci-Fi");
+                            option_node.appendChild(option_text_node);
+                        select_node.appendChild(option_node);
+                            option_node = document.createElement("option");
+                            option_node.value = "romance";
+                                option_text_node = document.createTextNode("Romance");
+                            option_node.appendChild(option_text_node);
+                        select_node.appendChild(option_node);
+                            option_node = document.createElement("option");
+                            option_node.value = "history";
+                                option_text_node = document.createTextNode("History");
+                            option_node.appendChild(option_text_node);
+                        select_node.appendChild(option_node);
+                            option_node = document.createElement("option");
+                            option_node.value = "kids books";
+                                option_text_node = document.createTextNode("Kids Books");
+                            option_node.appendChild(option_text_node);
+                        select_node.appendChild(option_node);
+                    first_child_div_node.appendChild(select_node);
+                        second_child_div_node = document.createElement("div");
+                    first_child_div_node.appendChild(second_child_div_node);
+                parent_div_node.appendChild(first_child_div_node);
+                    first_child_div_node = document.createElement("div");
+                    first_child_div_node.id = "se_cover_row";
+                        second_child_div_node = document.createElement("div");
+                            heading_node = document.createElement("h5");
+                                heading_text_node = document.createTextNode("Cover Image:");
+                            heading_node.appendChild(heading_text_node);
+                        second_child_div_node.appendChild(heading_node);
+                    first_child_div_node.appendChild(second_child_div_node);
+                        second_child_div_node = document.createElement("div");
+                            img_node = document.createElement("img");
+                            img_node.id = "se_cover";
+                            img_node.className = "cover";
+                            img_node.src = userStory.cover;
+                            img_node.alt = "Cover Image";
+                        second_child_div_node.appendChild(img_node);
+                    first_child_div_node.appendChild(second_child_div_node);
+                        second_child_div_node = document.createElement("div");
+                        second_child_div_node.className = "se_img_btn";
+                            img_node = document.createElement("img");
+                            img_node.className = "se_icon";
+                            img_node.src = "./assets/Edit_Icon.png";
+                            img_node.alt = "Edit Icon";
+                        second_child_div_node.appendChild(img_node);
+                    first_child_div_node.appendChild(second_child_div_node);
+                parent_div_node.appendChild(first_child_div_node);
+                    first_child_div_node = document.createElement("div");
+                    first_child_div_node.id = "se_text_btn_row";
+                        second_child_div_node = document.createElement("div");
+                            third_child_div_node = document.createElement("div");
+                            third_child_div_node.id = "se_discard_btn";
+                            third_child_div_node.className = "se_text_btn";
+                                div_text_node = document.createTextNode("DISCARD CHANGES");
+                            third_child_div_node.appendChild(div_text_node);
+                        second_child_div_node.appendChild(third_child_div_node);
+                            third_child_div_node = document.createElement("div");
+                            third_child_div_node.id = "se_save_btn";
+                            third_child_div_node.className = "se_text_btn";
+                                div_text_node = document.createTextNode("SAVE CHANGES");
+                            third_child_div_node.appendChild(div_text_node);
+                        second_child_div_node.appendChild(third_child_div_node);
+                    first_child_div_node.appendChild(second_child_div_node);
+                        second_child_div_node = document.createElement("div");
+                    first_child_div_node.appendChild(second_child_div_node);
+                parent_div_node.appendChild(first_child_div_node);
+            main_div.appendChild(parent_div_node);
+                heading_node = document.createElement("h4");
+                    heading_text_node = document.createTextNode("Story Actions");
+                heading_node.appendChild(heading_text_node);
+            main_div.appendChild(heading_node);
+                parent_div_node = document.createElement("div");
+                parent_div_node.id = "se_actions";
+                    first_child_div_node = document.createElement("div");
+                    first_child_div_node.className = "se_action_rows";
+                        second_child_div_node = document.createElement("div");
+                            unordered_list_node = document.createElement("ul");
+                            unordered_list_node.className = "se_action";
+                                list_item_node = document.createElement("li");
+                                    span_node = document.createElement("span");
+                                    span_node.className = "se_indent";
+                                        span_text_node = document.createTextNode("Listen");
+                                    span_node.appendChild(span_text_node);
+                                list_item_node.appendChild(span_node);
+                            unordered_list_node.appendChild(list_item_node);
+                        second_child_div_node.appendChild(unordered_list_node);
+                    first_child_div_node.appendChild(second_child_div_node);
+                        second_child_div_node = document.createElement("div");
+                        second_child_div_node.className = "se_img_btn";
+                            img_node = document.createElement("img");
+                            img_node.className = "se_icon";
+                            img_node.src = "./assets/Play_Icon.png";
+                            img_node.alt = "Listen Icon";
+                        second_child_div_node.appendChild(img_node);
+                    first_child_div_node.appendChild(second_child_div_node);
+                        second_child_div_node = document.createElement("div");
+                    first_child_div_node.appendChild(second_child_div_node);
+                        second_child_div_node = document.createElement("div");
+                            unordered_list_node = document.createElement("ul");
+                            unordered_list_node.className = "se_action";
+                                list_item_node = document.createElement("li");
+                                    span_node = document.createElement("span");
+                                    span_node.className = "se_indent";
+                                        span_text_node = document.createTextNode("Duplicate");
+                                    span_node.appendChild(span_text_node);
+                                list_item_node.appendChild(span_node);
+                            unordered_list_node.appendChild(list_item_node);
+                        second_child_div_node.appendChild(unordered_list_node);
+                    first_child_div_node.appendChild(second_child_div_node);
+                        second_child_div_node = document.createElement("div");
+                        second_child_div_node.className = "se_img_btn";
+                            img_node = document.createElement("img");
+                            img_node.className = "se_icon";
+                            img_node.src = "./assets/Duplicate_Icon.png";
+                            img_node.alt = "Duplicate Icon";
+                        second_child_div_node.appendChild(img_node);
+                    first_child_div_node.appendChild(second_child_div_node);
+                        second_child_div_node = document.createElement("div");
+                    first_child_div_node.appendChild(second_child_div_node);
+                parent_div_node.appendChild(first_child_div_node);
+                    first_child_div_node = document.createElement("div");
+                    first_child_div_node.className = "se_action_rows";
+                        second_child_div_node = document.createElement("div");
+                            unordered_list_node = document.createElement("ul");
+                            unordered_list_node.className = "se_action";
+                                list_item_node = document.createElement("li");
+                                    span_node = document.createElement("span");
+                                    span_node.className = "se_indent";
+                                        span_text_node = document.createTextNode("Share");
+                                    span_node.appendChild(span_text_node);
+                                list_item_node.appendChild(span_node);
+                            unordered_list_node.appendChild(list_item_node);
+                        second_child_div_node.appendChild(unordered_list_node);
+                    first_child_div_node.appendChild(second_child_div_node);
+                        second_child_div_node = document.createElement("div");
+                        second_child_div_node.className = "se_img_btn";
+                            img_node = document.createElement("img");
+                            img_node.className = "se_icon";
+                            img_node.src = "./assets/Share_Icon.png";
+                            img_node.alt = "Share Icon";
+                        second_child_div_node.appendChild(img_node);
+                    first_child_div_node.appendChild(second_child_div_node);
+                        second_child_div_node = document.createElement("div");
+                    first_child_div_node.appendChild(second_child_div_node);
+                        second_child_div_node = document.createElement("div");
+                            unordered_list_node = document.createElement("ul");
+                            unordered_list_node.className = "se_action";
+                                list_item_node = document.createElement("li");
+                                    span_node = document.createElement("span");
+                                    span_node.className = "se_indent";
+                                        span_text_node = document.createTextNode("Delete");
+                                    span_node.appendChild(span_text_node);
+                                list_item_node.appendChild(span_node);
+                            unordered_list_node.appendChild(list_item_node);
+                        second_child_div_node.appendChild(unordered_list_node);
+                    first_child_div_node.appendChild(second_child_div_node);
+                        second_child_div_node = document.createElement("div");
+                        second_child_div_node.className = "se_img_btn";
+                            img_node = document.createElement("img");
+                            img_node.className = "se_icon";
+                            img_node.src = "./assets/Delete_Icon.png";
+                            img_node.alt = "Delete Icon";
+                        second_child_div_node.appendChild(img_node);
+                    first_child_div_node.appendChild(second_child_div_node);
+                        second_child_div_node = document.createElement("div");
+                    first_child_div_node.appendChild(second_child_div_node);
+                parent_div_node.appendChild(first_child_div_node);
+                    first_child_div_node = document.createElement("div");
+                    first_child_div_node.id = "se_text_btn_row";
+                        second_child_div_node = document.createElement("div");
+                            a_node = document.createElement("a");
+                            a_node.href = "./library.html";
+                                third_child_div_node = document.createElement("div");
+                                third_child_div_node.id = "se_exit_btn";
+                                third_child_div_node.className = "se_text_btn";
+                                    div_text_node = document.createTextNode("EXIT TO LIBRARY");
+                                third_child_div_node.appendChild(div_text_node);
+                            a_node.appendChild(third_child_div_node);
+                        second_child_div_node.appendChild(a_node);
+                    first_child_div_node.appendChild(second_child_div_node);
+                        second_child_div_node = document.createElement("div");
+                    first_child_div_node.appendChild("div");
+                parent_div_node.appendChild(first_child_div_node);
+            main_div.appendChild(parent_div_node);
+
+        }
+
+        if (localStorage.getItem("Library") != null) {
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const resource = urlParams.get('storyID');
+
+            if (storyID != null){
+                populatePage();
+                document.getElementById("sys_main").style.visibility = "visible";
+            }
+        }
+        
+    </script>
 </body>
-</script>
 </html>
