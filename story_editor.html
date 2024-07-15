@@ -486,7 +486,7 @@
         if (localStorage.getItem("Library") != null) {
 
             const urlParams = new URLSearchParams(window.location.search);
-            const resource = urlParams.get('storyID');
+            const storyID = urlParams.get('storyID');
 
             if (storyID != null){
                 populatePage();
