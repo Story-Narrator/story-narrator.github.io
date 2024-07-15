@@ -188,6 +188,7 @@
                 parent_div_node.id = "se_backdrop_parent";
                     first_child_div_node = document.createElement("div");
                     first_child_div_node.id = "se_backdrop";
+                    first_child_div_node.style.backgroundImage = 'url(\'' + userStory.cover + '\')';
                 parent_div_node.appendChild(first_child_div_node);
                     first_child_div_node = document.createElement("div");
                     first_child_div_node.id = "se_backdrop_overlay";
@@ -230,8 +231,8 @@
                             input_node.id = "se_title";
                             input_node.className = "se_field";
                             input_node.name = "Title";
-                            input_name.tpye = "text";
-                            input_name.value = userStory.title;
+                            input_node.type = "text";
+                            input_node.value = userStory.title;
                         second_child_div_node.appendChild(input_node);
                     first_child_div_node.appendChild(second_child_div_node);
                         second_child_div_node = document.createElement("div");
@@ -257,9 +258,9 @@
                             input_node.id = "se_content";
                             input_node.className = "se_field";
                             input_node.name = "Content";
-                            input_name.tpye = "text";
-                            input_name.value = "It was the height of summer...";
-                            input_name.disabled = true;
+                            input_node.type = "text";
+                            input_node.value = "It was the height of summer...";
+                            input_node.disabled = true;
                         second_child_div_node.appendChild(input_node);
                     first_child_div_node.appendChild(second_child_div_node);
                         second_child_div_node = document.createElement("div");
