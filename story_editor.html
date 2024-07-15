@@ -158,7 +158,9 @@
         }
 
         const populatePage = function(storyID){
-
+            console.log(JSON.parse(localStorage.getItem("Library")).stories)
+            console.log("");
+            console.log(JSON.parse(localStorage.getItem("Library")).stories[storyID]);
             var userStory = JSON.parse(localStorage.getItem("Library")).stories[storyID];
 
             var main_div;
@@ -489,6 +491,7 @@
             const storyID = urlParams.get('storyID');
 
             if (storyID != null){
+                console.log("storyID: " + storyID);
                 populatePage(storyID);
                 document.getElementById("sys_main").style.visibility = "visible";
             }
