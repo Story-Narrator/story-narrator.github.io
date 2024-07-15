@@ -9,7 +9,7 @@
 </head>
 <body id="sys">
     <div id="sys_main">
-        <div id="se_backdrop_parent">
+        <!-- <div id="se_backdrop_parent">
             <div id="se_backdrop"></div>
             <div id="se_backdrop_overlay"></div>
         </div>
@@ -119,7 +119,7 @@
                 </div>
                 <div></div>
             </div>
-        </div>
+        </div> -->
     </div>
     <script type="text/javascript">
 
@@ -158,9 +158,6 @@
         }
 
         const populatePage = function(storyID){
-            console.log(JSON.parse(localStorage.getItem("Library")).stories)
-            console.log("");
-            console.log(JSON.parse(localStorage.getItem("Library")).stories[storyID]);
             var userStory = JSON.parse(localStorage.getItem("Library")).stories[storyID];
 
             var main_div;
@@ -268,7 +265,7 @@
                         second_child_div_node = document.createElement("div");
                         second_child_div_node.className = "se_img_btn";
                             a_node = document.createElement("a");
-                            a_node.href="./story_content_editor.html";
+                            a_node.href="./story_content_editor";
                                 img_node = document.createElement("img");
                                 img_node.className = "se_icon";
                                 img_node.src = "./assets/Edit_Icon.png";
@@ -469,7 +466,7 @@
                     first_child_div_node.id = "se_text_btn_row";
                         second_child_div_node = document.createElement("div");
                             a_node = document.createElement("a");
-                            a_node.href = "./library.html";
+                            a_node.href = "./library";
                                 third_child_div_node = document.createElement("div");
                                 third_child_div_node.id = "se_exit_btn";
                                 third_child_div_node.className = "se_text_btn";
