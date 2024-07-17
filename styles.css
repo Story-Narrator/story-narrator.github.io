@@ -704,6 +704,18 @@ table tr td:last-child, table tr th:last-child {
     border-width: 1px;
 }
 
+input[type="file"] {
+    display: none;
+}
+  
+.custom_file_upload {
+    border: 1px solid #ccc;
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
+    background-image: url("./assets/Edit_Icon.png");
+}
+
 .se_icon {
     display: block;
     max-width: 30px;
