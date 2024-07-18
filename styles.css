@@ -719,14 +719,15 @@ input[type="file"] {
 .custom_file_upload {
     display: block;
     cursor: pointer;
-    height: 38px; width: 38px;
-    background-size: 29.03px 30px;
+    padding-left: 36px;
+    height: 36px;
+    background-size: 29.031px 30px;
     background-repeat: no-repeat;
     background-color: white;
     border-color: #777777;
     border-style: solid;
     border-width: 1px;
-    background-position: left 3px top 3px;
+    background-position: left 3.484px top 3px;
     background-image: url("./assets/Edit_Icon.png");
     overflow: hidden;
 }
