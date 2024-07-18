@@ -705,9 +705,17 @@ table tr td:last-child, table tr th:last-child {
 }
 
 input[type="file"] {
-    display: none;
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    clip-path: inset(50%);
+    border: 0;
 }
-  
+
 .custom_file_upload {
     display: block;
     cursor: pointer;
@@ -716,8 +724,20 @@ input[type="file"] {
     background-repeat: no-repeat;
     background-color: white;
     border-color: #777777;
+    border-style: solid;
+    border-width: 1px;
     background-position: left 3px top 3px;
     background-image: url("./assets/Edit_Icon.png");
+    overflow: hidden;
+}
+
+.custom_file_upload:hover {
+    background-color: grey;
+}
+
+/* When the visually hidden child input has focus, style the parent. */
+.custom_file_upload:focus-within {
+    outline: 5px solid;
 }
 
 .se_icon {
