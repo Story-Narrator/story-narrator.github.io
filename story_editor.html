@@ -40,7 +40,13 @@
                 </div>
             </div>
             <div class="se_info_rows">
-                <div>
+                <div> -->
+                    <!--
+                     <label class="custom_file_upload" for="file_upload" style="height: 38px; width: 38px; background-size: 29.03px 30px; background-repeat: no-repeat; background-position: left 3px top 3px;">
+                        <input id="file_upload" type="file">
+                    </label>
+                     -->
+                    <!--
                     <label class="se_lbl" for="se_category">Category:</label>
                 </div>
                 <select id="se_category" class="se_field" name="Category">
@@ -144,10 +150,11 @@
 
                             // Simply Print the Base64 Encoded String, 
                             // without additional data: Attributes.
+                            
+                            //console.log(JSON.stringify({"cover": base64String.substr(base64String.indexOf(', ') + 1)}));
 
-                            console.log(JSON.stringify({"cover": base64String.substr(base64String.indexOf(', ') + 1)}));
-
-
+                            let base64SubString = JSON.stringify({"cover": base64String.substr(base64String.indexOf(', ') + 1)});
+                            document.getElementById("file_upload").src = base64SubString;
 
                         }
                 }
@@ -346,12 +353,12 @@
                             label_node = document.createElement("label");
                             label_node.className = "custom_file_upload";
                             label_node.htmlFor = "file_upload";
-                            //<label class="custom_file_upload" for="file_upload" style="height: 38px; width: 38px; background-size: 29.03px 30px; background-repeat: no-repeat; background-position: left 3px top 3px;"> <input id="file_upload" type="file"></label>
                                 label_text_node = document.createTextNode("Choose File:");
                             label_node.appendChild(label_text_node);
                                 input_node = document.createElement("input");
                                 input_node.id = "file_upload";
                                 input_node.type = "file";
+                                input_node.addEventListener("change", handleFiles, false);
                             label_node.appendChild(input_node);
                         second_child_div_node.appendChild(label_node);
                             // img_node = document.createElement("img");
