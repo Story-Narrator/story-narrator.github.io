@@ -709,10 +709,14 @@ input[type="file"] {
 }
   
 .custom_file_upload {
-    border: 1px solid #ccc;
-    display: inline-block;
-    padding: 6px 12px;
+    display: block;
     cursor: pointer;
+    height: 38px; width: 38px;
+    background-size: 29.03px 30px;
+    background-repeat: no-repeat;
+    background-color: white;
+    border-color: #777777;
+    background-position: left 3px top 3px;
     background-image: url("./assets/Edit_Icon.png");
 }
 

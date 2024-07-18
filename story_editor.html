@@ -341,7 +341,8 @@
                             label_node = document.createElement("label");
                             label_node.className = "custom_file_upload";
                             label_node.htmlFor = "file_upload";
-                                label_text_node = document.createTextNode(" ");
+                            //<label class="custom_file_upload" for="file_upload" style="height: 38px; width: 38px; background-size: 29.03px 30px; background-repeat: no-repeat; background-position: left 3px top 3px;"> <input id="file_upload" type="file"></label>
+                                label_text_node = document.createTextNode("Choose File:");
                             label_node.appendChild(label_text_node);
                                 input_node = document.createElement("input");
                                 input_node.id = "file_upload";
