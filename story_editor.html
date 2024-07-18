@@ -132,31 +132,33 @@
         const handleFiles = function() {
             const fileList = this.files;
 
-            const imgFile = fileList[0];
-            if (imgFile.name.substr(imgFile.name.length - 4) != ".png"){
-                alert("Error: Unsupported file type. Please select a '.png' file.");
-            }
-            else {
-                if (imgFile.size > 1000000){
-                    alert("Error: Image file size too large. Please select a file that does not exceed 1MB.");   
+            if (fileList.length > 0) {
+                const imgFile = fileList[0];
+                if (imgFile.name.substr(imgFile.name.length - 4) != ".png"){
+                    alert("Error: Unsupported file type. Please select a '.png' file.");
                 }
                 else {
-                    // alert("Supported file type and size.");
-                        let reader = new FileReader();
-                        reader.readAsDataURL(imgFile);
-                        reader.onloadend = function () {
-                            let base64String = reader.result;
-                            //console.log('Base64 String - ', base64String);
+                    if (imgFile.size > 1000000){
+                        alert("Error: Image file size too large. Please select a file that does not exceed 1MB.");   
+                    }
+                    else {
+                        // alert("Supported file type and size.");
+                            let reader = new FileReader();
+                            reader.readAsDataURL(imgFile);
+                            reader.onloadend = function () {
+                                let base64String = reader.result;
+                                //console.log('Base64 String - ', base64String);
 
-                            // Simply Print the Base64 Encoded String, 
-                            // without additional data: Attributes.
-                            
-                            //console.log(JSON.stringify({"cover": base64String.substr(base64String.indexOf(', ') + 1)}));
+                                // Simply Print the Base64 Encoded String, 
+                                // without additional data: Attributes.
+                                
+                                //console.log(JSON.stringify({"cover": base64String.substr(base64String.indexOf(', ') + 1)}));
 
-                            let base64SubString = base64String.substr(base64String.indexOf(', ') + 1);
-                            document.getElementById("se_cover").src = base64SubString;
+                                let base64SubString = base64String.substr(base64String.indexOf(', ') + 1);
+                                document.getElementById("se_cover").src = base64SubString;
 
-                        }
+                            }
+                    }
                 }
             }
             
