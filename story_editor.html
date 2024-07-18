@@ -316,6 +316,7 @@
                                 option_text_node = document.createTextNode("Kids Books");
                             option_node.appendChild(option_text_node);
                         select_node.appendChild(option_node);
+                        select_node.value = userStory.category;
                     first_child_div_node.appendChild(select_node);
                         second_child_div_node = document.createElement("div");
                     first_child_div_node.appendChild(second_child_div_node);
