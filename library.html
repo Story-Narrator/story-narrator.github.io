@@ -63,7 +63,7 @@
             var p_node;
             var p_text_node;
 
-            localStorage.getItem("Library").stories.forEach(function(element){
+            JSON.parse(localStorage.getItem("Library")).stories.forEach(function(element){
 
                 tr_node = document.createElement("tr");
                     td_node = document.createElement("td");
@@ -134,7 +134,7 @@
         const resource = urlParams.get('resource');
         const debug = urlParams.get('debug');
 
-        if (debug == 1){
+        if (debug == "1"){
             localStorage.clear();
         }
 
@@ -150,15 +150,6 @@
 
                 // Listen for messages from the worker
                 worker.onmessage = function(e) {
-                    try {
-                        var test = JSON.parse(e.data);
-                        var keys = Object.keys(test);
-                        var key_to_use = keys[0];
-                    }
-                    catch {
-                        console.log("Error: Could not get key name.");
-                    }
-
                     try {
                         if (e.data=="timeout error") {
                             throw "Retrieve error: A workflow matching the specified resource and userID was not found.";
@@ -182,7 +173,6 @@
                             //     window.console.log(e.data);
                             // }
 
-                            localStorage.clear();
                             localStorage.setItem("Library", JSON.parse(e.data).retrieveResponse);
 
                             worker.postMessage(JSON.stringify({action: "delete"}));
