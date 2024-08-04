@@ -128,16 +128,17 @@
             });
         }
 
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const userID = urlParams.get('userID');
+        const resource = urlParams.get('resource');
+        const debug = urlParams.get('debug');
+
+        if (debug == 1){
+            localStorage.clear();
+        }
+
         if (localStorage.getItem("Library") === null) {
-
-            const urlParams = new URLSearchParams(window.location.search);
-            const userID = urlParams.get('userID');
-            const resource = urlParams.get('resource');
-            const debug = urlParams.get('debug');
-
-            if (debug == 1){
-                localStorage.clear();
-            }
 
             if (userID != null && resource != null){
                 // Create a new worker
@@ -177,12 +178,12 @@
                         }
                         else if (Object.keys(JSON.parse(e.data))[0] == "retrieveResponse"){
 
-                            if (window.console && window.console.log) {
-                                window.console.log(e.data);
-                            }
+                            // if (window.console && window.console.log) {
+                            //     window.console.log(e.data);
+                            // }
 
                             localStorage.clear();
-                            localStorage.setItem("Library", JSON.parse(JSON.parse(e.data).retrieveResponse));
+                            localStorage.setItem("Library", JSON.parse(e.data).retrieveResponse);
 
                             worker.postMessage(JSON.stringify({action: "delete"}));
 
@@ -196,7 +197,7 @@
                         else if (Object.keys(JSON.parse(e.data))[0] == "deleteResponse"){
 
                             if (window.console && window.console.log) {
-                                window.console.log(e.data);
+                                // window.console.log(e.data);
                                 if (JSON.parse(e.data).deleteResponse == 204) {
                                     window.console.log("User workflow successfully deleted.");
                                 } else {
