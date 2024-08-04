@@ -74,7 +74,7 @@ const runWorkflow = async function(action/*, content*/){
 
     } else if (action == "Update") {
         var content = "hello";
-        var contentLength = new String(content.length);
+        //var contentLength = new String(content.length);
         updateResponse = await fetch(`https://api.github.com/repos/${owner}/${repo}/actions/workflows/${workflow_id}/dispatches`, {
             method: "post",
             headers: {
@@ -89,7 +89,7 @@ const runWorkflow = async function(action/*, content*/){
                     "resource": resource,
                     "userID": userID,
                     "content": content,
-                    "contentLength": contentLength
+                    "contentLength": content.length.toString()
                 }
             })
         }).then(function(response){
