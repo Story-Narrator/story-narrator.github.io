@@ -171,52 +171,7 @@
             // alert(imgFile.size);
         }
 
-        function updateLibrary(userLibrary, userStory){
-            if (userID != null && resource != null){
-                // Create a new worker
-                var worker = new Worker("./worker.js");
-
-                userStory.cover = document.getElementById("se_cover").src;
-                userStory.title = document.getElementById("se_title").value;
-                userStory.category = document.getElementById("se_category").options[sel.selectedIndex].text;
-                userStory.modified = new Date(Date.now()).toLocaleDateString('en-GB');
-
-                userLibrary.stories[storyID] = userStory;
-
-                var userContent = '{\n' + new String('"BOF": ' + JSON.stringify(userLibrary) + ',\n"EOF": ""').replace(/^/mg, "    ") + '\n}';
-                
-                // Send a message to the worker to start the interval
-                worker.postMessage(JSON.stringify({action: "update", userID: userID, resource: resource, content: userContent}));
-
-                // Listen for messages from the worker
-                worker.onmessage = function(e) {
-                    try {
-                        if (Object.keys(JSON.parse(e.data))[0] == "updateResponse"){
-                            if (window.console && window.console.log) {
-                                // window.console.log(e.data);
-                                if (JSON.parse(e.data).deleteResponse == 204) {
-                                    window.console.log("Update workflow successfully dispatched.");
-                                } else {
-                                    throw "Update error: Workflow could not be dispatched.";
-                                }
-                            }
-                            worker.terminate();
-
-                            localStorage.setItem("Library", userLibrary);
-
-                        }
-                    }
-                    catch (error) {
-                        if (window.console && window.console.log) {
-                            window.console.log(error);
-                        }
-                        alert(error);
-                    }
-                };
-            }
-        }
-
-        function populatePage(){
+        const populatePage = function(){
             var userLibrary = JSON.parse(localStorage.getItem("Library"));
             var userStory = userLibrary.stories[storyID];
 
@@ -560,6 +515,51 @@
                 parent_div_node.appendChild(first_child_div_node);
             main_div.appendChild(parent_div_node);
 
+        }
+
+        const updateLibrary = function(userLibrary, userStory){
+            if (userID != null && resource != null){
+                // Create a new worker
+                var worker = new Worker("./worker.js");
+
+                userStory.cover = document.getElementById("se_cover").src;
+                userStory.title = document.getElementById("se_title").value;
+                userStory.category = document.getElementById("se_category").options[sel.selectedIndex].text;
+                userStory.modified = new Date(Date.now()).toLocaleDateString('en-GB');
+
+                userLibrary.stories[storyID] = userStory;
+
+                var userContent = '{\n' + new String('"BOF": ' + JSON.stringify(userLibrary) + ',\n"EOF": ""').replace(/^/mg, "    ") + '\n}';
+                
+                // Send a message to the worker to start the interval
+                worker.postMessage(JSON.stringify({action: "update", userID: userID, resource: resource, content: userContent}));
+
+                // Listen for messages from the worker
+                worker.onmessage = function(e) {
+                    try {
+                        if (Object.keys(JSON.parse(e.data))[0] == "updateResponse"){
+                            if (window.console && window.console.log) {
+                                // window.console.log(e.data);
+                                if (JSON.parse(e.data).deleteResponse == 204) {
+                                    window.console.log("Update workflow successfully dispatched.");
+                                } else {
+                                    throw "Update error: Workflow could not be dispatched.";
+                                }
+                            }
+                            worker.terminate();
+
+                            localStorage.setItem("Library", userLibrary);
+
+                        }
+                    }
+                    catch (error) {
+                        if (window.console && window.console.log) {
+                            window.console.log(error);
+                        }
+                        alert(error);
+                    }
+                };
+            }
         }
 
         if (localStorage.getItem("Library") != null) {
