@@ -49,6 +49,15 @@
     </div>
     <script type="text/javascript">
 
+        const urlParams = new URLSearchParams(window.location.search);
+        const userID = urlParams.get('userID');
+        const resource = urlParams.get('resource');
+        const debug = urlParams.get('debug');
+
+        if (debug == "1"){
+            localStorage.clear();
+        }
+
         const populateTable = function(){
             var i = 0;
             var tr_node;
@@ -126,16 +135,6 @@
 
                 i++;
             });
-        }
-
-
-        const urlParams = new URLSearchParams(window.location.search);
-        const userID = urlParams.get('userID');
-        const resource = urlParams.get('resource');
-        const debug = urlParams.get('debug');
-
-        if (debug == "1"){
-            localStorage.clear();
         }
 
         if (localStorage.getItem("Library") === null) {

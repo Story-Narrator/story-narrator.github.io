@@ -129,6 +129,11 @@
     </div>
     <script type="text/javascript">
 
+        const urlParams = new URLSearchParams(window.location.search);
+        const userID = urlParams.get('userID');
+        const resource = urlParams.get('resource');
+        const storyID = urlParams.get('storyID');
+
         const handleFiles = function() {
             const fileList = this.files;
 
@@ -211,7 +216,7 @@
             }
         }
 
-        const populatePage = function(storyID){
+        const populatePage = function(){
             var userLibrary = JSON.parse(localStorage.getItem("Library"));
             var userStory = userLibrary.stories[storyID];
 
@@ -558,15 +563,8 @@
         }
 
         if (localStorage.getItem("Library") != null) {
-
-            const urlParams = new URLSearchParams(window.location.search);
-            const userID = urlParams.get('userID');
-            const resource = urlParams.get('resource');
-            const storyID = urlParams.get('storyID');
-
             if (storyID != null){
-                //console.log("storyID: " + storyID);
-                populatePage(storyID);
+                populatePage();
                 document.getElementById("sys_main").style.visibility = "visible";
             }
         }
