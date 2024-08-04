@@ -133,6 +133,11 @@
             const urlParams = new URLSearchParams(window.location.search);
             const userID = urlParams.get('userID');
             const resource = urlParams.get('resource');
+            const debug = urlParams.get('debug');
+
+            if (debug == 1){
+                localStorage.clear();
+            }
 
             if (userID != null && resource != null){
                 // Create a new worker
@@ -144,6 +149,13 @@
 
                 // Listen for messages from the worker
                 worker.onmessage = function(e) {
+                    try {
+                        console.log(Object.keys(e.data)[0]);
+                    }
+                    catch {
+                        console.log("Error: Could not get key name.");
+                    }
+                    
                     try {
                         if (e.data=="timeout error") {
                             throw "Retrieve error: A workflow matching the specified resource and userID was not found.";

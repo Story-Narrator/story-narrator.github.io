@@ -120,8 +120,12 @@
                             user_name = response.profile.Name;
                             user_email = response.profile.PrimaryEmail;
                             user_id = String(response.profile.CustomerId).replace("amzn1.account.", "");
-    
-                            document.getElementById('main_frame').src = `./library.html?userID=${user_id}&resource=Library`;
+
+                            if (debug == 1) {
+                                document.getElementById('main_frame').src = `./library.html?userID=${user_id}&resource=Library&debug=1`;
+                            } else {
+                                document.getElementById('main_frame').src = `./library.html?userID=${user_id}&resource=Library`;
+                            }
                             
                             if (window.console && window.console.log) {
                                 window.console.log("User Name: " + user_name);
