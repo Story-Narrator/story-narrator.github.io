@@ -150,12 +150,13 @@
                 // Listen for messages from the worker
                 worker.onmessage = function(e) {
                     try {
-                        console.log(Object.keys(e.data)[0]);
+                        console.log(e.data);
+                        console.log(Object.keys(JSON.parse(e.data))[0]);
                     }
                     catch {
                         console.log("Error: Could not get key name.");
                     }
-                    
+
                     try {
                         if (e.data=="timeout error") {
                             throw "Retrieve error: A workflow matching the specified resource and userID was not found.";
@@ -173,7 +174,7 @@
 
                             document.getElementById("sys_wheel").style.transform = `rotate(${degrees}deg)`;
                         }
-                        else if (Object.keys(e.data)[0] == "retrieveResponse"){
+                        else if (Object.keys(JSON.parse(e.data))[0] == "retrieveResponse"){
 
                             if (window.console && window.console.log) {
                                 window.console.log(e.data);
@@ -191,7 +192,7 @@
 
                             //console.log(localStorage.getItem("Library"));
                         }
-                        else if (Object.keys(e.data)[0] == "deleteResponse"){
+                        else if (Object.keys(JSON.parse(e.data))[0] == "deleteResponse"){
 
                             if (window.console && window.console.log) {
                                 window.console.log(e.data);
