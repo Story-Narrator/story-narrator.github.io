@@ -171,23 +171,14 @@
             // alert(imgFile.size);
         }
 
-        const updateLibrary = function(userLibrary, userStory) {
-            if (userID != null && resource != null) {
+        const updateLibrary = function(userLibrary, userStory){
+            if (userID != null && resource != null){
                 // Create a new worker
                 var worker = new Worker("./worker.js");
 
-                if (document.getElementById("se_cover") != null) {
-                    userStory.cover = document.getElementById("se_cover").src;
-                }
-                
-                if (document.getElementById("se_title") != null) {
-                    userStory.title = document.getElementById("se_title").value;
-                }
-                
-                if (document.getElementById("se_category") != null) {
-                    userStory.category = document.getElementById("se_category").options[sel.selectedIndex].text;
-                }
-
+                userStory.cover = document.getElementById("se_cover").src;
+                userStory.title = document.getElementById("se_title").value;
+                userStory.category = document.getElementById("se_category").options[sel.selectedIndex].text;
                 userStory.modified = new Date(Date.now()).toLocaleDateString('en-GB');
 
                 userLibrary.stories[storyID] = userStory;
@@ -200,7 +191,7 @@
                 // Listen for messages from the worker
                 worker.onmessage = function(e) {
                     try {
-                        if (Object.keys(JSON.parse(e.data))[0] == "updateResponse") {
+                        if (Object.keys(JSON.parse(e.data))[0] == "updateResponse"){
                             if (window.console && window.console.log) {
                                 // window.console.log(e.data);
                                 if (JSON.parse(e.data).deleteResponse == 204) {
@@ -221,7 +212,7 @@
                         }
                         alert(error);
                     }
-                }
+                };
             }
         }
 
@@ -442,7 +433,7 @@
                             third_child_div_node = document.createElement("div");
                             third_child_div_node.id = "se_save_btn";
                             third_child_div_node.className = "se_text_btn";
-                            third_child_div_node.onclick = updateLibrary(userLibrary, userStory);
+                            third_child_div_node.onclick = function() { updateLibrary(userLibrary, userStory); };
                                 div_text_node = document.createTextNode("SAVE CHANGES");
                             third_child_div_node.appendChild(div_text_node);
                         second_child_div_node.appendChild(third_child_div_node);
