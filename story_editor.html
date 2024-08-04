@@ -204,7 +204,7 @@
                             }
                             worker.terminate();
 
-                            localStorage.setItem("Library", userLibrary);
+                            localStorage.setItem("Library", JSON.stringify(userLibrary, undefined, 4));
 
                         }
                     }
