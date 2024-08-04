@@ -184,7 +184,7 @@
 
                 userLibrary.stories[storyID] = userStory;
 
-                var userContent = '{\n' + new String('"BOF": ' + userLibrary + ',\n"EOF": ""').replace(/^/mg, "    ") + '\n}';
+                var userContent = '{\n' + new String('"BOF": ' + JSON.stringify(userLibrary) + ',\n"EOF": ""').replace(/^/mg, "    ") + '\n}';
                 console.log(userContent);
                 
                 // Send a message to the worker to start the interval
