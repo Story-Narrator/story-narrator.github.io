@@ -49,40 +49,6 @@
     </div>
     <script type="text/javascript">
 
-        const handleFiles = function() {
-            const fileList = this.files; /* now you can work with the file list */
-
-            const imgFile = fileList[0];
-            if (imgFile.name.substr(imgFile.name.length - 4) != ".png"){
-                alert("Error: Unsupported file type. Please select a '.png' file.");
-            }
-            else {
-                if (imgFile.size > 1000000){
-                    alert("Error: Image file size too large. Please select a file that does not exceed 1MB.");   
-                }
-                else {
-                    // alert("Supported file type and size.");
-                        let reader = new FileReader();
-                        reader.readAsDataURL(imgFile);
-                        reader.onloadend = function () {
-                            let base64String = reader.result;
-                            //console.log('Base64 String - ', base64String);
-
-                            // Simply Print the Base64 Encoded String, 
-                            // without additional data: Attributes.
-
-                            console.log(JSON.stringify({"cover": base64String.substr(base64String.indexOf(', ') + 1)}));
-
-
-
-                        }
-                }
-            }
-            
-            // alert(this.id);
-            // alert(imgFile.size);
-        }
-
         const populateTable = function(){
             var i = 0;
             var tr_node;
@@ -105,20 +71,7 @@
                         img_node.className = "cover lib_cover";
                         img_node.src = element.cover;
                         img_node.alt = "Cover Image";
-                        // br_node = document.createElement("br");
-                        // label_node = document.createElement("label");
-                        // label_node.htmlFor = `myFile${i}`;
-                        //     label_text_node = document.createTextNode("Select a file: ");
-                        // label_node.appendChild(label_text_node);
-                        // input_node = document.createElement("input");
-                        // input_node.type = "file";
-                        // input_node.id = `myFile${i}`;
-                        // input_node.addEventListener("change", handleFiles, false);
-                        // input_node.name = `myFile${i}`;
                     td_node.appendChild(img_node);
-                    // td_node.appendChild(br_node);
-                    // td_node.appendChild(label_node);
-                    // td_node.appendChild(input_node);
                 tr_node.appendChild(td_node);
                     td_node = document.createElement("td");
                         td_text_node = document.createTextNode(element.title);
@@ -169,8 +122,6 @@
                     td_node.appendChild(a_node);
                 tr_node.appendChild(td_node);
 
-                //console.log(tr_node);
-
                 document.getElementById("sys_tbl").appendChild(tr_node);
 
                 i++;
@@ -189,17 +140,20 @@
                 var degrees = 0;
 
                 // Send a message to the worker to start the interval
-                worker.postMessage(JSON.stringify({userID: userID, resource: resource}));
+                worker.postMessage(JSON.stringify({action: "retrieve", userID: userID, resource: resource}));
 
                 // Listen for messages from the worker
                 worker.onmessage = function(e) {
                     try {
-                        if (e.data=="timeout") {
-                            throw "Error: A workflow matching the specified resource and userID was not found.";
-                            alert("An error occured. Please refresh the page.");
+                        if (e.data=="timeout error") {
+                            throw "Retrieve error: A workflow matching the specified resource and userID was not found.";
                             worker.terminate();
                         }
-                        else if(e.data=="tick"){
+                        else if (e.data=="delete error"){
+                            throw "Delete error: A workflow matching the specified resource and userID was not found.";
+                            worker.terminate();
+                        }
+                        else if (e.data=="tick"){
                             degrees += 15;
                             if (degrees == 360){
                                 degrees = 0;
@@ -207,8 +161,7 @@
 
                             document.getElementById("sys_wheel").style.transform = `rotate(${degrees}deg)`;
                         }
-                        else {
-                            worker.terminate();
+                        else if (Object.keys(e.data)[0] == "retrieveResponse"){
 
                             if (window.console && window.console.log) {
                                 window.console.log(e.data);
@@ -217,6 +170,8 @@
                             localStorage.clear();
                             localStorage.setItem("Library", e.data);
 
+                            worker.postMessage(JSON.stringify({action: "delete"}));
+
                             populateTable();
 
                             document.getElementById("sys_overlay").style.visibility = "hidden";
@@ -224,11 +179,20 @@
 
                             //console.log(localStorage.getItem("Library"));
                         }
+                        else if (Object.keys(e.data)[0] == "deleteResponse"){
+
+                            if (window.console && window.console.log) {
+                                window.console.log(e.data);
+                                window.console.log("User workflow successfully deleted.");
+                            }
+                            worker.terminate();
+                        }
                     }
                     catch (error) {
                         if (window.console && window.console.log) {
                             window.console.log(error);
                         }
+                        alert(error);
                     }
                 };
             }
@@ -238,19 +202,6 @@
             document.getElementById("sys_overlay").style.visibility = "hidden";
             document.getElementById("sys_main").style.visibility = "visible";
         }
-
-                // var canvas = document.createElement("canvas");
-                // var context = canvas.getContext('2d');
-
-                // function make_base(){
-                //     var base_image = new Image();
-                //     base_image.src = 'img/base.png';
-                //     base_image.onload = function(){
-                //         context.drawImage(base_image, 100, 100);
-                //     }
-                // }
-
-                // make_base();
         
     </script>
 </body>
