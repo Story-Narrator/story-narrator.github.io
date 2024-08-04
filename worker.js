@@ -73,15 +73,7 @@ const runWorkflow = async function(action, content){
         return retrieveResponse;
 
     } else if (action == "Update") {
-        console.log(JSON.stringify({
-            "ref": "main",
-            "inputs": {
-                "action": action,
-                "resource": resource,
-                "userID": userID,
-                "content": content
-            }
-        }));
+        content = "hello";
         updateResponse = await fetch(`https://api.github.com/repos/${owner}/${repo}/actions/workflows/${workflow_id}/dispatches`, {
             method: "post",
             headers: {
