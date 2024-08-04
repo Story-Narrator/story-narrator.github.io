@@ -159,10 +159,7 @@ const deleteWorkflowRun = async function(run_id) {
             "X-GitHub-Api-Version": "2022-11-28"
         }
     }).then(function(response){
-        return response.json();
-    }).then(function(jsonResponse){
-        console.log(JSON.stringify(jsonResponse));
-        return jsonResponse;
+        return response.status;
     });
 
     return deleteResponse;

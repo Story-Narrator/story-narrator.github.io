@@ -150,14 +150,9 @@
                 // Listen for messages from the worker
                 worker.onmessage = function(e) {
                     try {
-                        console.log(test);
                         var test = JSON.parse(e.data);
-                        console.log(test);
                         var keys = Object.keys(test);
                         var key_to_use = keys[0];
-                        var key_to_use_2 = keys[1];
-                        console.log(key_to_use);
-                        console.log(key_to_use_2);
                     }
                     catch {
                         console.log("Error: Could not get key name.");
@@ -187,7 +182,7 @@
                             }
 
                             localStorage.clear();
-                            localStorage.setItem("Library", e.data);
+                            localStorage.setItem("Library", JSON.parse(JSON.parse(e.data).retrieveResponse));
 
                             worker.postMessage(JSON.stringify({action: "delete"}));
 
@@ -202,7 +197,11 @@
 
                             if (window.console && window.console.log) {
                                 window.console.log(e.data);
-                                window.console.log("User workflow successfully deleted.");
+                                if (JSON.parse(e.data).deleteResponse == 204) {
+                                    window.console.log("User workflow successfully deleted.");
+                                } else {
+                                    throw "Delete error: A matching workflow was found, but could not be deleted.";
+                                }
                             }
                             worker.terminate();
                         }
