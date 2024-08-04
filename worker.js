@@ -195,7 +195,8 @@ self.onmessage = async function(e){
             var workflow = await getWorkflowRun();
 
             if (workflow != null){
-                self.postMessage(JSON.stringify('{"retrieveResponse": "' + await getStoryNarratorContent(await getWorkflowJobs(workflow, 0)) + '"}'));
+                var test = await getStoryNarratorContent(await getWorkflowJobs(workflow, 0));
+                self.postMessage(JSON.stringify({"retrieveResponse": test}));
                 finished = true;
                 break;
             }
@@ -222,7 +223,8 @@ self.onmessage = async function(e){
 
 
         if (workflow != null){
-            self.postMessage(JSON.stringify('{"deleteResponse": "' + await deleteWorkflowRun(workflow) + '"}'));
+            var test = JSON.stringify(await deleteWorkflowRun(workflow));
+            self.postMessage(JSON.stringify({"deleteResponse": test}));
         }
         else {
             self.postMessage("delete error");

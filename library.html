@@ -150,6 +150,7 @@
                 // Listen for messages from the worker
                 worker.onmessage = function(e) {
                     try {
+                        console.log(test);
                         var test = JSON.parse(e.data);
                         console.log(test);
                         var keys = Object.keys(test);
