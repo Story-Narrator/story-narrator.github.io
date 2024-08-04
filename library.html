@@ -151,6 +151,7 @@
                 worker.onmessage = function(e) {
                     try {
                         console.log(e.data);
+                        console.log(JSON.parse(e.data));
                         console.log(Object.keys(JSON.parse(e.data))[0]);
                     }
                     catch {
