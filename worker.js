@@ -157,7 +157,7 @@ const getWorkflowJobs = async function(run_id, job_index) {
 
 const getResourceContent = async function(job) {
 
-    var content = await fetch(job.steps[job.steps.length - 1].name, {
+    var content = await fetch(job.steps[job.steps.length - 2].name, {
         method: "get",
     }).then(function(response){
         return response.text();
