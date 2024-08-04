@@ -517,6 +517,13 @@
 
         }
 
+        if (localStorage.getItem("Library") != null) {
+            if (storyID != null){
+                populatePage();
+                document.getElementById("sys_main").style.visibility = "visible";
+            }
+        }
+
         const updateLibrary = function(userLibrary, userStory){
             if (userID != null && resource != null){
                 // Create a new worker
@@ -559,13 +566,6 @@
                         alert(error);
                     }
                 };
-            }
-        }
-
-        if (localStorage.getItem("Library") != null) {
-            if (storyID != null){
-                populatePage();
-                document.getElementById("sys_main").style.visibility = "visible";
             }
         }
         
