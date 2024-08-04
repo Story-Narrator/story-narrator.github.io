@@ -43,28 +43,49 @@ const getToken = async function(installationID, JWT){
     return tokenRequest.token;
 }
 
-const runWorkflows = async function(){
+const runWorkflow = async function(action, content){
     var owner = "story-narrator";
     var repo = "story-narrator-helper";
 
     // Execute 'All' workflow.
     var workflow_id = encodeURIComponent("All.yml");
 
-    await fetch(`https://api.github.com/repos/${owner}/${repo}/actions/workflows/${workflow_id}/dispatches`, {
-        method: "post",
-        headers: {
-            "Accept": "application/vnd.github+json",
-            "Authorization": `token ${token}`,
-            "X-GitHub-Api-Version": "2022-11-28"
-        },
-        body: JSON.stringify({
-            "ref": "main",
-            "inputs": {
-                "userID": userID,
-                "resource": resource
-            }
-        })
-    });
+    if (action == "Retrieve") {
+        await fetch(`https://api.github.com/repos/${owner}/${repo}/actions/workflows/${workflow_id}/dispatches`, {
+            method: "post",
+            headers: {
+                "Accept": "application/vnd.github+json",
+                "Authorization": `token ${token}`,
+                "X-GitHub-Api-Version": "2022-11-28"
+            },
+            body: JSON.stringify({
+                "ref": "main",
+                "inputs": {
+                    "action": action,
+                    "resource": resource,
+                    "userID": userID
+                }
+            })
+        });
+    } else if (action == "Update") {
+        await fetch(`https://api.github.com/repos/${owner}/${repo}/actions/workflows/${workflow_id}/dispatches`, {
+            method: "post",
+            headers: {
+                "Accept": "application/vnd.github+json",
+                "Authorization": `token ${token}`,
+                "X-GitHub-Api-Version": "2022-11-28"
+            },
+            body: JSON.stringify({
+                "ref": "main",
+                "inputs": {
+                    "action": action,
+                    "resource": resource,
+                    "userID": userID,
+                    "content": content
+                }
+            })
+        });
+    }
 }
 
 const listWorkflowRuns = async function(){
@@ -134,9 +155,9 @@ const getWorkflowJobs = async function(run_id, job_index) {
     }
 }
 
-const getStoryNarratorContent = async function(job) {
+const getResourceContent = async function(job) {
 
-    var content = await fetch(job.steps[9].name, {
+    var content = await fetch(job.steps[job.steps.length - 1].name, {
         method: "get",
     }).then(function(response){
         return response.text();
@@ -148,6 +169,24 @@ const getStoryNarratorContent = async function(job) {
 }
 
 const deleteWorkflowRun = async function(run_id) {
+    var owner = "story-narrator";
+    var repo = "story-narrator-helper";
+
+    var deleteResponse = await fetch(`https://api.github.com/repos/${owner}/${repo}/actions/runs/${run_id}`, {
+        method: "delete",
+        headers: {
+            "Accept": "application/vnd.github+json",
+            "Authorization": `token ${token}`,
+            "X-GitHub-Api-Version": "2022-11-28"
+        }
+    }).then(function(response){
+        return response.status;
+    });
+
+    return deleteResponse;
+}
+
+const updateResource = async function(run_id) {
     var owner = "story-narrator";
     var repo = "story-narrator-helper";
 
@@ -185,15 +224,15 @@ self.onmessage = async function(e){
     if (JSON.parse(e.data).action == "retrieve") {
         var finished = false;
 
-        await runWorkflows();
+        await runWorkflow("Retrieve");
 
         // Timeout after 45 seconds worth of pauses.
         for (let i = 0; i < 90; i++) {
             var workflow = await getWorkflowRun();
 
             if (workflow != null){
-                var test = await getStoryNarratorContent(await getWorkflowJobs(workflow, 0));
-                self.postMessage(JSON.stringify({"retrieveResponse": test}));
+                var content = await getResourceContent(await getWorkflowJobs(workflow, 0));
+                self.postMessage(JSON.stringify({"retrieveResponse": content}));
                 finished = true;
                 break;
             }
@@ -207,24 +246,27 @@ self.onmessage = async function(e){
         if (!finished){
             self.postMessage("timeout error");
         }
-    }
-    if (JSON.parse(e.data).action == "delete") {
-        if (JSON.parse(e.data).userID !== undefined) {
-            userID = JSON.parse(e.data).userID;
-        }
-        if (JSON.parse(e.data).resource !== undefined) {
-            resource = JSON.parse(e.data).resource;
-        }
-
+    } else if (JSON.parse(e.data).action == "delete") {
         var workflow = await getWorkflowRun();
 
-
         if (workflow != null){
-            var test = JSON.stringify(await deleteWorkflowRun(workflow));
-            self.postMessage(JSON.stringify({"deleteResponse": test}));
+            var content = JSON.stringify(await deleteWorkflowRun(workflow));
+            self.postMessage(JSON.stringify({"deleteResponse": content}));
         }
         else {
             self.postMessage("delete error");
         }
+    } else if (JSON.parse(e.data).action == "update") {
+        await runWorkflow("Update", JSON.parse(e.data).content);
+        
+        // var workflow = await getWorkflowRun();
+
+        // if (workflow != null){
+        //     var content = JSON.stringify(await deleteWorkflowRun(workflow));
+        //     self.postMessage(JSON.stringify({"updateResponse": content}));
+        // }
+        // else {
+        //     self.postMessage("delete error");
+        // }
     }
 }
