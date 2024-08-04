@@ -150,9 +150,13 @@
                 // Listen for messages from the worker
                 worker.onmessage = function(e) {
                     try {
-                        console.log(e.data);
-                        console.log(JSON.parse(e.data));
-                        console.log(Object.keys(JSON.parse(e.data))[0]);
+                        var test = JSON.parse(e.data);
+                        console.log(test);
+                        var keys = Object.keys(test);
+                        var key_to_use = keys[0];
+                        var key_to_use_2 = keys[1];
+                        console.log(key_to_use);
+                        console.log(key_to_use_2);
                     }
                     catch {
                         console.log("Error: Could not get key name.");
