@@ -79,7 +79,8 @@ const runWorkflow = async function(action, content){
             headers: {
                 "Accept": "application/vnd.github+json",
                 "Authorization": `token ${token}`,
-                "X-GitHub-Api-Version": "2022-11-28"
+                "X-GitHub-Api-Version": "2022-11-28",
+                "Content-Type": "text/plain"
             },
             body: JSON.stringify({
                 "ref": "main",
