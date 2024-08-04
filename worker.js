@@ -87,7 +87,8 @@ const runWorkflow = async function(action, content){
                     "action": action,
                     "resource": resource,
                     "userID": userID,
-                    "content": content
+                    "content": content,
+                    "contentLength": content.length
                 }
             })
         }).then(function(response){
