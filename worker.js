@@ -51,7 +51,7 @@ const runWorkflow = async function(action, content){
     var workflow_id = encodeURIComponent("All.yml");
 
     if (action == "Retrieve") {
-        await fetch(`https://api.github.com/repos/${owner}/${repo}/actions/workflows/${workflow_id}/dispatches`, {
+        retrieveResponse = await fetch(`https://api.github.com/repos/${owner}/${repo}/actions/workflows/${workflow_id}/dispatches`, {
             method: "post",
             headers: {
                 "Accept": "application/vnd.github+json",
@@ -66,9 +66,14 @@ const runWorkflow = async function(action, content){
                     "userID": userID
                 }
             })
+        }).then(function(response){
+            return response.status;
         });
+    
+        return retrieveResponse;
+
     } else if (action == "Update") {
-        await fetch(`https://api.github.com/repos/${owner}/${repo}/actions/workflows/${workflow_id}/dispatches`, {
+        updateResponse = await fetch(`https://api.github.com/repos/${owner}/${repo}/actions/workflows/${workflow_id}/dispatches`, {
             method: "post",
             headers: {
                 "Accept": "application/vnd.github+json",
@@ -84,7 +89,11 @@ const runWorkflow = async function(action, content){
                     "content": content
                 }
             })
+        }).then(function(response){
+            return response.status;
         });
+    
+        return updateResponse;
     }
 }
 
@@ -186,24 +195,6 @@ const deleteWorkflowRun = async function(run_id) {
     return deleteResponse;
 }
 
-const updateResource = async function(run_id) {
-    var owner = "story-narrator";
-    var repo = "story-narrator-helper";
-
-    var deleteResponse = await fetch(`https://api.github.com/repos/${owner}/${repo}/actions/runs/${run_id}`, {
-        method: "delete",
-        headers: {
-            "Accept": "application/vnd.github+json",
-            "Authorization": `token ${token}`,
-            "X-GitHub-Api-Version": "2022-11-28"
-        }
-    }).then(function(response){
-        return response.status;
-    });
-
-    return deleteResponse;
-}
-
 function sleep(ms) {
     return new Promise(function(resolve){
         setTimeout(resolve, ms);
@@ -231,8 +222,8 @@ self.onmessage = async function(e){
             var workflow = await getWorkflowRun();
 
             if (workflow != null){
-                var content = await getResourceContent(await getWorkflowJobs(workflow, 0));
-                self.postMessage(JSON.stringify({"retrieveResponse": content}));
+                var retrieveResponse = await getResourceContent(await getWorkflowJobs(workflow, 0));
+                self.postMessage(JSON.stringify({"retrieveResponse": retrieveResponse}));
                 finished = true;
                 break;
             }
@@ -250,23 +241,14 @@ self.onmessage = async function(e){
         var workflow = await getWorkflowRun();
 
         if (workflow != null){
-            var content = JSON.stringify(await deleteWorkflowRun(workflow));
-            self.postMessage(JSON.stringify({"deleteResponse": content}));
+            var deleteResponse = JSON.stringify(await deleteWorkflowRun(workflow));
+            self.postMessage(JSON.stringify({"deleteResponse": deleteResponse}));
         }
         else {
             self.postMessage("delete error");
         }
     } else if (JSON.parse(e.data).action == "update") {
-        await runWorkflow("Update", JSON.parse(e.data).content);
-        
-        // var workflow = await getWorkflowRun();
-
-        // if (workflow != null){
-        //     var content = JSON.stringify(await deleteWorkflowRun(workflow));
-        //     self.postMessage(JSON.stringify({"updateResponse": content}));
-        // }
-        // else {
-        //     self.postMessage("delete error");
-        // }
+        var updateResponse = await runWorkflow("Update", JSON.parse(e.data).content);
+        self.postMessage(JSON.stringify({"updateResponse": updateResponse}));
     }
 }

@@ -166,8 +166,54 @@
             // alert(imgFile.size);
         }
 
+        const updateLibrary = function(userLibrary, userStory){
+            if (userID != null && resource != null){
+                // Create a new worker
+                var worker = new Worker("./worker.js");
+
+                userStory.cover = document.getElementById("se_cover").src;
+                userStory.title = document.getElementById("se_title").value;
+                userStory.category = document.getElementById("se_category").options[sel.selectedIndex].text;
+                userStory.modified = new Date(Date.now()).toLocaleDateString('en-GB');
+
+                userLibrary.stories[storyID] = userStory;
+
+                var userContent = '{\n' + new String('"BOF": ' + JSON.stringify(userLibrary) + ',\n"EOF": ""').replace(/^/mg, "    ") + '\n}';
+                
+                // Send a message to the worker to start the interval
+                worker.postMessage(JSON.stringify({action: "update", userID: userID, resource: resource, content: userContent}));
+
+                // Listen for messages from the worker
+                worker.onmessage = function(e) {
+                    try {
+                        if (Object.keys(JSON.parse(e.data))[0] == "updateResponse"){
+                            if (window.console && window.console.log) {
+                                // window.console.log(e.data);
+                                if (JSON.parse(e.data).deleteResponse == 204) {
+                                    window.console.log("Update workflow successfully dispatched.");
+                                } else {
+                                    throw "Update error: Workflow could not be dispatched.";
+                                }
+                            }
+                            worker.terminate();
+
+                            localStorage.setItem("Library", userLibrary);
+
+                        }
+                    }
+                    catch (error) {
+                        if (window.console && window.console.log) {
+                            window.console.log(error);
+                        }
+                        alert(error);
+                    }
+                };
+            }
+        }
+
         const populatePage = function(storyID){
-            var userStory = JSON.parse(localStorage.getItem("Library")).stories[storyID];
+            var userLibrary = JSON.parse(localStorage.getItem("Library"));
+            var userStory = userLibrary.stories[storyID];
 
             var main_div;
             var parent_div_node;
@@ -382,6 +428,7 @@
                             third_child_div_node = document.createElement("div");
                             third_child_div_node.id = "se_save_btn";
                             third_child_div_node.className = "se_text_btn";
+                            third_child_div_node.onclick = updateLibrary(userLibrary, userStory);
                                 div_text_node = document.createTextNode("SAVE CHANGES");
                             third_child_div_node.appendChild(div_text_node);
                         second_child_div_node.appendChild(third_child_div_node);
@@ -513,10 +560,12 @@
         if (localStorage.getItem("Library") != null) {
 
             const urlParams = new URLSearchParams(window.location.search);
+            const userID = urlParams.get('userID');
+            const resource = urlParams.get('resource');
             const storyID = urlParams.get('storyID');
 
             if (storyID != null){
-                console.log("storyID: " + storyID);
+                //console.log("storyID: " + storyID);
                 populatePage(storyID);
                 document.getElementById("sys_main").style.visibility = "visible";
             }
