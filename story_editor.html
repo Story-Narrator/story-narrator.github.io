@@ -178,7 +178,8 @@
 
                 userStory.cover = document.getElementById("se_cover").src;
                 userStory.title = document.getElementById("se_title").value;
-                userStory.category = document.getElementById("se_category").options[sel.selectedIndex].text;
+                userCategory = document.getElementById("se_category");
+                userStory.category = userCategory.options[userCategory.selectedIndex].text;
                 userStory.modified = new Date(Date.now()).toLocaleDateString('en-GB');
 
                 userLibrary.stories[storyID] = userStory;
