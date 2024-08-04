@@ -184,11 +184,8 @@
 
                 userLibrary.stories[storyID] = userStory;
 
-                var userContent1 = JSON.stringify(userLibrary);
-                console.log(userContent1);
-
-                var userContent2 = '{\n' + new String('"BOF": ' + JSON.stringify(userLibrary, undefined, 4) + ',\n"EOF": ""').replace(/^/mg, "    ") + '\n}';
-                console.log(userContent2);
+                var userContent = '{\n' + new String('"BOF": ' + JSON.stringify(userLibrary, undefined, 4) + ',\n"EOF": ""').replace(/^/mg, "    ") + '\n}';
+                console.log(userContent);
                 
                 // Send a message to the worker to start the interval
                 worker.postMessage(JSON.stringify({action: "update", userID: userID, resource: resource, content: userContent}));
