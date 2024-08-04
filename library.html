@@ -63,7 +63,7 @@
             var p_node;
             var p_text_node;
 
-            JSON.parse(localStorage.getItem("Library")).stories.forEach(function(element){
+            localStorage.getItem("Library").stories.forEach(function(element){
 
                 tr_node = document.createElement("tr");
                     td_node = document.createElement("td");
