@@ -248,6 +248,7 @@ self.onmessage = async function(e){
             self.postMessage("delete error");
         }
     } else if (JSON.parse(e.data).action == "update") {
+        console.log(JSON.parse(e.data).content);
         var updateResponse = await runWorkflow("Update", JSON.parse(e.data).content);
         self.postMessage(JSON.stringify({"updateResponse": updateResponse}));
     }

@@ -190,7 +190,7 @@
                                 if (JSON.parse(e.data).deleteResponse == 204) {
                                     window.console.log("User workflow successfully deleted.");
                                 } else {
-                                    throw "Delete error: A matching workflow was found, but could not be deleted.";
+                                    throw "Delete error: A matching workflow was found, but could not be deleted. Response status: " + JSON.parse(e.data).deleteResponse + ".";
                                 }
                             }
                             worker.terminate();
