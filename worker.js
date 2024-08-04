@@ -73,6 +73,15 @@ const runWorkflow = async function(action, content){
         return retrieveResponse;
 
     } else if (action == "Update") {
+        console.log(JSON.stringify({
+            "ref": "main",
+            "inputs": {
+                "action": action,
+                "resource": resource,
+                "userID": userID,
+                "content": content
+            }
+        }));
         updateResponse = await fetch(`https://api.github.com/repos/${owner}/${repo}/actions/workflows/${workflow_id}/dispatches`, {
             method: "post",
             headers: {
@@ -248,7 +257,7 @@ self.onmessage = async function(e){
             self.postMessage("delete error");
         }
     } else if (JSON.parse(e.data).action == "update") {
-        console.log(JSON.parse(e.data).content);
+        //console.log(JSON.parse(e.data).content);
         var updateResponse = await runWorkflow("Update", JSON.parse(e.data).content);
         self.postMessage(JSON.stringify({"updateResponse": updateResponse}));
     }
