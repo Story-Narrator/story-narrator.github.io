@@ -43,7 +43,7 @@ const getToken = async function(installationID, JWT){
     return tokenRequest.token;
 }
 
-const runWorkflow = async function(action/*, content*/){
+const runWorkflow = async function(action, content){
     var owner = "story-narrator";
     var repo = "story-narrator-helper";
 
@@ -73,8 +73,7 @@ const runWorkflow = async function(action/*, content*/){
         return retrieveResponse;
 
     } else if (action == "Update") {
-        var content = "hello";
-        //var contentLength = new String(content.length);
+        //content = "hello";
         updateResponse = await fetch(`https://api.github.com/repos/${owner}/${repo}/actions/workflows/${workflow_id}/dispatches`, {
             method: "post",
             headers: {
@@ -89,7 +88,7 @@ const runWorkflow = async function(action/*, content*/){
                     "resource": resource,
                     "userID": userID,
                     "content": content,
-                    "contentLength": content.length.toString()
+                    "contentLength": content.length
                 }
             })
         }).then(function(response){
