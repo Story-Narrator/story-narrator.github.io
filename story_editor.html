@@ -190,7 +190,9 @@
                     if (userLibrary.cover != prevLibrary.cover){
                         worker.postMessage(JSON.stringify({action: "update", userID: userID, resource: "cover#S" + storyID, content: userLibrary.cover}));
                     }
+                    console.log(userLibrary.title + "!=" + prevLibrary.title);
                     if (userLibrary.title != prevLibrary.title){
+                        alert(userLibrary.title + "!=" + prevLibrary.title);
                         worker.postMessage(JSON.stringify({action: "update", userID: userID, resource: "title#S" + storyID, content: userLibrary.title}));
                     }
                     if (userLibrary.cover != prevLibrary.category){
