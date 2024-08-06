@@ -143,8 +143,8 @@
                     alert("Error: Unsupported file type. Please select a '.png' file.");
                 }
                 else {
-                    if (imgFile.size > 1000000){
-                        alert("Error: Image file size too large. Please select a file that does not exceed 1MB.");   
+                    if (imgFile.size > 35999){
+                        alert("Error: Image file size too large. Please select a file that is less than 36KB.");   
                     }
                     else {
                         // alert("Supported file type and size.");
