@@ -175,7 +175,28 @@
             if (userID != null && resource != null){
                 // Create a new worker
                 var worker = new Worker("./worker.js");
-                
+
+                userStory.cover = document.getElementById("se_cover").src;
+                userStory.title = document.getElementById("se_title").value;
+                userCategory = document.getElementById("se_category");
+                userStory.category = userCategory.options[userCategory.selectedIndex].text;
+
+                var prevStory = JSON.parse(localStorage.getItem("Library")).stories[storyID];
+
+                if (JSON.stringify(userStory) != JSON.stringify(prevStory)){
+                    if (userStory.cover !== prevStory.cover){
+                        worker.postMessage(JSON.stringify({action: "update", userID: userID, resource: "cover#S" + storyID, content: userStory.cover}));
+                    }
+                    if (userStory.title != prevStory.title){
+                        worker.postMessage(JSON.stringify({action: "update", userID: userID, resource: "title#S" + storyID, content: userStory.title}));
+                    }
+                    if (userStory.category != prevStory.category){
+                        worker.postMessage(JSON.stringify({action: "update", userID: userID, resource: "category#S" + storyID, content: userStory.category}));
+                    }
+                    userStory.modified = new Date(Date.now()).toLocaleDateString('en-GB');
+                    //worker.postMessage(JSON.stringify({action: "update", userID: userID, resource: "modified#S" + storyID, content: userStory.modified}));
+                }
+
                 // Listen for messages from the worker
                 worker.onmessage = function(e) {
                     try {
@@ -202,27 +223,6 @@
                         alert(error);
                     }
                 };
-
-                userStory.cover = document.getElementById("se_cover").src;
-                userStory.title = document.getElementById("se_title").value;
-                userCategory = document.getElementById("se_category");
-                userStory.category = userCategory.options[userCategory.selectedIndex].text;
-
-                var prevStory = JSON.parse(localStorage.getItem("Library")).stories[storyID];
-
-                if (JSON.stringify(userStory) != JSON.stringify(prevStory)){
-                    if (userStory.cover !== prevStory.cover){
-                        worker.postMessage(JSON.stringify({action: "update", userID: userID, resource: "cover#S" + storyID, content: userStory.cover}));
-                    }
-                    if (userStory.title != prevStory.title){
-                        worker.postMessage(JSON.stringify({action: "update", userID: userID, resource: "title#S" + storyID, content: userStory.title}));
-                    }
-                    if (userStory.category != prevStory.category){
-                        worker.postMessage(JSON.stringify({action: "update", userID: userID, resource: "category#S" + storyID, content: userStory.category}));
-                    }
-                    userStory.modified = new Date(Date.now()).toLocaleDateString('en-GB');
-                    worker.postMessage(JSON.stringify({action: "update", userID: userID, resource: "modified#S" + storyID, content: userStory.modified}));
-                }
             }
         }
 

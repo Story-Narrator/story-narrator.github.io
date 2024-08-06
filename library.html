@@ -144,6 +144,9 @@
                 var worker = new Worker("./worker.js");
                 var degrees = 0;
 
+                // Send a message to the worker to start the interval
+                worker.postMessage(JSON.stringify({action: "retrieve", userID: userID, resource: resource}));
+
                 // Listen for messages from the worker
                 worker.onmessage = function(e) {
                     try {
@@ -199,10 +202,7 @@
                         }
                         alert(error);
                     }
-                }
-
-                // Send a message to the worker to start the interval
-                worker.postMessage(JSON.stringify({action: "retrieve", userID: userID, resource: resource}));
+                };
             }
         }
         else {
