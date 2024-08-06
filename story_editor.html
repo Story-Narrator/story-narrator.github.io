@@ -182,7 +182,6 @@
                 userStory.category = userCategory.options[userCategory.selectedIndex].text;
 
                 var prevStory = JSON.parse(localStorage.getItem("Library")).stories[storyID];
-                var prevStory2 = JSON.parse(localStorage.getItem("Library")).stories[storyID];
 
                 if (JSON.stringify(userStory) != JSON.stringify(prevStory)){
                     if (userStory.cover !== prevStory.cover){
