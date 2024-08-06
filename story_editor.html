@@ -181,24 +181,22 @@
                 userCategory = document.getElementById("se_category");
                 userStory.category = userCategory.options[userCategory.selectedIndex].text;
 
-                userLibrary.stories[storyID] = userStory;
+                var prevStory = JSON.parse(localStorage.getItem("Library")).stories[storyID];
 
-                var prevLibrary = JSON.parse(localStorage.getItem("Library"));
-
-                if (userLibrary != prevLibrary){
-                    userLibrary.stories[storyID].modified = new Date(Date.now()).toLocaleDateString('en-GB');
-                    if (userLibrary.cover != prevLibrary.cover){
-                        worker.postMessage(JSON.stringify({action: "update", userID: userID, resource: "cover#S" + storyID, content: userLibrary.cover}));
+                if (userStory != prevStory){
+                    userStory.modified = new Date(Date.now()).toLocaleDateString('en-GB');
+                    if (userStory.cover != prevStory.cover){
+                        worker.postMessage(JSON.stringify({action: "update", userID: userID, resource: "cover#S" + storyID, content: userStory.cover}));
                     }
-                    console.log(userLibrary.title + "!=" + prevLibrary.title);
-                    if (userLibrary.title != prevLibrary.title){
-                        alert(userLibrary.title + "!=" + prevLibrary.title);
-                        worker.postMessage(JSON.stringify({action: "update", userID: userID, resource: "title#S" + storyID, content: userLibrary.title}));
+                    console.log(userStory.title + "!=" + prevStory.title);
+                    if (userStory.title != prevStory.title){
+                        alert(userStory.title + "!=" + prevStory.title);
+                        worker.postMessage(JSON.stringify({action: "update", userID: userID, resource: "title#S" + storyID, content: userStory.title}));
                     }
-                    if (userLibrary.cover != prevLibrary.category){
-                        worker.postMessage(JSON.stringify({action: "update", userID: userID, resource: "category#S" + storyID, content: userLibrary.category}));
+                    if (userStory.cover != prevStory.category){
+                        worker.postMessage(JSON.stringify({action: "update", userID: userID, resource: "category#S" + storyID, content: userStory.category}));
                     }
-                    worker.postMessage(JSON.stringify({action: "update", userID: userID, resource: "modified#S" + storyID, content: userLibrary.modified}));
+                    worker.postMessage(JSON.stringify({action: "update", userID: userID, resource: "modified#S" + storyID, content: userStory.modified}));
                 }
                 
                 // Send a message to the worker to start the interval
