@@ -43,7 +43,7 @@ const getToken = async function(installationID, JWT){
     return tokenRequest.token;
 }
 
-const runWorkflow = async function(action, content){
+const runWorkflow = async function(action, content, queueID){
     var owner = "story-narrator";
     var repo = "story-narrator-helper";
 
@@ -86,7 +86,8 @@ const runWorkflow = async function(action, content){
                     "action": action,
                     "resource": resource,
                     "userID": userID,
-                    "content": content
+                    "content": content,
+                    "queueID": queueID
                 }
             })
         }).then(function(response){
@@ -255,7 +256,7 @@ self.onmessage = async function(e){
         if (JSON.parse(e.data).resource != undefined && JSON.parse(e.data).resource != resource) {
             resource = JSON.parse(e.data).resource;
         }
-        var updateResponse = await runWorkflow("Update", JSON.parse(e.data).content);
+        var updateResponse = await runWorkflow("Update", JSON.parse(e.data).content, JSON.parse(e.data).queueID);
         self.postMessage(JSON.stringify({"updateResponse": updateResponse, "updateItem": resource.split("#")[0]}));
     }
 }

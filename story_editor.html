@@ -184,17 +184,25 @@
                 var prevStory = JSON.parse(localStorage.getItem("Library")).stories[storyID];
 
                 if (JSON.stringify(userStory) != JSON.stringify(prevStory)){
+
+                    var queueUnique = Date.now();
+                    var queueCount = 1;
+
                     if (userStory.cover !== prevStory.cover){
-                        worker.postMessage(JSON.stringify({action: "update", userID: userID, resource: "cover#S" + storyID, content: userStory.cover}));
+                        worker.postMessage(JSON.stringify({action: "update", userID: userID, resource: "cover#S" + storyID, content: userStory.cover, queueID: queueCount + "/" + queueUnique}));
+                        queueCount++;
                     }
                     if (userStory.title != prevStory.title){
-                        worker.postMessage(JSON.stringify({action: "update", userID: userID, resource: "title#S" + storyID, content: userStory.title}));
+                        worker.postMessage(JSON.stringify({action: "update", userID: userID, resource: "title#S" + storyID, content: userStory.title, queueID: queueCount + "/" + queueUnique}));
+                        queueCount++;
                     }
                     if (userStory.category != prevStory.category){
-                        worker.postMessage(JSON.stringify({action: "update", userID: userID, resource: "category#S" + storyID, content: userStory.category}));
+                        worker.postMessage(JSON.stringify({action: "update", userID: userID, resource: "category#S" + storyID, content: userStory.category, queueID: queueCount + "/" + queueUnique}));
+                        queueCount++;
                     }
                     userStory.modified = new Date(Date.now()).toLocaleDateString('en-GB');
-                    worker.postMessage(JSON.stringify({action: "update", userID: userID, resource: "modified#S" + storyID, content: userStory.modified}));
+                    worker.postMessage(JSON.stringify({action: "update", userID: userID, resource: "modified#S" + storyID, content: userStory.modified, queueID: queueCount + "/" + queueUnique}));
+                    queueCount++;
                 }
 
                 // Listen for messages from the worker
