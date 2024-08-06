@@ -183,14 +183,16 @@
 
                 var prevStory = JSON.parse(localStorage.getItem("Library")).stories[storyID];
 
+
+                console.log(userStory);
+                console.log(prevStory);
+
                 if (userStory != prevStory){
                     userStory.modified = new Date(Date.now()).toLocaleDateString('en-GB');
                     if (userStory.cover != prevStory.cover){
                         worker.postMessage(JSON.stringify({action: "update", userID: userID, resource: "cover#S" + storyID, content: userStory.cover}));
                     }
-                    console.log(userStory.title + "!=" + prevStory.title);
                     if (userStory.title != prevStory.title){
-                        alert(userStory.title + "!=" + prevStory.title);
                         worker.postMessage(JSON.stringify({action: "update", userID: userID, resource: "title#S" + storyID, content: userStory.title}));
                     }
                     if (userStory.cover != prevStory.category){
