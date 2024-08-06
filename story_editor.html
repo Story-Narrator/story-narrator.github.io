@@ -200,7 +200,7 @@
                 }
                 
                 // Send a message to the worker to start the interval
-                worker.postMessage(JSON.stringify({action: "update", userID: userID, resource: resource, content: userContent}));
+                //worker.postMessage(JSON.stringify({action: "update", userID: userID, resource: resource, content: userContent}));
 
                 // Listen for messages from the worker
                 worker.onmessage = function(e) {
