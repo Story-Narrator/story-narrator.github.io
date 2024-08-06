@@ -182,9 +182,14 @@
                 userStory.category = userCategory.options[userCategory.selectedIndex].text;
 
                 var prevStory = JSON.parse(localStorage.getItem("Library")).stories[storyID];
+                var prevStory2 = JSON.parse(localStorage.getItem("Library")).stories[storyID];
 
                 console.log(userStory);
                 console.log(prevStory);
+
+                if (prevStory != prevStory2){
+                    alert("Something is different2");
+                }
 
                 if (userStory != prevStory){
                     alert("Something is different");
