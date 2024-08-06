@@ -187,11 +187,11 @@
                 console.log(userStory);
                 console.log(prevStory);
 
-                if (prevStory != prevStory2){
+                if (JSON.stringify(prevStory) != JSON.stringify(prevStory2)){
                     alert("Something is different2");
                 }
 
-                if (userStory != prevStory){
+                if (JSON.stringify(userStory) != JSON.stringify(prevStory)){
                     alert("Something is different");
                     if (userStory.cover !== prevStory.cover){
                         alert("cover is different");
