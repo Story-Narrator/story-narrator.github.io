@@ -180,12 +180,24 @@
                 userStory.title = document.getElementById("se_title").value;
                 userCategory = document.getElementById("se_category");
                 userStory.category = userCategory.options[userCategory.selectedIndex].text;
-                userStory.modified = new Date(Date.now()).toLocaleDateString('en-GB');
 
                 userLibrary.stories[storyID] = userStory;
 
-                var userContent = '{\n' + new String('"BOF": ' + JSON.stringify(userLibrary, undefined, 4) + ',\n"EOF": ""').replace(/^/mg, "    ") + '\n}';
-                //console.log(userContent);
+                var prevLibrary = JSON.parse(localStorage.getItem("Library"));
+
+                if (userLibrary != prevLibrary){
+                    userLibrary.stories[storyID].modified = new Date(Date.now()).toLocaleDateString('en-GB');
+                    if (userLibrary.cover != prevLibrary.cover){
+                        worker.postMessage(JSON.stringify({action: "update", userID: userID, resource: "cover#S" + storyID, content: userLibrary.cover}));
+                    }
+                    if (userLibrary.title != prevLibrary.title){
+                        worker.postMessage(JSON.stringify({action: "update", userID: userID, resource: "title#S" + storyID, content: userLibrary.title}));
+                    }
+                    if (userLibrary.cover != prevLibrary.category){
+                        worker.postMessage(JSON.stringify({action: "update", userID: userID, resource: "category#S" + storyID, content: userLibrary.category}));
+                    }
+                    worker.postMessage(JSON.stringify({action: "update", userID: userID, resource: "modified#S" + storyID, content: userLibrary.modified}));
+                }
                 
                 // Send a message to the worker to start the interval
                 worker.postMessage(JSON.stringify({action: "update", userID: userID, resource: resource, content: userContent}));
@@ -201,10 +213,11 @@
                                 } else {
                                     throw "Update error: Workflow could not be dispatched. Response status: " + JSON.parse(e.data).updateResponse + ".";
                                 }
+                                if (JSON.parse(e.data).updateItem == "modified") {
+                                    worker.terminate();
+                                    localStorage.setItem("Library", JSON.stringify(userLibrary, undefined, 4));
+                                }
                             }
-                            worker.terminate();
-
-                            localStorage.setItem("Library", JSON.stringify(userLibrary, undefined, 4));
 
                         }
                     }

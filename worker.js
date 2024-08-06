@@ -87,8 +87,7 @@ const runWorkflow = async function(action, content){
                     "action": action,
                     "resource": resource,
                     "userID": userID,
-                    "content": content,
-                    "contentLength": content.length.toString()
+                    "content": content
                 }
             })
         }).then(function(response){
@@ -252,6 +251,6 @@ self.onmessage = async function(e){
     } else if (JSON.parse(e.data).action == "update") {
         //console.log(JSON.parse(e.data).content);
         var updateResponse = await runWorkflow("Update", JSON.parse(e.data).content);
-        self.postMessage(JSON.stringify({"updateResponse": updateResponse}));
+        self.postMessage(JSON.stringify({"updateResponse": updateResponse, "updateItem": JSON.parse(e.data).resource.split("#")[0]}));
     }
 }
