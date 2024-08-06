@@ -183,25 +183,18 @@
 
                 var prevStory = JSON.parse(localStorage.getItem("Library")).stories[storyID];
 
-
-                console.log(userStory);
-                console.log(prevStory);
-
                 if (userStory != prevStory){
                     userStory.modified = new Date(Date.now()).toLocaleDateString('en-GB');
                     if (userStory.cover !== prevStory.cover){
-                        alert("cover is different");
-                        //worker.postMessage(JSON.stringify({action: "update", userID: userID, resource: "cover#S" + storyID, content: userStory.cover}));
+                        worker.postMessage(JSON.stringify({action: "update", userID: userID, resource: "cover#S" + storyID, content: userStory.cover}));
                     }
                     if (userStory.title != prevStory.title){
-                        alert("title is different");
-                        //worker.postMessage(JSON.stringify({action: "update", userID: userID, resource: "title#S" + storyID, content: userStory.title}));
+                        worker.postMessage(JSON.stringify({action: "update", userID: userID, resource: "title#S" + storyID, content: userStory.title}));
                     }
                     if (userStory.category != prevStory.category){
-                        alert("category is different");
-                        //worker.postMessage(JSON.stringify({action: "update", userID: userID, resource: "category#S" + storyID, content: userStory.category}));
+                        worker.postMessage(JSON.stringify({action: "update", userID: userID, resource: "category#S" + storyID, content: userStory.category}));
                     }
-                    //worker.postMessage(JSON.stringify({action: "update", userID: userID, resource: "modified#S" + storyID, content: userStory.modified}));
+                    worker.postMessage(JSON.stringify({action: "update", userID: userID, resource: "modified#S" + storyID, content: userStory.modified}));
                 }
                 
                 // Send a message to the worker to start the interval
