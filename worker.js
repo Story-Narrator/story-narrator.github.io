@@ -128,7 +128,7 @@ const getWorkflowRun = async function() {
     
     for (var i = 0; i < runsResponse.workflow_runs.length; i++) { 
         runResource = runsResponse.workflow_runs[i].name.replace(/^Retrieve '(.*)',.*$/, "$1");
-        runUserID = runsResponse.workflow_runs[i].name.replace(/^.*, requested by (.*)\.$/, "$1");
+        runUserID = runsResponse.workflow_runs[i].name.replace(/^.*, requested by (.*)\..*$/, "$1");
         
         if (resource !== undefined) {
             if (runUserID == userID && runResource == resource){
