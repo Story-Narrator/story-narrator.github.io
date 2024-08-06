@@ -238,6 +238,10 @@ self.onmessage = async function(e){
             self.postMessage("timeout error");
         }
     } else if (JSON.parse(e.data).action == "delete") {
+        if (JSON.parse(e.data).resource != undefined && JSON.parse(e.data).resource != resource) {
+            resource = JSON.parse(e.data).resource;
+        }
+
         var workflow = await getWorkflowRun();
 
         if (workflow != null){
@@ -248,8 +252,10 @@ self.onmessage = async function(e){
             self.postMessage("delete error");
         }
     } else if (JSON.parse(e.data).action == "update") {
-        //console.log(JSON.parse(e.data).content);
+        if (JSON.parse(e.data).resource != undefined && JSON.parse(e.data).resource != resource) {
+            resource = JSON.parse(e.data).resource;
+        }
         var updateResponse = await runWorkflow("Update", JSON.parse(e.data).content);
-        self.postMessage(JSON.stringify({"updateResponse": updateResponse, "updateItem": JSON.parse(e.data).resource.split("#")[0]}));
+        self.postMessage(JSON.stringify({"updateResponse": updateResponse, "updateItem": resource.split("#")[0]}));
     }
 }
