@@ -183,8 +183,12 @@
 
                 var prevStory = JSON.parse(localStorage.getItem("Library")).stories[storyID];
 
+                console.log(userStory);
+                console.log(prevStory);
+
                 if (userStory != prevStory){
-                    if (userStory.cover != prevStory.cover){
+                    alert("Something is different");
+                    if (userStory.cover !== prevStory.cover){
                         alert("cover is different");
                         worker.postMessage(JSON.stringify({action: "update", userID: userID, resource: "cover#S" + storyID, content: userStory.cover}));
                     }
@@ -196,8 +200,8 @@
                         alert("category is different");
                         worker.postMessage(JSON.stringify({action: "update", userID: userID, resource: "category#S" + storyID, content: userStory.category}));
                     }
-                    userStory.modified = new Date(Date.now()).toLocaleDateString('en-GB');
-                    worker.postMessage(JSON.stringify({action: "update", userID: userID, resource: "modified#S" + storyID, content: userStory.modified}));
+                    //userStory.modified = new Date(Date.now()).toLocaleDateString('en-GB');
+                    //worker.postMessage(JSON.stringify({action: "update", userID: userID, resource: "modified#S" + storyID, content: userStory.modified}));
                 }
                 
                 // Send a message to the worker to start the interval
