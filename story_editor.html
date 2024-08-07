@@ -225,11 +225,8 @@
                             if (JSON.parse(e.data).deleteResponse == 204) {
                                 if (window.console && window.console.log) {
                                     window.console.log("Delete workflow successfully dispatched.");
-                                    window.console.log(userStory.title.toUpperCase());
                                 }
-                                console.log("Before: " + document.getElementById("se_heading").innerText);
                                 document.getElementById("se_heading").innerText = userStory.title.toUpperCase();
-                                console.log("After: " + document.getElementById("se_heading").innerText);
                                 alert("Story updated.");
                                 worker.terminate();
                                 localStorage.setItem("Library", JSON.stringify(userLibrary, undefined, 4));
@@ -360,7 +357,7 @@
                         second_child_div_node = document.createElement("div");
                         second_child_div_node.className = "se_img_btn";
                             a_node = document.createElement("a");
-                            a_node.href="./story_content_editor?userID=" + userID + "&resource=" + resource;
+                            a_node.href="./story_content_editor?userID=" + userID + "&resource=" + resource + "&storyID=" + storyID;
                                 img_node = document.createElement("img");
                                 img_node.className = "se_icon";
                                 img_node.src = "./assets/Edit_Icon.png";

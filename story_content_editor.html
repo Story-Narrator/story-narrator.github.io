@@ -11,7 +11,177 @@
     <script src="./emotions/user_map.js"></script>
     <script src="./tinymce/js/tinymce/tinymce.min.js"></script>
 
+</head>
+
+<body id="sys">
+    <div id="sys_main">
+        <!-- <div id="se_backdrop_parent">
+            <div id="se_backdrop"></div>
+            <div id="se_backdrop_overlay"></div>
+        </div>
+        <h3 id="sys_heading">ROB'S DAY AT THE BEACH</h3>
+        <h4 id="sys_subheading">Story Content</h4>
+        <div id="sec_layout">
+            <div>
+                <form method="post">
+                    <textarea id="mytextarea"></textarea>
+                </form>
+            </div>
+            <div>
+                <a href="./story_editor.html">
+                    <div id="se_exit_btn" class="se_text_btn">RETURN TO STORY</div>
+                </a>
+            </div>
+        </div> -->
+    </div>
+
     <script type="text/javascript">
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const userID = urlParams.get('userID');
+        const resource = urlParams.get('resource');
+        const storyID = urlParams.get('storyID');
+
+        const updateLibrary = function(userLibrary, userStory){
+            if (userID != null && resource != null){
+                // Create a new worker
+                var worker = new Worker("./worker.js");
+
+                userStory.cover = document.getElementById("se_cover").src;
+                userStory.title = document.getElementById("se_title").value;
+                userCategory = document.getElementById("se_category");
+                userStory.category = userCategory.options[userCategory.selectedIndex].text;
+
+                var prevStory = JSON.parse(localStorage.getItem("Library")).stories[storyID];
+
+                if (JSON.stringify(userStory) != JSON.stringify(prevStory)){
+
+                    var queueUnique = Date.now();
+                    var queueCount = 1;
+
+                    if (userStory.cover !== prevStory.cover){
+                        worker.postMessage(JSON.stringify({action: "update", userID: userID, resource: "cover#S" + storyID, content: userStory.cover, queueID: queueCount + "/" + queueUnique}));
+                        queueCount++;
+                    }
+                    if (userStory.title != prevStory.title){
+                        worker.postMessage(JSON.stringify({action: "update", userID: userID, resource: "title#S" + storyID, content: userStory.title, queueID: queueCount + "/" + queueUnique}));
+                        queueCount++;
+                    }
+                    if (userStory.category != prevStory.category){
+                        worker.postMessage(JSON.stringify({action: "update", userID: userID, resource: "category#S" + storyID, content: userStory.category, queueID: queueCount + "/" + queueUnique}));
+                        queueCount++;
+                    }
+                    userStory.modified = new Date(Date.now()).toLocaleDateString('en-GB').toString();
+                    //console.log(userStory.modified);
+                    worker.postMessage(JSON.stringify({action: "update", userID: userID, resource: "modified#S" + storyID, content: userStory.modified, queueID: queueCount + "/" + queueUnique}));
+                    queueCount++;
+
+
+                    worker.postMessage(JSON.stringify({action: "delete", userID: userID, resource: queueUnique.toString(), queueID: queueCount + "/" + queueUnique}));
+                }
+
+                // Listen for messages from the worker
+                worker.onmessage = function(e) {
+                    try {
+                        if (Object.keys(JSON.parse(e.data))[0] == "updateResponse"){
+                            if (JSON.parse(e.data).updateResponse == 204) {
+                                if (window.console && window.console.log) {
+                                    window.console.log("Update workflow successfully dispatched.");
+                                }
+                            } else {
+                                throw "Update error: Workflow could not be dispatched. Response status: " + JSON.parse(e.data).updateResponse + ".";
+                            }
+
+                        } else if (Object.keys(JSON.parse(e.data))[0] == "deleteResponse"){
+                            if (JSON.parse(e.data).deleteResponse == 204) {
+                                if (window.console && window.console.log) {
+                                    window.console.log("Delete workflow successfully dispatched.");
+                                }
+                                document.getElementById("se_heading").innerText = userStory.title.toUpperCase();
+                                alert("Story updated.");
+                                worker.terminate();
+                                localStorage.setItem("Library", JSON.stringify(userLibrary, undefined, 4));
+                            } else {
+                                throw "Delete error: Workflow could not be dispatched. Response status: " + JSON.parse(e.data).deleteResponse + ".";
+                            }
+                        }
+                    }
+                    catch (error) {
+                        if (window.console && window.console.log) {
+                            window.console.log(error);
+                        }
+                        alert(error);
+                    }
+                };
+            }
+        }
+
+        const populatePage = function(){
+            var userLibrary = JSON.parse(localStorage.getItem("Library"));
+            var userStory = userLibrary.stories[storyID];
+
+            var main_div;
+            var parent_div_node;
+            var first_child_div_node;
+            var heading_node;
+            var heading_text_node;
+            var form_node;
+            var textarea_node;
+            var a_node;
+            var second_child_div_node;
+            var div_text_node;
+
+            main_div = document.getElementById("sys_main");
+                parent_div_node = document.createElement("div");
+                parent_div_node.id = "se_backdrop_parent";
+                    first_child_div_node = document.createElement("div");
+                    first_child_div_node.id = "se_backdrop";
+                    first_child_div_node.style.backgroundImage = 'url(\'' + userStory.cover + '\')';
+                parent_div_node.appendChild(first_child_div_node);
+                    first_child_div_node = document.createElement("div");
+                    first_child_div_node.id = "se_backdrop_overlay";
+                parent_div_node.appendChild(first_child_div_node);
+            main_div.appendChild(parent_div_node);
+                heading_node = document.createElement("h3");
+                heading_node.id = "sys_heading";
+                    heading_text_node = document.createTextNode(new String(userStory.title).toUpperCase());
+                heading_node.appendChild(heading_text_node);
+            main_div.appendChild(heading_node);
+                heading_node = document.createElement("h4");
+                heading_node.id = "sys_subheading";
+                    heading_text_node = document.createTextNode("Story Content");
+                heading_node.appendChild(heading_text_node);
+            main_div.appendChild(heading_node);
+                parent_div_node = document.createElement("div");
+                parent_div_node.id = "sec_layout";
+                    first_child_div_node = document.createElement("div");
+                        form_node = document.createElement("form");
+                        form_node.method = "post";
+                            textarea_node = document.createElement("textarea");
+                            textarea_node.id = "mytextarea";
+                        form_node.appendChild(textarea_node);
+                    first_child_div_node.appendChild(form_node);
+                parent_div_node.appendChild(first_child_div_node);
+                    first_child_div_node = document.createElement("div");
+                        a_node = document.createElement("a");
+                        a_node.href = "./story_editor?userID=" + userID + "&resource=" + resource + "&storyID=" + storyID;
+                            second_child_div_node = document.createElement("div");
+                            second_child_div_node.id = "se_exit_btn";
+                            second_child_div_node.className = "se_text_btn";
+                                div_text_node = document.createTextNode("RETURN TO STORY");
+                            second_child_div_node.appendChild(div_text_node);
+                        a_node.appendChild(second_child_div_node);
+                    first_child_div_node.appendChild(a_node);
+                parent_div_node.appendChild(first_child_div_node);
+            main_div.appendChild(parent_div_node);
+        }
+
+        if (localStorage.getItem("Library") != null) {
+            if (storyID != null){
+                populatePage();
+                document.getElementById("sys_main").style.visibility = "visible";
+            }
+        }
 
         var editorWidth;
 
@@ -109,29 +279,7 @@
                 editor.setContent(user_story);
             }
         });
+        
     </script>
-</head>
-
-<body id="sys">
-    <div id="sys_main">
-        <div id="se_backdrop_parent">
-            <div id="se_backdrop"></div>
-            <div id="se_backdrop_overlay"></div>
-        </div>
-        <h3 id="sys_heading">ROB'S DAY AT THE BEACH</h3>
-        <h4 id="sys_subheading">Story Content</h4>
-        <div id="sec_layout">
-            <div>
-                <form method="post">
-                    <textarea id="mytextarea"></textarea>
-                </form>
-            </div>
-            <div>
-                <a href="./story_editor.html">
-                    <div id="se_exit_btn" class="se_text_btn">RETURN TO STORY</div>
-                </a>
-            </div>
-        </div>
-    </div>
 </body>
 </html>
