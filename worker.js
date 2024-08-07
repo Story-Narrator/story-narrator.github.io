@@ -95,6 +95,28 @@ const runWorkflow = async function(action, content, queueID){
         });
     
         return updateResponse;
+    } else if (action == "Delete") {
+        deleteResponse = await fetch(`https://api.github.com/repos/${owner}/${repo}/actions/workflows/${workflow_id}/dispatches`, {
+            method: "post",
+            headers: {
+                "Accept": "application/vnd.github+json",
+                "Authorization": `token ${token}`,
+                "X-GitHub-Api-Version": "2022-11-28"
+            },
+            body: JSON.stringify({
+                "ref": "main",
+                "inputs": {
+                    "action": action,
+                    "resource": resource,
+                    "userID": userID,
+                    "queueID": queueID
+                }
+            })
+        }).then(function(response){
+            return response.status;
+        });
+    
+        return deleteResponse;
     }
 }
 
@@ -241,17 +263,22 @@ self.onmessage = async function(e){
     } else if (JSON.parse(e.data).action == "delete") {
         if (JSON.parse(e.data).resource != undefined && JSON.parse(e.data).resource != resource) {
             resource = JSON.parse(e.data).resource;
-        }
 
-        var workflow = await getWorkflowRun();
-
-        if (workflow != null){
-            var deleteResponse = JSON.stringify(await deleteWorkflowRun(workflow));
+            var deleteResponse = await runWorkflow("Delete", JSON.parse(e.data).queueID);
             self.postMessage(JSON.stringify({"deleteResponse": deleteResponse}));
+            
+        } else {
+            var workflow = await getWorkflowRun();
+
+            if (workflow != null){
+                var deleteResponse = JSON.stringify(await deleteWorkflowRun(workflow));
+                self.postMessage(JSON.stringify({"deleteResponse": deleteResponse}));
+            }
+            else {
+                self.postMessage("delete error");
+            }
         }
-        else {
-            self.postMessage("delete error");
-        }
+
     } else if (JSON.parse(e.data).action == "update") {
         if (JSON.parse(e.data).resource != undefined && JSON.parse(e.data).resource != resource) {
             resource = JSON.parse(e.data).resource;
