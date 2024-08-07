@@ -350,7 +350,7 @@
                             input_node.className = "se_field";
                             input_node.name = "Content";
                             input_node.type = "text";
-                            input_node.value = "It was the height of summer...";
+                            input_node.value = userStory.content.replace(/<[^>]*>/g, '');
                             input_node.disabled = true;
                         second_child_div_node.appendChild(input_node);
                     first_child_div_node.appendChild(second_child_div_node);

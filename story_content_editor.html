@@ -160,82 +160,83 @@
                     first_child_div_node.appendChild(a_node);
                 parent_div_node.appendChild(first_child_div_node);
             main_div.appendChild(parent_div_node);
+
+
+            tinymce.init({
+                emotion_map: user_map,
+                emotion_cols: 1,
+                emotion_rows: (user_map.length / 2) + 1,
+                selector: '#mytextarea',
+                // Attribution is required.
+                //branding: false,
+                resize: true,
+                plugins: 'save print preview fullpage searchreplace autolink directionality visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists textcolor wordcount imagetools contextmenu colorpicker textpattern help',
+                toolbar1: 'undo redo | fontselect | fontsizeselect | bold italic underline | forecolor | alignleft aligncenter alignright alignjustify | numlist bullist outdent indent',
+                toolbar2: 'emotion',
+                toolbar3: 'save',
+                // Unused tools, including the custom bodycolour and scrolltext tools. The scrolltext tool is defined in the below 'setup' function, whereas the bodycolour tool is defined in the textcolor plugin.
+                //toolbar4: 'scrolltext | strikethrough superscript subscript | backcolor | bodycolour | removeformat | link ',
+                image_advtab: true,
+                // Provides the animation CSS for scrolltext.
+                content_css: "sce_styles.css",
+                save_enablewhendirty: false,
+                save_onsavecallback: function() {
+                    updateLibrary(userLibrary, userStory);
+                },
+                // Defines the 'scrolltext' tool.
+                /*
+                setup: function (editor) {
+                    editor.addButton('scrolltext', {
+                        type: 'listbox',
+                        text: 'Scroll Text',
+                        icon: false,
+                        onselect: function (e) {
+                            var elem = tinymce.activeEditor.selection.getStart(),
+                                bookmark = tinymce.activeEditor.selection.getBookmark(2);
+
+                            this.settings.values.forEach(function (currentValue) { tinymce.activeEditor.dom.removeClass(elem, currentValue.value); })
+
+                            if (this.value() == "no-anim") {
+                                var content = tinymce.activeEditor.getContent(),
+                                    newContent = content.replace(/<style>.*<\/style>/, "<style></style>");
+
+                                tinymce.activeEditor.setContent(newContent);
+                            }
+                            else {
+                                tinymce.activeEditor.dom.addClass(elem, this.value());
+
+                                var newStyle = "@keyframes myanimation { 0% { left: -" + elem.offsetWidth + "px; } 100% { left: " + editorWidth + "px; } }",
+                                    content = tinymce.activeEditor.getContent(),
+                                    newContent = content.replace(/<style>.*<\/style>/, "<style> " + newStyle + " </style>");
+
+                                tinymce.activeEditor.setContent(newContent);
+                                tinymce.activeEditor.dom.addStyle(newStyle);
+                            }
+
+                            tinymce.activeEditor.selection.moveToBookmark(bookmark);
+                        },
+                        values: [
+                            { text: 'No Scroll', value: 'no-anim' },
+                            { text: 'Left to Right', value: 'anim-1' },
+                            { text: 'Right to Left', value: 'anim-2' }
+                        ],
+                        onPostRender: function () {
+                            // Select the first item by default
+                            this.value('no-anim');
+                        }
+                    });
+                }
+                */
+                init_instance_callback : function(editor) {
+                    editor.setContent(userStory.content);
+                    tinymce.activeEditor.undoManager.clear();
+                }
+            });
         }
 
         if (localStorage.getItem("Library") != null) {
             if (storyID != null){
                 populatePage();
-
-                tinymce.init({
-                    emotion_map: user_map,
-                    emotion_cols: 1,
-                    emotion_rows: (user_map.length / 2) + 1,
-                    selector: '#mytextarea',
-                    // Attribution is required.
-                    //branding: false,
-                    resize: true,
-                    plugins: 'save print preview fullpage searchreplace autolink directionality visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists textcolor wordcount imagetools contextmenu colorpicker textpattern help',
-                    toolbar1: 'undo redo | fontselect | fontsizeselect | bold italic underline | forecolor | alignleft aligncenter alignright alignjustify | numlist bullist outdent indent',
-                    toolbar2: 'emotion',
-                    toolbar3: 'save',
-                    // Unused tools, including the custom bodycolour and scrolltext tools. The scrolltext tool is defined in the below 'setup' function, whereas the bodycolour tool is defined in the textcolor plugin.
-                    //toolbar4: 'scrolltext | strikethrough superscript subscript | backcolor | bodycolour | removeformat | link ',
-                    image_advtab: true,
-                    // Provides the animation CSS for scrolltext.
-                    content_css: "sce_styles.css",
-                    save_enablewhendirty: false,
-                    save_onsavecallback: function() {
-                        updateLibrary(userLibrary, userStory);
-                    },
-                    // Defines the 'scrolltext' tool.
-                    /*
-                    setup: function (editor) {
-                        editor.addButton('scrolltext', {
-                            type: 'listbox',
-                            text: 'Scroll Text',
-                            icon: false,
-                            onselect: function (e) {
-                                var elem = tinymce.activeEditor.selection.getStart(),
-                                    bookmark = tinymce.activeEditor.selection.getBookmark(2);
-
-                                this.settings.values.forEach(function (currentValue) { tinymce.activeEditor.dom.removeClass(elem, currentValue.value); })
-
-                                if (this.value() == "no-anim") {
-                                    var content = tinymce.activeEditor.getContent(),
-                                        newContent = content.replace(/<style>.*<\/style>/, "<style></style>");
-
-                                    tinymce.activeEditor.setContent(newContent);
-                                }
-                                else {
-                                    tinymce.activeEditor.dom.addClass(elem, this.value());
-
-                                    var newStyle = "@keyframes myanimation { 0% { left: -" + elem.offsetWidth + "px; } 100% { left: " + editorWidth + "px; } }",
-                                        content = tinymce.activeEditor.getContent(),
-                                        newContent = content.replace(/<style>.*<\/style>/, "<style> " + newStyle + " </style>");
-
-                                    tinymce.activeEditor.setContent(newContent);
-                                    tinymce.activeEditor.dom.addStyle(newStyle);
-                                }
-
-                                tinymce.activeEditor.selection.moveToBookmark(bookmark);
-                            },
-                            values: [
-                                { text: 'No Scroll', value: 'no-anim' },
-                                { text: 'Left to Right', value: 'anim-1' },
-                                { text: 'Right to Left', value: 'anim-2' }
-                            ],
-                            onPostRender: function () {
-                                // Select the first item by default
-                                this.value('no-anim');
-                            }
-                        });
-                    }
-                    */
-                    init_instance_callback : function(editor) {
-                        editor.setContent(userStory.content);
-                        tinymce.activeEditor.undoManager.clear();
-                    }
-                });
                 document.getElementById("sys_main").style.visibility = "visible";
             }
         }
