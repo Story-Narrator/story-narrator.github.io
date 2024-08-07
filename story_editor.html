@@ -227,9 +227,9 @@
                                     window.console.log("Delete workflow successfully dispatched.");
                                     window.console.log(userStory.title.toUpperCase());
                                 }
-                                console.log("Before: " + document.getElementById("se_heading").value);
-                                document.getElementById("se_heading").value = userStory.title.toUpperCase();
-                                console.log("After: " + document.getElementById("se_heading").value);
+                                console.log("Before: " + document.getElementById("se_heading").innerText);
+                                document.getElementById("se_heading").innerText = userStory.title.toUpperCase();
+                                console.log("After: " + document.getElementById("se_heading").innerText);
                                 alert("Story updated.");
                                 worker.terminate();
                                 localStorage.setItem("Library", JSON.stringify(userLibrary, undefined, 4));
