@@ -264,7 +264,7 @@ self.onmessage = async function(e){
         if (JSON.parse(e.data).resource != undefined && JSON.parse(e.data).resource != resource) {
             resource = JSON.parse(e.data).resource;
 
-            var deleteResponse = await runWorkflow("Delete", JSON.parse(e.data).queueID);
+            var deleteResponse = await runWorkflow("Delete", null, JSON.parse(e.data).queueID);
             self.postMessage(JSON.stringify({"deleteResponse": deleteResponse}));
             
         } else {
