@@ -227,6 +227,8 @@
                                 // window.console.log(e.data);
                                 if (JSON.parse(e.data).deleteResponse == 204) {
                                     window.console.log("Delete workflow successfully dispatched.");
+                                    document.getElementById("se_heading").value = userStory.title;
+                                    alert("Story updated.");
                                     worker.terminate();
                                     localStorage.setItem("Library", JSON.stringify(userLibrary, undefined, 4));
                                 } else {
@@ -358,7 +360,7 @@
                         second_child_div_node = document.createElement("div");
                         second_child_div_node.className = "se_img_btn";
                             a_node = document.createElement("a");
-                            a_node.href="./story_content_editor";
+                            a_node.href="./story_content_editor?userID=" + userID + "&resource=" + resource;
                                 img_node = document.createElement("img");
                                 img_node.className = "se_icon";
                                 img_node.src = "./assets/Edit_Icon.png";
