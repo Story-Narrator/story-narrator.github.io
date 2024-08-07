@@ -48,7 +48,9 @@
 
                 var doc = new DOMParser().parseFromString(tinymce.activeEditor.getContent(), "text/html");
 
-                console.log(doc.body);
+                console.log(doc.body.innerHTML);
+
+                userStory.content = doc.body.innerHTML;
 
                 //console.log(tinymce.activeEditor.getBody());
                 //console.log(tinymce.DOM.decode());
