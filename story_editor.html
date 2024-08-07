@@ -204,6 +204,9 @@
                     //console.log(userStory.modified);
                     worker.postMessage(JSON.stringify({action: "update", userID: userID, resource: "modified#S" + storyID, content: userStory.modified, queueID: queueCount + "/" + queueUnique}));
                     queueCount++;
+
+
+                    worker.postMessage(JSON.stringify({action: "delete", userID: userID, resource: "queueUnique", queueID: queueCount + "/" + queueUnique}));
                 }
 
                 // Listen for messages from the worker
@@ -217,9 +220,17 @@
                                 } else {
                                     throw "Update error: Workflow could not be dispatched. Response status: " + JSON.parse(e.data).updateResponse + ".";
                                 }
-                                if (JSON.parse(e.data).updateItem == "modified") {
+                            }
+
+                        } else if (Object.keys(JSON.parse(e.data))[0] == "deleteResponse"){
+                            if (window.console && window.console.log) {
+                                // window.console.log(e.data);
+                                if (JSON.parse(e.data).deleteResponse == 204) {
+                                    window.console.log("Delete workflow successfully dispatched.");
                                     worker.terminate();
                                     localStorage.setItem("Library", JSON.stringify(userLibrary, undefined, 4));
+                                } else {
+                                    throw "Delete error: Workflow could not be dispatched. Response status: " + JSON.parse(e.data).deleteResponse + ".";
                                 }
                             }
 
