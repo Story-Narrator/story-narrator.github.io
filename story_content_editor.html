@@ -46,7 +46,7 @@
                 // Create a new worker
                 var worker = new Worker("./worker.js");
 
-                userStory.content = tinymce.activeEditor.getContent();
+                userStory.content = tinymce.activeEditor.getContent().body.innerHTML;
                 console.log(userStory.content);
 
                 var prevStory = JSON.parse(localStorage.getItem("Library")).stories[storyID];
@@ -241,6 +241,35 @@
                 document.getElementById("sys_main").style.visibility = "visible";
             }
         }
+
+
+
+        // var editorWidth;
+
+        // function SetEditor(passedDocument) {
+        //     tinymce.activeEditor.getBody().style.backgroundColor = passedDocument.body.style.backgroundColor;
+        //     tinymce.activeEditor.dom.addStyle(passedDocument.getElementsByTagName("style")[0].innerHTML);
+        //     tinymce.activeEditor.setContent(passedDocument.documentElement.outerHTML);
+        //     tinymce.activeEditor.undoManager.clear();
+    	// };
+
+    	// function GetEditor(){
+        //     var editorText = tinymce.activeEditor.getContent(),
+        //         editor = editorText.replace(/<body.*>/, "<body style=\"" + tinymce.activeEditor.getBody().getAttribute("style") + "\">");
+        //     return editor;
+        // };
+
+    	// function SetEditorSize(passedWidth, passedHeight){
+
+        //     editorWidth = passedWidth;
+
+        //     tinymce.activeEditor.theme.resizeTo(passedWidth, passedHeight);
+
+        //     var width = document.documentElement.scrollWidth,
+        //         height = document.documentElement.scrollHeight;
+                
+        //     window.external.ReturnEditorSize(width + 8 /*margin*/, height);
+        // };
         
     </script>
 </body>
