@@ -206,7 +206,7 @@
                     queueCount++;
 
 
-                    worker.postMessage(JSON.stringify({action: "delete", userID: userID, resource: queueUnique, queueID: queueCount + "/" + queueUnique}));
+                    worker.postMessage(JSON.stringify({action: "delete", userID: userID, resource: queueUnique.toString(), queueID: queueCount + "/" + queueUnique}));
                 }
 
                 // Listen for messages from the worker
