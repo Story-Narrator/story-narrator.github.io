@@ -213,29 +213,27 @@
                 worker.onmessage = function(e) {
                     try {
                         if (Object.keys(JSON.parse(e.data))[0] == "updateResponse"){
-                            if (window.console && window.console.log) {
-                                // window.console.log(e.data);
-                                if (JSON.parse(e.data).updateResponse == 204) {
+                            if (JSON.parse(e.data).updateResponse == 204) {
+                                if (window.console && window.console.log) {
                                     window.console.log("Update workflow successfully dispatched.");
-                                } else {
-                                    throw "Update error: Workflow could not be dispatched. Response status: " + JSON.parse(e.data).updateResponse + ".";
                                 }
+                            } else {
+                                throw "Update error: Workflow could not be dispatched. Response status: " + JSON.parse(e.data).updateResponse + ".";
                             }
 
                         } else if (Object.keys(JSON.parse(e.data))[0] == "deleteResponse"){
-                            if (window.console && window.console.log) {
-                                // window.console.log(e.data);
-                                if (JSON.parse(e.data).deleteResponse == 204) {
+                            if (JSON.parse(e.data).deleteResponse == 204) {
+                                if (window.console && window.console.log) {
                                     window.console.log("Delete workflow successfully dispatched.");
-                                    document.getElementById("se_heading").value = userStory.title;
-                                    alert("Story updated.");
-                                    worker.terminate();
-                                    localStorage.setItem("Library", JSON.stringify(userLibrary, undefined, 4));
-                                } else {
-                                    throw "Delete error: Workflow could not be dispatched. Response status: " + JSON.parse(e.data).deleteResponse + ".";
+                                    window.console.log(userStory.title.toUpperCase());
                                 }
+                                document.getElementById("se_heading").value = userStory.title.toUpperCase();
+                                alert("Story updated.");
+                                worker.terminate();
+                                localStorage.setItem("Library", JSON.stringify(userLibrary, undefined, 4));
+                            } else {
+                                throw "Delete error: Workflow could not be dispatched. Response status: " + JSON.parse(e.data).deleteResponse + ".";
                             }
-
                         }
                     }
                     catch (error) {
