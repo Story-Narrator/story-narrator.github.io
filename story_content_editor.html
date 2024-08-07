@@ -46,9 +46,12 @@
                 // Create a new worker
                 var worker = new Worker("./worker.js");
 
-                userStory.content = tinymce.activeEditor.getBody();
-                console.log(tinymce.activeEditor.getBody());
-                console.log(tinymce.DOM.decode());
+                var doc = new DOMParser().parseFromString(tinymce.activeEditor.getContent(), "text/html");
+
+                console.log(doc.body);
+
+                //console.log(tinymce.activeEditor.getBody());
+                //console.log(tinymce.DOM.decode());
 
                 var prevStory = JSON.parse(localStorage.getItem("Library")).stories[storyID];
 
