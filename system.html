@@ -119,12 +119,12 @@
                                 document.getElementById('main_frame').src = `./library.html?userID=${user_id}&resource=Library&debug=1`;
                                 document.getElementById('library_nav').onclick = function(){document.getElementById('main_frame').src = `./library.html?userID=${user_id}&resource=Library&debug=1`};
                                 document.getElementById('profiles_nav').onclick = function(){document.getElementById('main_frame').src = `./emotion_profiles.html?userID=${user_id}&resource=Library&debug=1`};
-                                document.getElementById('profiles_nav').onclick = function(){document.getElementById('main_frame').src = `./account.html?userID=${user_id}&resource=Library&debug=1`};
+                                document.getElementById('account_nav').onclick = function(){document.getElementById('main_frame').src = `./account.html?userID=${user_id}&resource=Library&debug=1`};
                             } else {
                                 document.getElementById('main_frame').src = `./library.html?userID=${user_id}&resource=Library`;
                                 document.getElementById('library_nav').onclick = function(){document.getElementById('main_frame').src = `./library.html?userID=${user_id}&resource=Library`};
                                 document.getElementById('profiles_nav').onclick = function(){document.getElementById('main_frame').src = `./emotion_profiles.html?userID=${user_id}&resource=Library`};
-                                document.getElementById('profiles_nav').onclick = function(){document.getElementById('main_frame').src = `./account.html?userID=${user_id}&resource=Library`};
+                                document.getElementById('account_nav').onclick = function(){document.getElementById('main_frame').src = `./account.html?userID=${user_id}&resource=Library`};
                             }
                             
                             if (window.console && window.console.log) {
