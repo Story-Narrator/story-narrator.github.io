@@ -28,7 +28,7 @@
             <div id="ee_colour_row">
                 <div><h5><sup class="e_super">*</sup>Colour:</h5></div>
                 <div>
-                    <div id="ee_happy" class="ee_colour"></div>
+                    <div id="ee_colour"></div>
                 </div>
                 <div class="e_img_btn">
                     <img class="e_icon" src="./assets/Edit_Icon.png" alt="Edit Icon">
@@ -60,12 +60,15 @@
                 var worker = new Worker("./worker.js");
 
                 var doc = new DOMParser().parseFromString(tinymce.activeEditor.getContent(), "text/html");
+
+                userEmotion.name = document.getElementById("ee_name").value;
+                userEmotion.colour = document.getElementById("ee_colour").style.backgroundColour;
                 
                 if (doc.body.firstElementChild == undefined){
-                    userEmotion.content = "";
+                    userEmotion.ssml = "";
                 } else {
                     console.log(doc.body.firstElementChild.innerHTML);
-                    userEmotion.content = doc.body.firstElementChild.innerHTML;
+                    userEmotion.ssml = doc.body.firstElementChild.innerHTML;
                 }
 
                 var prevEmotion = JSON.parse(localStorage.getItem("Library")).emotions[emotionID];
@@ -212,7 +215,7 @@
                         second_child_div_node = document.createElement("div");
                             third_child_div_node = document.createElement("div");
                             third_child_div_node.style.backgroundColor = userEmotion.colour;
-                            third_child_div_node.className = "ee_colour";
+                            third_child_div_node.id = "ee_colour";
                         second_child_div_node.appendChild(third_child_div_node);
                     first_child_div_node.appendChild(second_child_div_node);
                         second_child_div_node = document.createElement("div");
@@ -236,6 +239,7 @@
                             third_child_div_node = document.createElement("div");
                             third_child_div_node.id = "e_save_btn";
                             third_child_div_node.className = "e_text_btn";
+                            third_child_div_node.onclick = function() { updateLibrary(userLibrary, userEmotion); };
                                 div_text_node = document.createTextNode("SAVE CHANGES");
                             third_child_div_node.appendChild(div_text_node);
                         second_child_div_node.appendChild(third_child_div_node);
