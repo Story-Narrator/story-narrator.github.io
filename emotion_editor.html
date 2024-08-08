@@ -8,79 +8,36 @@
     <link rel="stylesheet" href="./styles.css">
     
     <script src="./tinymce/js/tinymce/tinymce.min.js"></script>
-
-    <script type="text/javascript"> 
-
-        var editorWidth;
-
-        function SetEditor(passedDocument) {
-            tinymce.activeEditor.getBody().style.backgroundColor = passedDocument.body.style.backgroundColor;
-            tinymce.activeEditor.dom.addStyle(passedDocument.getElementsByTagName("style")[0].innerHTML);
-            tinymce.activeEditor.setContent(passedDocument.documentElement.outerHTML);
-            tinymce.activeEditor.undoManager.clear();
-    	};
-
-    	function GetEditor(){
-            var editorText = tinymce.activeEditor.getContent(),
-                editor = editorText.replace(/<body.*>/, "<body style=\"" + tinymce.activeEditor.getBody().getAttribute("style") + "\">");
-            return editor;
-        };
-
-    	function SetEditorSize(passedWidth, passedHeight){
-
-            editorWidth = passedWidth;
-
-            tinymce.activeEditor.theme.resizeTo(passedWidth, passedHeight);
-
-            var width = document.documentElement.scrollWidth,
-                height = document.documentElement.scrollHeight;
-                
-            window.external.ReturnEditorSize(width + 8 /*margin*/, height);
-        };
-
-        tinymce.init({
-            selector: '#mytextarea',
-            resize: true,
-            plugins: 'save',
-            toolbar1: 'undo redo | fontselect | fontsizeselect | bold italic underline | alignleft aligncenter alignright alignjustify | numlist bullist outdent indent',
-            toolbar2: 'save',
-            image_advtab: true,
-            content_css: "sce_styles.css",
-            save_enablewhendirty: false,
-            save_onsavecallback: function () {
-                console.log(GetEditor());
-            }
-        });
-    </script>
+    
 </head>
 <body id="sys">
     <div id="sys_main">
-        <h3 id="sys_heading">Emotion Profile Editor</h3>
+        <!-- <h3 id="sys_heading">Emotion Profile Editor</h3>
         <h6 id="se_req_lbl">* Indicates a required field.</h6>
         <h4 id="sys_subheading">Profile Information</h4>
         <div id="ee_info">
             <div class="se_info_rows">
                 <div>
-                    <label class="se_lbl" for="se_title" ><sup class="se_super">*</sup>Name:</label>
+                    <label class="e_lbl" for="ee_name"><sup class="e_super">*</sup>Name:</label>
                 </div>
                 <div class="shrink">
-                    <input id="se_title" class="se_field" name="Title" type="text" value="Happy">
+                    <input id="ee_name" class="e_field" name="Name" type="text" value="Happy">
                 </div>
                 <div></div>
             </div>
             <div id="ee_cover_row">
-                <div><h5><sup class="se_super">*</sup>Colour:</h5></div>
+                <div><h5><sup class="e_super">*</sup>Colour:</h5></div>
                 <div>
                     <div id="ee_happy" class="ee_colour"></div>
                 </div>
-                <div class="se_img_btn">
-                    <img class="se_icon" src="./assets/Edit_Icon.png" alt="Edit Icon">
+                <div class="e_img_btn">
+                    <img class="e_icon" src="./assets/Edit_Icon.png" alt="Edit Icon">
                 </div>
             </div>
-            <div id="se_text_btn_row">
+            <div id="e_text_btn_row">
                 <div>
-                    <div id="se_discard_btn" class="se_text_btn">DISCARD CHANGES</div>
-                    <div id="se_save_btn" class="se_text_btn">SAVE CHANGES</div>
+                    <div id="e_discard_btn" class="e_text_btn">DISCARD CHANGES</div>
+                    <div id="e_save_btn" class="e_text_btn">SAVE CHANGES</div>
                 </div>
                 <div></div>
             </div>
@@ -88,7 +45,243 @@
         <h4 id="se_actions_heading">SSML Configuration</h4>
         <form method="post">
             <textarea id="mytextarea">[SSML Code]</textarea>
-        </form>
+        </form> -->
     </div>
+    <script type="text/javascript">
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const userID = urlParams.get('userID');
+        const resource = urlParams.get('resource');
+        const emotionID = urlParams.get('emotionID');
+
+        const updateLibrary = function(userLibrary, userEmotion){
+            if (userID != null && resource != null){
+                // Create a new worker
+                var worker = new Worker("./worker.js");
+
+                var doc = new DOMParser().parseFromString(tinymce.activeEditor.getContent(), "text/html");
+                
+                if (doc.body.firstElementChild == undefined){
+                    userEmotion.content = "";
+                } else {
+                    console.log(doc.body.firstElementChild.innerHTML);
+                    userEmotion.content = doc.body.firstElementChild.innerHTML;
+                }
+
+                var prevEmotion = JSON.parse(localStorage.getItem("Library")).emotions[emotionID];
+
+                if (JSON.stringify(userEmotion) != JSON.stringify(prevEmotion)){
+
+                    var queueUnique = Date.now();
+                    var queueCount = 1;
+
+                    if (userEmotion.name !== prevEmotion.name){
+                        worker.postMessage(JSON.stringify({action: "update", userID: userID, resource: "name#E" + emotionID, content: userEmotion.name, queueID: queueCount + "/" + queueUnique}));
+                        queueCount++;
+                    }
+                    if (userEmotion.colour != prevEmotion.colour){
+                        worker.postMessage(JSON.stringify({action: "update", userID: userID, resource: "colour#E" + emotionID, content: userEmotion.colour, queueID: queueCount + "/" + queueUnique}));
+                        queueCount++;
+                    }
+                    if (userEmotion.ssml != prevEmotion.ssml){
+                        worker.postMessage(JSON.stringify({action: "update", userID: userID, resource: "ssml#E" + emotionID, content: userEmotion.ssml, queueID: queueCount + "/" + queueUnique}));
+                        queueCount++;
+                    }
+
+                    userEmotion.modified = new Date(Date.now()).toLocaleDateString('en-GB').toString();
+                    worker.postMessage(JSON.stringify({action: "update", userID: userID, resource: "modified#E" + emotionID, content: userEmotion.modified, queueID: queueCount + "/" + queueUnique}));
+                    queueCount++;
+
+
+                    worker.postMessage(JSON.stringify({action: "delete", userID: userID, resource: queueUnique.toString(), queueID: queueCount + "/" + queueUnique}));
+                }
+
+                // Listen for messages from the worker
+                worker.onmessage = function(e) {
+                    try {
+                        if (Object.keys(JSON.parse(e.data))[0] == "updateResponse"){
+                            if (JSON.parse(e.data).updateResponse == 204) {
+                                if (window.console && window.console.log) {
+                                    window.console.log("Update workflow successfully dispatched.");
+                                }
+                            } else {
+                                throw "Update error: Workflow could not be dispatched. Response status: " + JSON.parse(e.data).updateResponse + ".";
+                            }
+
+                        } else if (Object.keys(JSON.parse(e.data))[0] == "deleteResponse"){
+                            if (JSON.parse(e.data).deleteResponse == 204) {
+                                if (window.console && window.console.log) {
+                                    window.console.log("Delete workflow successfully dispatched.");
+                                }
+                                alert("Emotion profile saved.\nYou may need to wait a couple of minutes for the changes to take effect on Alexa.");
+                                worker.terminate();
+                                localStorage.setItem("Library", JSON.stringify(userLibrary, undefined, 4));
+                            } else {
+                                throw "Delete error: Workflow could not be dispatched. Response status: " + JSON.parse(e.data).deleteResponse + ".";
+                            }
+                        }
+                    }
+                    catch (error) {
+                        if (window.console && window.console.log) {
+                            window.console.log(error);
+                        }
+                        alert(error);
+                    }
+                };
+            }
+        }
+
+        const populatePage = function(){
+            var userLibrary = JSON.parse(localStorage.getItem("Library"));
+            var userEmotion = userLibrary.emotions[emotionID];
+
+            var main_div;
+            var heading_node;
+            var heading_text_node;
+            var parent_div_node;
+            var first_child_div_node;
+            var second_child_div_node;
+            var sup_node;
+            var sup_text_node;
+            var label_text_node;
+            var input_node;
+            var third_child_div_node;
+            var img_node;
+            var div_text_node;
+            var form_node;
+            var textarea_node;
+
+            main_div = document.getElementById("sys_main");
+                heading_node = document.createElement("h3");
+                heading_node.id = "sys_heading";
+                    heading_text_node = document.createTextNode("Emotion Profile Editor");
+                heading_node.appendChild(heading_text_node);
+            main_div.appendChild(heading_node);
+                heading_node = document.createElement("h6");
+                heading_node.id = "se_req_lbl";
+                    heading_text_node = document.createTextNode("* Indicates a required field.");
+                heading_node.appendChild(heading_text_node);
+            main_div.appendChild(heading_node);
+                heading_node = document.createElement("h4");
+                heading_node.id = "sys_subheading";
+                    heading_text_node = document.createTextNode("Profile Information");
+                heading_node.appendChild(heading_text_node);
+            main_div.appendChild(heading_node);
+                parent_div_node = document.createElement("div");
+                parent_div_node.id = "ee_info"
+                    first_child_div_node = document.createElement("div");
+                    first_child_div_node.id = "se_info_rows";
+                        second_child_div_node = document.createElement("div");
+                            label_node = document.createElement("label");
+                            label_node.className = "e_lbl";
+                            label_node.htmlFor = "ee_name";
+                                sup_node = document.createElement("sup");
+                                sup_node.className = "e_super";
+                                    sup_text_node = document.createTextNode("*");
+                                sup_node.appendChild(sup_text_node);
+                            label_node.appendChild(sup_node);
+                                label_text_node = document.createTextNode("Name:");
+                            label_node.appendChild(label_text_node);
+                        second_child_div_node.appendChild(label_node);
+                    first_child_div_node.appendChild(second_child_div_node);
+                        second_child_div_node = document.createElement("div");
+                        second_child_div_node.className = "shrink";
+                            input_node = document.createElement("input");
+                            input_node.id = "ee_name";
+                            input_node.className = "e_field";
+                            input_node.name = "Name";
+                            input_node.type = "text";
+                            input_node.value = userEmotion.name;
+                        second_child_div_node.appendChild(input_node);
+                    first_child_div_node.appendChild(second_child_div_node);
+                        second_child_div_node = document.createElement("div");
+                    first_child_div_node.appendChild(second_child_div_node);
+                parent_div_node.appendChild(first_child_div_node);
+                    first_child_div_node = document.createElement("div");
+                    first_child_div_node.id = "ee_cover_row";
+                        second_child_div_node = document.createElement("div");
+                            heading_node = document.createElement("h5");
+                                sup_node = document.createElement("sup");
+                                sup_node.className = "e_super";
+                                    sup_text_node = document.createTextNode("*");
+                                sup_node.appendChild(sup_text_node);
+                                heading_text_node = document.createTextNode("Colour:");
+                            heading_node.appendChild(heading_text_node);
+                        second_child_div_node.appendChild(heading_node);
+                    first_child_div_node.appendChild(second_child_div_node);
+                        second_child_div_node = document.createElement("div");
+                            third_child_div_node = document.createElement("div");
+                            third_child_div_node.style.backgroundColor = userEmotion.colour;
+                            third_child_div_node.className = "ee_colour";
+                        second_child_div_node.appendChild(third_child_div_node);
+                    first_child_div_node.appendChild(second_child_div_node);
+                        second_child_div_node = document.createElement("div");
+                        second_child_div_node.className = "e_img_btn";
+                            img_node = document.createElement("img");
+                            img_node.className = "e_icon";
+                            img_node.src = "./assets/Edit_Icon.png";
+                            img_node.alt = "Edit Icon";
+                        second_child_div_node.appendChild(img_node);
+                    first_child_div_node.appendChild(second_child_div_node);
+                parent_div_node.appendChild(first_child_div_node);
+                    first_child_div_node = document.createElement("div");
+                    first_child_div_node.id = "e_text_btn_row";
+                        second_child_div_node = document.createElement("div");
+                            third_child_div_node = document.createElement("div");
+                            third_child_div_node.id = "e_discard_btn";
+                            third_child_div_node.className = "e_text_btn";
+                                div_text_node = document.createTextNode("DISCARD CHANGES");
+                            third_child_div_node.appendChild(div_text_node);
+                        second_child_div_node.appendChild(third_child_div_node);
+                            third_child_div_node = document.createElement("div");
+                            third_child_div_node.id = "e_save_btn";
+                            third_child_div_node.className = "e_text_btn";
+                                div_text_node = document.createTextNode("SAVE CHANGES");
+                            third_child_div_node.appendChild(div_text_node);
+                        second_child_div_node.appendChild(third_child_div_node);
+                    first_child_div_node.appendChild(second_child_div_node);
+                        second_child_div_node = document.createElement("div");
+                    first_child_div_node.appendChild(second_child_div_node);
+                parent_div_node.appendChild(first_child_div_node);
+            main_div.appendChild(parent_div_node);
+                heading_node = document.createElement("h4");
+                heading_node.id = "se_actions_heading";
+                    heading_text_node = "SSML Configuration";
+                heading_node.appendChild(heading_text_node);
+            main_div.appendChild(heading_node);
+                form_node = document.createElement("form");
+                form_node.method = "post";
+                    textarea_node = document.createElement("textarea");
+                    textarea_node.id = "mytextarea";
+                form_node.appendChild(textarea_node);
+            main_div.appendChild(form_node);
+
+            tinymce.init({
+                selector: '#mytextarea',
+                resize: true,
+                plugins: 'save',
+                toolbar1: 'undo redo | fontselect | fontsizeselect | bold italic underline | alignleft aligncenter alignright alignjustify | numlist bullist outdent indent',
+                toolbar2: 'save',
+                image_advtab: true,
+                content_css: "sce_styles.css",
+                save_enablewhendirty: false,
+                save_onsavecallback: function() {
+                    updateLibrary(userLibrary, userEmotion);
+                },
+                init_instance_callback : function(editor) {
+                    editor.setContent(userEmotion.content);
+                    tinymce.activeEditor.undoManager.clear();
+                }
+            });
+        }
+
+        if (localStorage.getItem("Library") != null) {
+            if (emotionID != null){
+                populatePage();
+                document.getElementById("sys_main").style.visibility = "visible";
+            }
+        }
+        
+    </script>
 </body>
 </html>

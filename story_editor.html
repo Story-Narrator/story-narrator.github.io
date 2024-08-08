@@ -19,23 +19,23 @@
         <div id="se_info">
             <div class="se_info_rows">
                 <div>
-                    <label class="se_lbl" for="se_title" ><sup class="se_super">*</sup>Title:</label>
+                    <label class="e_lbl" for="se_title" ><sup class="e_super">*</sup>Title:</label>
                 </div>
                 <div class="shrink">
-                    <input id="se_title" class="se_field" name="Title" type="text" value="Rob's day at the beach">
+                    <input id="se_title" class="e_field" name="Title" type="text" value="Rob's day at the beach">
                 </div>
                 <div></div>
             </div>
             <div class="se_info_rows">
                 <div>
-                    <label class="se_lbl" for="se_content" ><sup class="se_super">*</sup>Content:</label>
+                    <label class="e_lbl" for="se_content" ><sup class="e_super">*</sup>Content:</label>
                 </div>
                 <div class="shrink">
-                    <input id="se_content" class="se_field" name="Content" type="text" value="It was the height of summer..." disabled>
+                    <input id="se_content" class="e_field" name="Content" type="text" value="It was the height of summer..." disabled>
                 </div>
-                <div class="se_img_btn">
+                <div class="e_img_btn">
                     <a href="./story_content_editor.html">
-                        <img class="se_icon" src="./assets/Edit_Icon.png" alt="Edit Icon">
+                        <img class="e_icon" src="./assets/Edit_Icon.png" alt="Edit Icon">
                     </a>
                 </div>
             </div>
@@ -47,9 +47,9 @@
                     </label>
                      -->
                     <!--
-                    <label class="se_lbl" for="se_category">Category:</label>
+                    <label class="e_lbl" for="se_category">Category:</label>
                 </div>
-                <select id="se_category" class="se_field" name="Category">
+                <select id="se_category" class="e_field" name="Category">
                     <option value="uncategorised">Uncategorised</option> 
                     <option value="sci-fi">Sci-Fi</option>
                     <option value="romance">Romance</option>
@@ -63,14 +63,14 @@
                 <div>
                     <img id="se_cover" class="cover" src="./assets/Beach.png" alt="Cover Image">
                 </div>
-                <div class="se_img_btn">
-                    <img class="se_icon" src="./assets/Edit_Icon.png" alt="Edit Icon">
+                <div class="e_img_btn">
+                    <img class="e_icon" src="./assets/Edit_Icon.png" alt="Edit Icon">
                 </div>
             </div>
-            <div id="se_text_btn_row">
+            <div id="e_text_btn_row">
                 <div>
-                    <div id="se_discard_btn" class="se_text_btn">DISCARD CHANGES</div>
-                    <div id="se_save_btn" class="se_text_btn">SAVE CHANGES</div>
+                    <div id="e_discard_btn" class="e_text_btn">DISCARD CHANGES</div>
+                    <div id="e_save_btn" class="e_text_btn">SAVE CHANGES</div>
                 </div>
                 <div></div>
             </div>
@@ -83,8 +83,8 @@
                         <li><span class="se_indent">Listen</span></li>
                     </ul>
                 </div>
-                <div class="se_img_btn">
-                    <img class="se_icon" src="./assets/Play_Icon.png" alt="Listen Icon">
+                <div class="e_img_btn">
+                    <img class="e_icon" src="./assets/Play_Icon.png" alt="Listen Icon">
                 </div>
                 <div></div>
                 <div>
@@ -92,8 +92,8 @@
                         <li><span class="se_indent">Duplicate</span></li>
                     </ul>
                 </div>
-                <div class="se_img_btn">
-                    <img class="se_icon" src="./assets/Duplicate_Icon.png" alt="Duplicate Icon">
+                <div class="e_img_btn">
+                    <img class="e_icon" src="./assets/Duplicate_Icon.png" alt="Duplicate Icon">
                 </div>
                 <div></div>
             </div>
@@ -103,8 +103,8 @@
                         <li><span class="se_indent">Share</span></li>
                     </ul>
                 </div>
-                <div class="se_img_btn">
-                    <img class="se_icon" src="./assets/Share_Icon.png" alt="Share Icon">
+                <div class="e_img_btn">
+                    <img class="e_icon" src="./assets/Share_Icon.png" alt="Share Icon">
                 </div>
                 <div></div>
                 <div>
@@ -112,15 +112,15 @@
                         <li><span class="se_indent">Delete</span></li>
                     </ul>
                 </div>
-                <div class="se_img_btn">
-                    <img class="se_icon" src="./assets/Delete_Icon.png" alt="Delete Icon">
+                <div class="e_img_btn">
+                    <img class="e_icon" src="./assets/Delete_Icon.png" alt="Delete Icon">
                 </div>
                 <div></div>
             </div>
-            <div id="se_text_btn_row">
+            <div id="e_text_btn_row">
                 <div>
                     <a href="./library.html">
-                        <div id="se_exit_btn" class="se_text_btn">EXIT TO LIBRARY</div>
+                        <div id="se_exit_btn" class="e_text_btn">EXIT TO LIBRARY</div>
                     </a>
                 </div>
                 <div></div>
@@ -304,10 +304,10 @@
                     first_child_div_node.className = "se_info_rows";
                         second_child_div_node = document.createElement("div");
                             label_node = document.createElement("label");
-                            label_node.className = "se_lbl";
+                            label_node.className = "e_lbl";
                             label_node.htmlFor = "se_title";
                                 superscript_node = document.createElement("sup");
-                                superscript_node.className = "se_super";
+                                superscript_node.className = "e_super";
                                     superscript_text_node = document.createTextNode("*");
                                 superscript_node.appendChild(superscript_text_node);
                             label_node.appendChild(superscript_node);
@@ -319,7 +319,7 @@
                         second_child_div_node.className = "shrink";
                             input_node = document.createElement("input");
                             input_node.id = "se_title";
-                            input_node.className = "se_field";
+                            input_node.className = "e_field";
                             input_node.name = "Title";
                             input_node.type = "text";
                             input_node.value = userStory.title;
@@ -332,10 +332,10 @@
                     first_child_div_node.className = "se_info_rows";
                         second_child_div_node = document.createElement("div");
                             label_node = document.createElement("label");
-                            label_node.className = "se_lbl";
+                            label_node.className = "e_lbl";
                             label_node.htmlFor = "se_content";
                                 superscript_node = document.createElement("sup");
-                                superscript_node.className = "se_super";
+                                superscript_node.className = "e_super";
                                     superscript_text_node = document.createTextNode("*");
                                 superscript_node.appendChild(superscript_text_node);
                             label_node.appendChild(superscript_node);
@@ -347,7 +347,7 @@
                         second_child_div_node.className = "shrink";
                             input_node = document.createElement("input");
                             input_node.id = "se_content";
-                            input_node.className = "se_field";
+                            input_node.className = "e_field";
                             input_node.name = "Content";
                             input_node.type = "text";
                             input_node.value = userStory.content.replace(/<[^>]*>/g, '');
@@ -355,11 +355,11 @@
                         second_child_div_node.appendChild(input_node);
                     first_child_div_node.appendChild(second_child_div_node);
                         second_child_div_node = document.createElement("div");
-                        second_child_div_node.className = "se_img_btn";
+                        second_child_div_node.className = "e_img_btn";
                             a_node = document.createElement("a");
                             a_node.href="./story_content_editor?userID=" + userID + "&resource=" + resource + "&storyID=" + storyID;
                                 img_node = document.createElement("img");
-                                img_node.className = "se_icon";
+                                img_node.className = "e_icon";
                                 img_node.src = "./assets/Edit_Icon.png";
                                 img_node.alt = "Edit Icon";
                             a_node.appendChild(img_node);
@@ -370,7 +370,7 @@
                     first_child_div_node.className = "se_info_rows";
                         second_child_div_node = document.createElement("div");
                             label_node = document.createElement("label");
-                            label_node.className = "se_lbl";
+                            label_node.className = "e_lbl";
                             label_node.htmlFor = "se_category";
                                 label_text_node = document.createTextNode("Category:")
                             label_node.appendChild(label_text_node);
@@ -378,7 +378,7 @@
                     first_child_div_node.appendChild(second_child_div_node);
                         select_node = document.createElement("select");
                         select_node.id = "se_category";
-                        select_node.className = "se_field";
+                        select_node.className = "e_field";
                         select_node.name = "Category";
                             option_node = document.createElement("option");
                             option_node.value = "Uncategorised";
@@ -431,7 +431,7 @@
                         second_child_div_node.appendChild(img_node);
                     first_child_div_node.appendChild(second_child_div_node);
                         second_child_div_node = document.createElement("div");
-                        //second_child_div_node.className = "se_img_btn";
+                        //second_child_div_node.className = "e_img_btn";
                             label_node = document.createElement("label");
                             label_node.className = "custom_file_upload";
                             label_node.htmlFor = "file_upload";
@@ -444,24 +444,24 @@
                             label_node.appendChild(input_node);
                         second_child_div_node.appendChild(label_node);
                             // img_node = document.createElement("img");
-                            // img_node.className = "se_icon";
+                            // img_node.className = "e_icon";
                             // img_node.src = "./assets/Edit_Icon.png";
                             // img_node.alt = "Edit Icon";
                         //second_child_div_node.appendChild(img_node);
                     first_child_div_node.appendChild(second_child_div_node);
                 parent_div_node.appendChild(first_child_div_node);
                     first_child_div_node = document.createElement("div");
-                    first_child_div_node.id = "se_text_btn_row";
+                    first_child_div_node.id = "e_text_btn_row";
                         second_child_div_node = document.createElement("div");
                             third_child_div_node = document.createElement("div");
-                            third_child_div_node.id = "se_discard_btn";
-                            third_child_div_node.className = "se_text_btn";
+                            third_child_div_node.id = "e_discard_btn";
+                            third_child_div_node.className = "e_text_btn";
                                 div_text_node = document.createTextNode("DISCARD CHANGES");
                             third_child_div_node.appendChild(div_text_node);
                         second_child_div_node.appendChild(third_child_div_node);
                             third_child_div_node = document.createElement("div");
-                            third_child_div_node.id = "se_save_btn";
-                            third_child_div_node.className = "se_text_btn";
+                            third_child_div_node.id = "e_save_btn";
+                            third_child_div_node.className = "e_text_btn";
                             third_child_div_node.onclick = function() { updateLibrary(userLibrary, userStory); };
                                 div_text_node = document.createTextNode("SAVE CHANGES");
                             third_child_div_node.appendChild(div_text_node);
@@ -492,9 +492,9 @@
                         second_child_div_node.appendChild(unordered_list_node);
                     first_child_div_node.appendChild(second_child_div_node);
                         second_child_div_node = document.createElement("div");
-                        second_child_div_node.className = "se_img_btn";
+                        second_child_div_node.className = "e_img_btn";
                             img_node = document.createElement("img");
-                            img_node.className = "se_icon";
+                            img_node.className = "e_icon";
                             img_node.src = "./assets/Play_Icon.png";
                             img_node.alt = "Listen Icon";
                         second_child_div_node.appendChild(img_node);
@@ -514,9 +514,9 @@
                         second_child_div_node.appendChild(unordered_list_node);
                     first_child_div_node.appendChild(second_child_div_node);
                         second_child_div_node = document.createElement("div");
-                        second_child_div_node.className = "se_img_btn";
+                        second_child_div_node.className = "e_img_btn";
                             img_node = document.createElement("img");
-                            img_node.className = "se_icon";
+                            img_node.className = "e_icon";
                             img_node.src = "./assets/Duplicate_Icon.png";
                             img_node.alt = "Duplicate Icon";
                         second_child_div_node.appendChild(img_node);
@@ -539,9 +539,9 @@
                         second_child_div_node.appendChild(unordered_list_node);
                     first_child_div_node.appendChild(second_child_div_node);
                         second_child_div_node = document.createElement("div");
-                        second_child_div_node.className = "se_img_btn";
+                        second_child_div_node.className = "e_img_btn";
                             img_node = document.createElement("img");
-                            img_node.className = "se_icon";
+                            img_node.className = "e_icon";
                             img_node.src = "./assets/Share_Icon.png";
                             img_node.alt = "Share Icon";
                         second_child_div_node.appendChild(img_node);
@@ -561,9 +561,9 @@
                         second_child_div_node.appendChild(unordered_list_node);
                     first_child_div_node.appendChild(second_child_div_node);
                         second_child_div_node = document.createElement("div");
-                        second_child_div_node.className = "se_img_btn";
+                        second_child_div_node.className = "e_img_btn";
                             img_node = document.createElement("img");
-                            img_node.className = "se_icon";
+                            img_node.className = "e_icon";
                             img_node.src = "./assets/Delete_Icon.png";
                             img_node.alt = "Delete Icon";
                         second_child_div_node.appendChild(img_node);
@@ -572,13 +572,13 @@
                     first_child_div_node.appendChild(second_child_div_node);
                 parent_div_node.appendChild(first_child_div_node);
                     first_child_div_node = document.createElement("div");
-                    first_child_div_node.id = "se_text_btn_row";
+                    first_child_div_node.id = "e_text_btn_row";
                         second_child_div_node = document.createElement("div");
                             a_node = document.createElement("a");
                             a_node.href = "./library";
                                 third_child_div_node = document.createElement("div");
                                 third_child_div_node.id = "se_exit_btn";
-                                third_child_div_node.className = "se_text_btn";
+                                third_child_div_node.className = "e_text_btn";
                                     div_text_node = document.createTextNode("EXIT TO LIBRARY");
                                 third_child_div_node.appendChild(div_text_node);
                             a_node.appendChild(third_child_div_node);
