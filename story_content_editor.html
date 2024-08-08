@@ -47,10 +47,13 @@
                 var worker = new Worker("./worker.js");
 
                 var doc = new DOMParser().parseFromString(tinymce.activeEditor.getContent(), "text/html");
-
-                console.log(doc.body.innerHTML);
-
-                userStory.content = doc.body.innerHTML;
+                
+                if (doc.body.firstChild.innerHTML == undefined){
+                    userStory.content = "";
+                } else {
+                    console.log(doc.body.firstChild.innerHTML);
+                    userStory.content = doc.body.firstChild.innerHTML;
+                }
 
                 //console.log(tinymce.activeEditor.getBody());
                 //console.log(tinymce.DOM.decode());
