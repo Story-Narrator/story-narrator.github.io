@@ -649,7 +649,7 @@ table tr td:last-child, table tr th:last-child {
     row-gap: 40px;
 }
 
-.se_info_rows {
+.e_info_rows {
     display: grid;
     grid-template-columns: 235px 1fr 38px;
     column-gap: 20px;
