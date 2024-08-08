@@ -16,7 +16,7 @@
                     <tr>
                         <th>Name</th><th>Colour</th><th>Created</th><th>Modified</th><th>Actions</th>
                     </tr>
-                    <tr>
+                    <!-- <tr>
                         <td>Happy</td>
                         <td><div id="ee_happy" class="ee_colour"></div></td>
                         <td>01/01/2024</td>
@@ -79,11 +79,99 @@
                                 <p class="sys_action_lbl">Delete</p>
                             </a>
                         </td>
-                    </tr>
+                    </tr> -->
                 </table>
             </div>
         </div>
     </div>
+    <script type="text/javascript">
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const userID = urlParams.get('userID');
+        const resource = urlParams.get('resource');
+
+        const populateTable = function(){
+            var i = 0;
+            var tr_node;
+            var td_node;
+            var td_text_node;
+            var div_node;
+
+            var img_node;
+            var br_node;
+            var label_node;
+            var label_text_node;
+            var input_node;
+            var a_node;
+            var p_node;
+            var p_text_node;
+
+            JSON.parse(localStorage.getItem("Library")).emotions.forEach(function(element){
+
+                tr_node = document.createElement("tr");
+                    td_node = document.createElement("td");
+                        td_text_node = document.createTextNode(element.name);
+                    td_node.appendChild(td_text_node);
+                tr_node.appendChild(td_node);
+                    td_node = document.createElement("td");
+                        div_node = document.createElement("div");
+                        div_node.className = "ee_colour";
+                        div_node.backgroundColor = element.colour
+                    td_node.appendChild(div_node);
+                tr_node.appendChild(td_node);
+                    td_node = document.createElement("td");
+                        td_text_node = document.createTextNode(element.created);
+                    td_node.appendChild(td_text_node);
+                tr_node.appendChild(td_node);
+                    td_node = document.createElement("td");
+                        td_text_node = document.createTextNode(element.modified);
+                    td_node.appendChild(td_text_node);
+                tr_node.appendChild(td_node);
+                    td_node = document.createElement("td");
+                    td_node.className = "tbl_cell_small";
+                        a_node = document.createElement("a");
+                        a_node.className = "sys_updt_btn";
+                        a_node.href = `./emotion_editor?userID=${userID}&resource=${resource}&emotionID=${i}`; 
+                            img_node = document.createElement("img");
+                            img_node.className = "sys_action_icon";
+                            img_node.src = "./assets/Edit_Icon.png";
+                            img_node.alt = "Edit Icon";
+                            p_node = document.createElement("p");
+                            p_node.className = "sys_action_lbl";
+                                p_text_node = document.createTextNode("Edit");
+                            p_node.appendChild(p_text_node);
+                        a_node.appendChild(img_node);
+                        a_node.appendChild(p_node);
+                    td_node.appendChild(a_node);
+                        a_node = document.createElement("a");
+                        a_node.className = "sys_del_btn";
+                        a_node.href = "";
+                        a_node.onclick = "return confirm('Are you sure you want to delete this profile?');";  
+                            img_node = document.createElement("img");
+                            img_node.className = "sys_action_icon";
+                            img_node.src = "./assets/Delete_Icon.png";
+                            img_node.alt = "Delete Icon";
+                            p_node = document.createElement("p");
+                            p_node.className = "sys_action_lbl";
+                                p_text_node = document.createTextNode("Delete");
+                            p_node.appendChild(p_text_node);
+                        a_node.appendChild(img_node);
+                        a_node.appendChild(p_node);
+                    td_node.appendChild(a_node);
+                tr_node.appendChild(td_node);
+
+                document.getElementById("sys_tbl").appendChild(tr_node);
+
+                i++;
+            });
+        }
+
+        if (localStorage.getItem("Library") != null) {
+            populateTable();
+            document.getElementById("sys_main").style.visibility = "visible";
+        }
+        
+    </script>
 </body>
 </script>
 </html>
