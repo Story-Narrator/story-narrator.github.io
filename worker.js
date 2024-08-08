@@ -224,6 +224,10 @@ function sleep(ms) {
     });
 }
 
+function escapeRegExp(string) {
+    return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
 self.onmessage = async function(e){
     if (userID === undefined) {
         userID = JSON.parse(e.data).userID;
@@ -283,7 +287,7 @@ self.onmessage = async function(e){
         if (JSON.parse(e.data).resource != undefined && JSON.parse(e.data).resource != resource) {
             resource = JSON.parse(e.data).resource;
         }
-        var escapedContent = JSON.stringify(JSON.parse(e.data).content);
+        var escapedContent = escapeRegExp(JSON.stringify(JSON.parse(e.data).content));
         var updateResponse = await runWorkflow("Update", escapedContent.substring(1, escapedContent.length - 1), JSON.parse(e.data).queueID);
         self.postMessage(JSON.stringify({"updateResponse": updateResponse, "updateItem": resource.split("#")[0]}));
     }
