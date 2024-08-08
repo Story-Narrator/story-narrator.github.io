@@ -225,7 +225,7 @@ function sleep(ms) {
 }
 
 function escapeRegExp(string) {
-    return string.replace(/[".*+?^${}()|[\]\\]/g, '\\$&');
+    return string.replace(/[\\]/g, '\\\\$&').replace(/[".*+?^${}()|[\]]/g, '\\$&');
 }
 
 self.onmessage = async function(e){
