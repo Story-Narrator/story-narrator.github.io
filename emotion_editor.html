@@ -269,7 +269,7 @@
                     updateLibrary(userLibrary, userEmotion);
                 },
                 init_instance_callback : function(editor) {
-                    editor.setContent(JSON.stringify(userEmotion.ssml));
+                    editor.setContent(JSON.stringify(userEmotion.ssml), undefined, 4);
                     tinymce.activeEditor.undoManager.clear();
                 }
             });
