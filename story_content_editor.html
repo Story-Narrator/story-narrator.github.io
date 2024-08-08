@@ -48,11 +48,11 @@
 
                 var doc = new DOMParser().parseFromString(tinymce.activeEditor.getContent(), "text/html");
                 
-                if (doc.body.firstChild.innerHTML == undefined){
+                if (doc.body.firstElementChild == undefined){
                     userStory.content = "";
                 } else {
-                    console.log(doc.body.firstChild.innerHTML);
-                    userStory.content = doc.body.firstChild.innerHTML;
+                    console.log(doc.body.firstElementChild.innerHTML);
+                    userStory.content = doc.body.firstElementChild.innerHTML;
                 }
 
                 //console.log(tinymce.activeEditor.getBody());
