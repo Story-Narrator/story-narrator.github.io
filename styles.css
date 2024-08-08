@@ -732,9 +732,9 @@ input[type="file"] {
     overflow: hidden;
 }
 
-.custom_file_upload:hover {
+/* .custom_file_upload:hover {
     background-color: grey;
-}
+} */
 
 /* When the visually hidden child input has focus, style the parent. */
 .custom_file_upload:focus-within {
@@ -873,4 +873,8 @@ input[type="file"] {
     display: grid;
     grid-template-rows: 38px 38px;
     row-gap: 40px;
+}
+
+a:hover {
+    cursor: pointer;
 }
