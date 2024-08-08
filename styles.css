@@ -766,6 +766,10 @@ input[type="file"] {
     border-radius: 30px;
 }
 
+.se_text_btn:hover {
+    cursor: pointer;
+}
+
 #se_save_btn {
     background-color: #454394;
 }

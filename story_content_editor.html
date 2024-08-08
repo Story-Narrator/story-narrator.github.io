@@ -94,7 +94,7 @@
                                 if (window.console && window.console.log) {
                                     window.console.log("Delete workflow successfully dispatched.");
                                 }
-                                alert("Story content saved.");
+                                alert("Story content saved.\nYou may need to wait a couple of minutes for the changes to take effect on Alexa.");
                                 worker.terminate();
                                 localStorage.setItem("Library", JSON.stringify(userLibrary, undefined, 4));
                             } else {
