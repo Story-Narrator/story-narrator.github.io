@@ -13,7 +13,7 @@
 <body id="sys">
     <div id="sys_main">
         <!-- <h3 id="sys_heading">Emotion Profile Editor</h3>
-        <h6 id="se_req_lbl">* Indicates a required field.</h6>
+        <h6 id="e_req_lbl">* Indicates a required field.</h6>
         <h4 id="sys_subheading">Profile Information</h4>
         <div id="ee_info">
             <div class="e_info_rows">
@@ -25,7 +25,7 @@
                 </div>
                 <div></div>
             </div>
-            <div id="ee_cover_row">
+            <div id="ee_colour_row">
                 <div><h5><sup class="e_super">*</sup>Colour:</h5></div>
                 <div>
                     <div id="ee_happy" class="ee_colour"></div>
@@ -42,7 +42,7 @@
                 <div></div>
             </div>
         </div>
-        <h4 id="se_actions_heading">SSML Configuration</h4>
+        <h4 id="e_mid_heading">SSML Configuration</h4>
         <form method="post">
             <textarea id="mytextarea">[SSML Code]</textarea>
         </form> -->
@@ -158,7 +158,7 @@
                 heading_node.appendChild(heading_text_node);
             main_div.appendChild(heading_node);
                 heading_node = document.createElement("h6");
-                heading_node.id = "se_req_lbl";
+                heading_node.id = "e_req_lbl";
                     heading_text_node = document.createTextNode("* Indicates a required field.");
                 heading_node.appendChild(heading_text_node);
             main_div.appendChild(heading_node);
@@ -198,7 +198,7 @@
                     first_child_div_node.appendChild(second_child_div_node);
                 parent_div_node.appendChild(first_child_div_node);
                     first_child_div_node = document.createElement("div");
-                    first_child_div_node.id = "ee_cover_row";
+                    first_child_div_node.id = "ee_colour_row";
                         second_child_div_node = document.createElement("div");
                             heading_node = document.createElement("h5");
                                 sup_node = document.createElement("sup");
@@ -245,7 +245,7 @@
                 parent_div_node.appendChild(first_child_div_node);
             main_div.appendChild(parent_div_node);
                 heading_node = document.createElement("h4");
-                heading_node.id = "se_actions_heading";
+                heading_node.id = "e_mid_heading";
                     heading_text_node = document.createTextNode("SSML Configuration");
                 heading_node.appendChild(heading_text_node);
             main_div.appendChild(heading_node);
