@@ -836,7 +836,7 @@ input[type="file"] {
     margin-bottom: 30px;
 }
 
-#ee_colour {
+.ee_colour {
     height: 38px;
     width: 38px;
     border-radius: 50%;
