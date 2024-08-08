@@ -1,6 +1,9 @@
 var user_map = [
-    "FBB00F", "Happy",
-    "5373B8", "Sad",
-    "919904", "Excited",
-    "9E4B1E", "Disappointed"
+    "F4A895", "Angry",
+    "B9E8AB", "Scared",
+    "F5F666", "Happy",
+    "F7D368", "Anxious",
+    "E8C1FF", "Bored",
+    "ABC0E5", "Sad",
+    "B9E0E8", "Surprised"
 ];
