@@ -225,7 +225,7 @@ function sleep(ms) {
 }
 
 function escapeReplacement(string) {
-    return string.replace(/[\/&\\]/g, '\\$&').replace(/'/g, "'\\''"); // $& means the whole matched string
+    return string.replace(/["\\]/g, '\\$&');
 }
 
 self.onmessage = async function(e){
