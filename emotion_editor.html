@@ -78,7 +78,7 @@
                     userEmotion.ssml = "";
                 } else {
                     console.log(doc.body.firstElementChild.innerHTML);
-                    userEmotion.ssml = doc.body.firstElementChild.innerHTML;
+                    userEmotion.ssml = JSON.parse(doc.body.firstElementChild.innerHTML);
                 }
 
                 var prevEmotion = JSON.parse(localStorage.getItem("Library")).emotions[emotionID];
