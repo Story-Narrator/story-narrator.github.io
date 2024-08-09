@@ -288,8 +288,13 @@ self.onmessage = async function(e){
             resource = JSON.parse(e.data).resource;
         }
 
-        console.log("String sent to workflow: " + escapeReplacement(JSON.stringify(JSON.parse(e.data).content)));
-        var updateResponse = await runWorkflow("Update", escapeReplacement(JSON.stringify(JSON.parse(e.data).content)), JSON.parse(e.data).queueID);
+        //console.log("String sent to workflow: " + escapeReplacement(JSON.stringify(JSON.parse(e.data).content)));
+        
+        if (resource.split("#")[0] == "ssml") {
+            var updateResponse = await runWorkflow("Update", escapeReplacement(JSON.stringify(JSON.parse(e.data).content, undefined, 4)), JSON.parse(e.data).queueID);   
+        } else {
+            var updateResponse = await runWorkflow("Update", escapeReplacement(JSON.stringify(JSON.parse(e.data).content)), JSON.parse(e.data).queueID);
+        }
         self.postMessage(JSON.stringify({"updateResponse": updateResponse, "updateItem": resource.split("#")[0]}));
     }
 }
