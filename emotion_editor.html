@@ -72,7 +72,7 @@
 
                 userEmotion.name = document.getElementById("ee_name").value;
                 //console.log(document.getElementById("ee_colour").style.backgroundColor);
-                userEmotion.colour = convertToHex(document.getElementById("ee_colour").style.backgroundColor);
+                userEmotion.colour = convertToHex(document.getElementById("ee_colour").style.backgroundColor).toUpperCase();
                 
                 if (doc.body.firstElementChild == undefined){
                     userEmotion.ssml = "";
@@ -97,8 +97,10 @@
                         queueCount++;
                     }
                     if (userEmotion.ssml != prevEmotion.ssml){
-                        worker.postMessage(JSON.stringify({action: "update", userID: userID, resource: "ssml#E" + emotionID, content: userEmotion.ssml, queueID: queueCount + "/" + queueUnique}));
-                        queueCount++;
+                        console.log("New SSML: \n" + userEmotion.ssml);
+                        console.log("Prev SSML: \n" + prevEmotion.ssml);
+                        //worker.postMessage(JSON.stringify({action: "update", userID: userID, resource: "ssml#E" + emotionID, content: userEmotion.ssml, queueID: queueCount + "/" + queueUnique}));
+                        //queueCount++;
                     }
 
                     userEmotion.modified = new Date(Date.now()).toLocaleDateString('en-GB').toString();
