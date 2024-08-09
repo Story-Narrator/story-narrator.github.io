@@ -71,7 +71,7 @@
                 var doc = new DOMParser().parseFromString(tinymce.activeEditor.getContent(), "text/html");
 
                 userEmotion.name = document.getElementById("ee_name").value;
-                console.log(document.getElementById("ee_colour").style.backgroundColor);
+                //console.log(document.getElementById("ee_colour").style.backgroundColor);
                 userEmotion.colour = convertToHex(document.getElementById("ee_colour").style.backgroundColor);
                 
                 if (doc.body.firstElementChild == undefined){
@@ -284,7 +284,7 @@
                     updateLibrary(userLibrary, userEmotion);
                 },
                 init_instance_callback : function(editor) {
-                    console.log(JSON.stringify(userEmotion.ssml, undefined, 4));
+                    //console.log(JSON.stringify(userEmotion.ssml, undefined, 4));
                     editor.setContent("<pre>" + JSON.stringify(userEmotion.ssml, undefined, 4) + "</pre>");
                     tinymce.activeEditor.undoManager.clear();
                 }
