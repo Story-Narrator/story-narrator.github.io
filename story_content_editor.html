@@ -96,7 +96,7 @@
                                 }
                                 alert("Story content saved.\nYou may need to wait a couple of minutes for the changes to take effect on Alexa.");
                                 worker.terminate();
-                                localStorage.setItem("Library", JSON.stringify(userLibrary, undefined, 4));
+                                localStorage.setItem("Library", userLibrary);
                             } else {
                                 throw "Delete error: Workflow could not be dispatched. Response status: " + JSON.parse(e.data).deleteResponse + ".";
                             }

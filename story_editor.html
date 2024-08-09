@@ -229,7 +229,7 @@
                                 document.getElementById("se_heading").innerText = userStory.title.toUpperCase();
                                 alert("Story updated.");
                                 worker.terminate();
-                                localStorage.setItem("Library", JSON.stringify(userLibrary, undefined, 4));
+                                localStorage.setItem("Library", userLibrary);
                             } else {
                                 throw "Delete error: Workflow could not be dispatched. Response status: " + JSON.parse(e.data).deleteResponse + ".";
                             }
