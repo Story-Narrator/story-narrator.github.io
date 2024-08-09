@@ -287,6 +287,8 @@ self.onmessage = async function(e){
         if (JSON.parse(e.data).resource != undefined && JSON.parse(e.data).resource != resource) {
             resource = JSON.parse(e.data).resource;
         }
+
+        console.log("String sent to workflow: " + escapeReplacement(JSON.stringify(JSON.parse(e.data).content)));
         var updateResponse = await runWorkflow("Update", escapeReplacement(JSON.stringify(JSON.parse(e.data).content)), JSON.parse(e.data).queueID);
         self.postMessage(JSON.stringify({"updateResponse": updateResponse, "updateItem": resource.split("#")[0]}));
     }
