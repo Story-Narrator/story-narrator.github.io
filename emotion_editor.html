@@ -96,9 +96,9 @@
                         worker.postMessage(JSON.stringify({action: "update", userID: userID, resource: "colour#E" + emotionID, content: userEmotion.colour, queueID: queueCount + "/" + queueUnique}));
                         queueCount++;
                     }
-                    if (JSON.stringify(userEmotion).ssml != JSON.stringify(prevEmotion).ssml){
-                        console.log("New SSML: \n" + JSON.stringify(userEmotion, undefined, 4).ssml);
-                        console.log("Prev SSML: \n" + JSON.stringify(prevEmotion, undefined, 4).ssml);
+                    if (JSON.stringify(userEmotion.ssml) != JSON.stringify(prevEmotion.ssml)){
+                        //console.log("New SSML: \n" + JSON.stringify(userEmotion.ssml, undefined, 4));
+                        //console.log("Prev SSML: \n" + JSON.stringify(prevEmotion.ssml, undefined, 4));
                         worker.postMessage(JSON.stringify({action: "update", userID: userID, resource: "ssml#E" + emotionID, content: userEmotion.ssml, queueID: queueCount + "/" + queueUnique}));
                         queueCount++;
                     }
