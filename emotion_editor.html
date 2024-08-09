@@ -71,7 +71,8 @@
                 var doc = new DOMParser().parseFromString(tinymce.activeEditor.getContent(), "text/html");
 
                 userEmotion.name = document.getElementById("ee_name").value;
-                userEmotion.colour = convertToHex(document.getElementById("ee_colour").style.backgroundColour);
+                console.log(document.getElementById("ee_colour").style.backgroundColor);
+                userEmotion.colour = convertToHex(document.getElementById("ee_colour").style.backgroundColor);
                 
                 if (doc.body.firstElementChild == undefined){
                     userEmotion.ssml = "";
