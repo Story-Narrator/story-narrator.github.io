@@ -54,6 +54,15 @@
         const resource = urlParams.get('resource');
         const emotionID = urlParams.get('emotionID');
 
+        function convertToHex(rgb) { 
+            rgb = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/); 
+        
+            function hexCode(i) { 
+                return ("0" + parseInt(i).toString(16)).slice(-2); 
+            } 
+            return "#" + hexCode(rgb[1]) + hexCode(rgb[2]) + hexCode(rgb[3]); 
+        } 
+
         const updateLibrary = function(userLibrary, userEmotion){
             if (userID != null && resource != null){
                 // Create a new worker
@@ -62,7 +71,7 @@
                 var doc = new DOMParser().parseFromString(tinymce.activeEditor.getContent(), "text/html");
 
                 userEmotion.name = document.getElementById("ee_name").value;
-                userEmotion.colour = document.getElementById("ee_colour").style.backgroundColour;
+                userEmotion.colour = convertToHex(document.getElementById("ee_colour").style.backgroundColour);
                 
                 if (doc.body.firstElementChild == undefined){
                     userEmotion.ssml = "";
