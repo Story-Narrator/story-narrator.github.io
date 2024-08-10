@@ -1,3 +1,35 @@
+@font-face {
+    font-family: 'ITF Devangari Book';
+    src: url('./assets/fonts/ITFDevanagari-Regular.woff') format('woff'),
+         url('./assets/fonts/ITFDevanagari-Regular.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Monotype Corsiva';
+    src: url('./assets/fonts/MonotypeCorsiva.woff') format('woff'),
+         url('./assets/fonts/MonotypeCorsiva.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Tw Cen MT';
+    src: url('./assets/fonts/Tw%20Cen%20MT.woff') format('woff'),
+         url('./assets/fonts/Tw%20Cen%20MT.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'PT Mono';
+    src: url('./assets/fonts/PTMono-Regular.woff') format('woff'),
+         url('./assets/fonts/PTMono-Regular.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Seravek Light';
+    src: url('./assets/fonts/Seravek-Light.woff') format('woff'),
+         url('./assets/fonts/Seravek-Light.ttf') format('truetype');
+}
+
+
+
 html {
     margin: 0;
     width: 100%;
@@ -875,7 +907,7 @@ input[type="file"] {
 #a_info {
     padding: 15px;
     display: grid;
-    grid-template-rows: 38px 38px;
+    grid-template-rows: 38px 38px 38px;
     row-gap: 40px;
 }
 
