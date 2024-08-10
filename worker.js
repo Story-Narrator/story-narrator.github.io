@@ -120,12 +120,19 @@ const runWorkflow = async function(action, content, queueID){
     }
 }
 
-const listWorkflowRuns = async function(){
+const listWorkflowRuns = async function(isCompleted){
 
     var owner = "story-narrator";
     var repo = "story-narrator-helper";
+    var url;
 
-    var runsResponse = await fetch(`https://api.github.com/repos/${owner}/${repo}/actions/runs?status=completed&timeInMs=${Date.now()}`, {
+    if (isCompleted == true) {
+        url = `https://api.github.com/repos/${owner}/${repo}/actions/runs?status=completed&timeInMs=${Date.now()}`;
+    } else {
+        url = `https://api.github.com/repos/${owner}/${repo}/actions/runs?&timeInMs=${Date.now()}`;
+    }
+
+    var runsResponse = await fetch(url, {
         method: "get",
         headers: {
             "Accept": "application/vnd.github+json",
@@ -139,8 +146,8 @@ const listWorkflowRuns = async function(){
     return runsResponse;
 }
 
-const getWorkflowRun = async function() {
-    var runsResponse = await listWorkflowRuns();
+const getWorkflowRun = async function(isCompleted) {
+    var runsResponse = await listWorkflowRuns(isCompleted);
     var runResource;
     var runUserID;
 
@@ -243,17 +250,18 @@ self.onmessage = async function(e){
         var finished = false;
 
         // Cleanup old retrieve runs.
-        var workflow = await getWorkflowRun();
+        var workflow = await getWorkflowRun(false);
 
         if (workflow != null){
-            await deleteWorkflowRun(workflow);
+            var cleanupResponse = await deleteWorkflowRun(workflow);
+            if (cleanupResponse == 204){ // Workflow successfully deleted, thus it was not active nor very recently triggered.
+                await runWorkflow("Retrieve"); // Dispatch a new retrieve workflow.
+            }
         }
-
-        await runWorkflow("Retrieve");
 
         // Timeout after 45 seconds worth of pauses.
         for (let i = 0; i < 90; i++) {
-            workflow = await getWorkflowRun();
+            workflow = await getWorkflowRun(true);
 
             if (workflow != null){
                 var retrieveResponse = await getResourceContent(await getWorkflowJobs(workflow, 0));
@@ -279,7 +287,7 @@ self.onmessage = async function(e){
             self.postMessage(JSON.stringify({"deleteResponse": deleteResponse}));
             
         } else {
-            var workflow = await getWorkflowRun();
+            var workflow = await getWorkflowRun(true);
 
             if (workflow != null){
                 var deleteResponse = JSON.stringify(await deleteWorkflowRun(workflow));
