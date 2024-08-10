@@ -257,6 +257,8 @@ self.onmessage = async function(e){
             if (cleanupResponse == 204){ // Workflow successfully deleted, thus it was not active nor very recently triggered.
                 await runWorkflow("Retrieve"); // Dispatch a new retrieve workflow.
             }
+        } else {
+            await runWorkflow("Retrieve");
         }
 
         // Timeout after 45 seconds worth of pauses.
