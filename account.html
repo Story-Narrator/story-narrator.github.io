@@ -9,29 +9,115 @@
 </head>
 <body id="sys">
     <div id="sys_main">
-        <h3 id="sys_heading">My Account</h3>
+        <!-- <h3 id="sys_heading">My Account</h3>
         <h4 id="sys_subheading">Review Information</h3>
         <div id="a_info">
-            <div class="se_info_rows">
+            <div class="e_info_rows">
                 <div>
-                    <label class="se_lbl" for="se_title" >Name:</label>
+                    <label class="e_lbl" for="a_name">Name:</label>
                 </div>
                 <div class="shrink">
-                    <input id="se_title" class="se_field" name="Title" type="text" value="Story-Narrtor" disabled>
+                    <input id="a_name" class="e_field" name="User Name" type="text" value="Story-Narrtor" disabled>
                 </div>
                 <div></div>
             </div>
-            <div class="se_info_rows">
+            <div class="e_info_rows">
                 <div>
-                    <label class="se_lbl" for="se_content" >Email:</label>
+                    <label class="e_lbl" for="a_email" >Email:</label>
                 </div>
                 <div class="shrink">
-                    <input id="se_content" class="se_field" name="Content" type="text" value="story.narrator@hotmail.com" disabled>
+                    <input id="a_email" class="e_field" name="User Email" type="text" value="story.narrator@hotmail.com" disabled>
                 </div>
                 <div></div>
             </div>
-        </div>
+        </div> -->
     </div>
+    <script type="text/javascript">
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const userName = urlParams.get('userName');
+        const userEmail = urlParams.get('userEmail');
+        const userID = urlParams.get('userID');
+
+        const populatePage = function(){
+            var main_div;
+            var heading_node;
+            var heading_text_node;
+            var parent_div_node;
+            var first_child_div_node;
+            var second_child_div_node;
+            var label_node;
+            var label_text_node;
+            var input_node;
+
+            main_div = document.getElementById("sys_main");
+                heading_node = document.createElement("h3");
+                heading_node.id = "sys_heading";
+                    heading_text_node = document.createTextNode("My Account");
+                heading_node.appendChild(heading_text_node);
+            main_div.appendChild(heading_node);
+                heading_node = document.createElement("h4");
+                heading_node.id = "sys_subheading";
+                    heading_text_node = document.createTextNode("Review Information");
+                heading_node.appendChild("heading_text_node");
+            main_div.appendChild(heading_node);
+                parent_div_node = document.createElement("div");
+                parent_div_node.id = "a_info";
+                    first_child_div_node = document.createElement("div");
+                    first_child_div_node.className = "e_info_rows";
+                        second_child_div_node = document.createElement("div");
+                            label_node = document.createElement("label");
+                            label_node.className = "e_lbl";
+                            label_node.htmlFor = "a_name";
+                                label_text_node = document.createTextNode("Name:");
+                            label_node.appendChild(label_text_node);
+                        second_child_div_node.appendChild(label_node);
+                    first_child_div_node.appendChild(second_child_div_node);
+                        second_child_div_node = document.createElement("div");
+                        second_child_div_node.className = "shrink";
+                            input_node = document.createElement("input");
+                            input_node.id = "a_name";
+                            input_node.className = "e_field";
+                            input_node.name = "User Name";
+                            input_node.type = "text";
+                            input_node.value = userName;
+                            input_node.disabled;
+                        second_child_div_node.appendChild(input_node);
+                    first_child_div_node.appendChild(second_child_div_node);
+                        second_child_div_node.createElement("div");
+                    first_child_div_node.appendChild("div");
+                parent_div_node.appendChild(first_child_div_node);
+                    first_child_div_node = document.createElement("div");
+                    first_child_div_node.className = "e_info_rows";
+                        second_child_div_node = document.createElement("div");
+                            label_node = document.createElement("label");
+                            label_node.className = "e_lbl";
+                            label_node.htmlFor = "a_email";
+                                label_text_node = createTextNode("Email:");
+                            label_node.appendChild(label_text_node);
+                        second_child_div_node.appendChild(label_node);
+                    first_child_div_node.appendChild(second_child_div_node);
+                        second_child_div_node = document.createElement("div");
+                        second_child_div_node.className = "shrink";
+                            input_node = document.createElement("input");
+                            input_node.id = "a_email";
+                            input_node.className = "e_field";
+                            input_node.name = "User Email";
+                            input_node.type = "text";
+                            input_node.value = userEmail;
+                            input_node.disabled;
+                        second_child_div_node.appendChild(input_node);
+                    first_child_div_node.appendChild(second_child_div_node);
+                        second_child_div_node = document.createElement("div");
+                    first_child_div_node.appendChild(second_child_div_node);
+                parent_div_node.appendChild(first_child_div_node);
+            main_div.appendChild(parent_div_node);
+        }
+
+        if (userName != undefined && userEmail != undefined && userID != undefined) {
+            populatePage();
+            document.getElementById("sys_main").style.visibility = "visible";
+        }
+    </script>
 </body>
-</script>
 </html>

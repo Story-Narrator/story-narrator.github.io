@@ -119,19 +119,19 @@
                                 document.getElementById('main_frame').src = `./library.html?userID=${user_id}&resource=Library&debug=1`;
                                 document.getElementById('library_nav').onclick = function(){document.getElementById('main_frame').src = `./library.html?userID=${user_id}&resource=Library&debug=1`};
                                 document.getElementById('profiles_nav').onclick = function(){document.getElementById('main_frame').src = `./emotion_profiles.html?userID=${user_id}&resource=Library&debug=1`};
-                                document.getElementById('account_nav').onclick = function(){document.getElementById('main_frame').src = `./account.html?userID=${user_id}&resource=Library&debug=1`};
+                                document.getElementById('account_nav').onclick = function(){document.getElementById('main_frame').src = `./account.html?userName=${user_name}&userEmail=${user_email}&userID=${user_id}&debug=1`};
                             } else {
                                 document.getElementById('main_frame').src = `./library.html?userID=${user_id}&resource=Library`;
                                 document.getElementById('library_nav').onclick = function(){document.getElementById('main_frame').src = `./library.html?userID=${user_id}&resource=Library`};
                                 document.getElementById('profiles_nav').onclick = function(){document.getElementById('main_frame').src = `./emotion_profiles.html?userID=${user_id}&resource=Library`};
-                                document.getElementById('account_nav').onclick = function(){document.getElementById('main_frame').src = `./account.html?userID=${user_id}&resource=Library`};
+                                document.getElementById('account_nav').onclick = function(){document.getElementById('main_frame').src = `./account.html?userName=${user_name}&userEmail=${user_email}&userID=${user_id}`};
                             }
                             
-                            if (window.console && window.console.log) {
-                                window.console.log("User Name: " + user_name);
-                                window.console.log("User Email: " + user_email);
-                                window.console.log("User ID: " + user_id);
-                            };
+                            // if (window.console && window.console.log) {
+                            //     window.console.log("User Name: " + user_name);
+                            //     window.console.log("User Email: " + user_email);
+                            //     window.console.log("User ID: " + user_id);
+                            // };
     
                             document.getElementById("user_lbl").innerHTML = "Logged in as: " + user_name;
                         }
