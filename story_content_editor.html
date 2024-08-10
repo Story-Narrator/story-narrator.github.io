@@ -51,8 +51,8 @@
                 if (doc.body.firstElementChild == undefined){
                     userStory.content = "";
                 } else {
-                    console.log(doc.body.firstElementChild.innerHTML);
-                    userStory.content = doc.body.firstElementChild.innerHTML;
+                    //console.log(doc.body.innerHTML);
+                    userStory.content = doc.body.innerHTML;
                 }
 
                 //console.log(tinymce.activeEditor.getBody());
