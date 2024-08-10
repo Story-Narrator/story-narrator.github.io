@@ -71,7 +71,7 @@ h1 {
 
 h2 {
     font-family: "Monotype Corsiva";
-    font-size: 24pt;
+    font-size: 22pt;
     color: #DFE4F4;
     margin: 0;
     font-weight: 500;
@@ -204,7 +204,7 @@ select {
 #heading {
     position: absolute;
     margin: 0;
-    margin-top: -5px;
+    margin-top: -18px;
     margin-left: 18px;
 }
 
@@ -212,7 +212,7 @@ select {
     position: absolute;
     margin: 0;
     margin-top: 56px;
-    margin-left: 358px;
+    margin-left: 360px;
 }
 
 .lower {
