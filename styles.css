@@ -12,8 +12,8 @@
 
 @font-face {
     font-family: 'Tw Cen MT';
-    src: url('./assets/fonts/Tw%20Cen%20MT.woff') format('woff'),
-         url('./assets/fonts/Tw%20Cen%20MT.ttf') format('truetype');
+    src: url('./assets/fonts/Tw Cen MT.woff') format('woff'),
+         url('./assets/fonts/Tw Cen MT.ttf') format('truetype');
 }
 
 @font-face {
