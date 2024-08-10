@@ -242,11 +242,18 @@ self.onmessage = async function(e){
     if (JSON.parse(e.data).action == "retrieve") {
         var finished = false;
 
+        // Cleanup old retrieve runs.
+        var workflow = await getWorkflowRun();
+
+        if (workflow != null){
+            await deleteWorkflowRun(workflow);
+        }
+
         await runWorkflow("Retrieve");
 
         // Timeout after 45 seconds worth of pauses.
         for (let i = 0; i < 90; i++) {
-            var workflow = await getWorkflowRun();
+            workflow = await getWorkflowRun();
 
             if (workflow != null){
                 var retrieveResponse = await getResourceContent(await getWorkflowJobs(workflow, 0));
