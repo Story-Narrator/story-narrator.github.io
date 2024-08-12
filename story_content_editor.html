@@ -7,7 +7,7 @@
     <title>Story Narrator: Story Content Editor</title>
     <link rel="stylesheet" href="./styles.css">
 
-    <script src="./emotions/user_map.js"></script>
+    <!-- <script src="./emotions/user_map.js"></script> -->
     <script src="./tinymce/js/tinymce/tinymce.min.js"></script>
 
 </head>
@@ -175,6 +175,14 @@
                     first_child_div_node.appendChild(a_node);
                 parent_div_node.appendChild(first_child_div_node);
             main_div.appendChild(parent_div_node);
+
+
+            var userEmotions = userLibrary.emotions;
+            var user_map = [];
+            for (var i = 0; i < userEmotions.length; i++){
+                user_map.push(userEmotions[i].colour.substring(1));
+                user_map.push(userEmotions[i].name);
+            }
 
 
             tinymce.init({
